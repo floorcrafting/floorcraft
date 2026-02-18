@@ -18,24 +18,34 @@ repositories {
     mavenCentral()
 }
 
-def lwjglVersion = "3.4.1"
-def lwjglNatives = "natives-macos-arm64"
+project.ext.lwjglVersion = "3.4.1"
+def platforms = [
+        "natives-windows",
+        "natives-windows-arm64",
+        "natives-macos",
+        "natives-macos-arm64",
+        "natives-linux",
+        "natives-linux-arm64"
+]
 
 dependencies {
     implementation "org.jetbrains:annotations:26.0.2-1"
     implementation "org.joml:joml:1.10.5"
 
-    // LWJGL Core
-    implementation "org.lwjgl:lwjgl:${lwjglVersion}"
-    implementation "org.lwjgl:lwjgl-glfw:${lwjglVersion}"
-    implementation "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
-    implementation "org.lwjgl:lwjgl-stb:${lwjglVersion}"
+    // LWJGL core
+    implementation platform("org.lwjgl:lwjgl-bom:${project.ext.lwjglVersion}")
+    implementation "org.lwjgl:lwjgl"
+    implementation "org.lwjgl:lwjgl-glfw"
+    implementation "org.lwjgl:lwjgl-opengl"
+    implementation "org.lwjgl:lwjgl-stb"
 
-    // LWJGL Natives
-    runtimeOnly "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives}"
-    runtimeOnly "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives}"
-    runtimeOnly "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives}"
-    runtimeOnly "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
+    // LWJGL natives
+    platforms.each { plat ->
+        runtimeOnly "org.lwjgl:lwjgl::$plat"
+        runtimeOnly "org.lwjgl:lwjgl-glfw::$plat"
+        runtimeOnly "org.lwjgl:lwjgl-opengl::$plat"
+        runtimeOnly "org.lwjgl:lwjgl-stb::$plat"
+    }
 }
 
 application {

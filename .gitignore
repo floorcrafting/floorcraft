@@ -1,10 +1,16 @@
 .gradle
-build/
-output/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 .kotlin
+
+### Floorcraft-specific ###
+assets-src/
+!assets.zip
+
+### Build Files ###
+build/
+output/
 
 ### IntelliJ IDEA ###
 .idea/

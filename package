@@ -1,3 +1,4 @@
 #!/bin/sh
+./compile-assets
 ./gradlew clean jar
 conveyor make app --overwrite

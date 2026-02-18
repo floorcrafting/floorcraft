@@ -1,0 +1,16 @@
+#!/bin/sh
+
+SOURCE="assets-src/"
+OUT="assets.zip"
+
+if [ -d "$SOURCE" ]; then
+	zip -r assets.zip $SOURCE -x "*/.DS_Store"
+	echo "Compiled sources at $SOURCE to $OUT"
+else
+    echo "Error! Sources at $SOURCE do not exist"
+    exit 1
+fi
+
+if [ -d ".git" ]; then
+    git add assets.zip
+fi
