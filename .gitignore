@@ -5,7 +5,12 @@
 .kotlin
 
 ### Floorcraft-specific ###
+# Can be compiled with `./compile-assets`
 assets-src/
+# Before every session, we extract `assets.zip` from below and create this
+# After every session, we delete it
+assets/
+# This ZIP is what we download if it does not exist already
 !assets.zip
 
 ### Build Files ###
