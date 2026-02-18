@@ -4,7 +4,7 @@ SOURCE="assets-src/"
 OUT="assets.zip"
 
 if [ -d "$SOURCE" ]; then
-	zip -r assets.zip $SOURCE -x "*/.DS_Store"
+	zip -r -j assets.zip $SOURCE
 	echo "Compiled sources at $SOURCE to $OUT"
 else
     echo "Error! Sources at $SOURCE do not exist"
