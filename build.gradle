@@ -1,0 +1,44 @@
+plugins {
+    id "java"
+    id "application"
+    id "dev.hydraulic.conveyor" version "1.13"
+}
+
+group = "com.boyninja1555"
+version = "1"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+def lwjglVersion = "3.4.1"
+def lwjglNatives = "natives-macos-arm64"
+
+dependencies {
+    implementation "org.jetbrains:annotations:26.0.2-1"
+    implementation "org.joml:joml:1.10.5"
+
+    // LWJGL Core
+    implementation "org.lwjgl:lwjgl:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-glfw:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-stb:${lwjglVersion}"
+
+    // LWJGL Natives
+    runtimeOnly "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives}"
+    runtimeOnly "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
+}
+
+application {
+    mainClass = "${group}.floorcraft.Floorcraft"
+    applicationDefaultJvmArgs = ["--enable-native-access=ALL-UNNAMED", "-XstartOnFirstThread"]
+}
