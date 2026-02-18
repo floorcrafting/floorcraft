@@ -25,8 +25,7 @@ public class TextureAtlas {
             IntBuffer pw = stack.mallocInt(1);
             IntBuffer ph = stack.mallocInt(1);
             IntBuffer pcomp = stack.mallocInt(1);
-            image = STBImage.stbi_load("assets/" + path, pw, ph, pcomp, 4);
-            // image = STBImage.stbi_load(AssetManager.storagePath().resolve("assets") + path, pw, ph, pcomp, 4);
+            image = STBImage.stbi_load(AssetManager.storagePath().resolve("assets") + "/" + path, pw, ph, pcomp, 4);
 
             if (image == null)
                 throw new RuntimeException("Failed to load texture atlas! " + STBImage.stbi_failure_reason());

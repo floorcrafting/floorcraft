@@ -18,12 +18,14 @@ import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
-import org.joml.*;
+import org.joml.Matrix4f;
+import org.joml.Vector2i;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
 import java.util.*;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -175,10 +177,8 @@ public class Floorcraft {
                     if (y < Chunk.HEIGHT - 20) chunkBlocks[index] = blockTypes[random.nextInt(blockTypes.length)];
                     else {
                         if (x == 8 && z >= 8 && z <= Chunk.DEPTH - 8 || x == Chunk.WIDTH - 8 && z >= 8 && z <= Chunk.DEPTH - 8 || z == 8 && x >= 8 && x <= Chunk.WIDTH - 8 || z == Chunk.DEPTH - 8 && x >= 8 && x <= Chunk.WIDTH - 8)
-                            if (y == Chunk.HEIGHT - 1)
-                                chunkBlocks[index] = lemon;
-                            else
-                                chunkBlocks[index] = glass;
+                            if (y == Chunk.HEIGHT - 1) chunkBlocks[index] = lemon;
+                            else chunkBlocks[index] = glass;
                         else if (y == Chunk.HEIGHT - 20 && (x == Chunk.WIDTH / 2 - 1 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 - 2 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 + 1 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 + 2 && z == Chunk.DEPTH / 2))
                             chunkBlocks[index] = dirt;
                         else if (y == Chunk.HEIGHT - 20 && x == Chunk.WIDTH / 2 && z == Chunk.DEPTH / 2)
@@ -322,8 +322,15 @@ public class Floorcraft {
         shader.unbind();
     }
 
-    public static void main(String[] args) throws Exception {
-        AssetManager.init();
-        new Floorcraft().run();
+    public static void main(String[] args) {
+        AssetManager.init().join();
+
+        try {
+            new Floorcraft().run();
+        } catch (Exception ex) {
+            String message = "Could not launch Floorcraft!\n" + ex;
+            System.err.println(message);
+            ErrorHandler.crash(message);
+        }
     }
 }
