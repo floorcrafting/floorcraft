@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SOURCE="assets-src/"
+SOURCE="assets/"
 OUT="assets.zip"
 
 if [ -d "$SOURCE" ]; then

@@ -7,6 +7,7 @@ import com.boyninja1555.floorcraft.blocks.StoneBlock;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
+import com.boyninja1555.floorcraft.lib.AssetManager;
 import com.boyninja1555.floorcraft.lib.Controls;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.lib.FpsTracker;
@@ -322,6 +323,7 @@ public class Floorcraft {
     }
 
     public static void main(String[] args) throws Exception {
+        AssetManager.init();
         new Floorcraft().run();
     }
 }

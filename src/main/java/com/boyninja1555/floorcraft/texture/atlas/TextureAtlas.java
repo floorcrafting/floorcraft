@@ -1,5 +1,6 @@
 package com.boyninja1555.floorcraft.texture.atlas;
 
+import com.boyninja1555.floorcraft.lib.AssetManager;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
@@ -25,6 +26,7 @@ public class TextureAtlas {
             IntBuffer ph = stack.mallocInt(1);
             IntBuffer pcomp = stack.mallocInt(1);
             image = STBImage.stbi_load("assets/" + path, pw, ph, pcomp, 4);
+            // image = STBImage.stbi_load(AssetManager.storagePath().resolve("assets") + path, pw, ph, pcomp, 4);
 
             if (image == null)
                 throw new RuntimeException("Failed to load texture atlas! " + STBImage.stbi_failure_reason());
