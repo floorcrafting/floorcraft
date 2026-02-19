@@ -1,7 +1,14 @@
 package com.boyninja1555.floorcraft.lib;
 
+import com.boyninja1555.floorcraft.blocks.DirtBlock;
 import com.boyninja1555.floorcraft.entities.Player;
+import com.boyninja1555.floorcraft.settings.lib.SettingsProfile;
+import com.boyninja1555.floorcraft.settings.sections.ControlsSection;
+import com.boyninja1555.floorcraft.world.World;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -10,7 +17,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Controls {
 
-    public static void register(long window, Player player, AtomicInteger width, AtomicInteger height) {
+    public static void register(SettingsProfile settings, long window, World world, Player player, AtomicInteger width, AtomicInteger height) {
         // Camera rotation
         AtomicBoolean cursorLocked = new AtomicBoolean(false);
         AtomicReference<Float> lastX = new AtomicReference<>((float) width.get() / 2);
@@ -25,17 +32,22 @@ public class Controls {
             player.processMouseMovement(xoffset, yoffset);
         });
 
-        // Cursor lock
-
         glfwSetMouseButtonCallback(window, (ignored, button, action, ignored1) -> {
-            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-                if (cursorLocked.get()) return;
-
+            // Cursor lock
+            if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !cursorLocked.get()) {
                 glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
                 cursorLocked.set(true);
+                return;
             }
+
+            // TODO: Block breaking & placing
+
+            Map<?, Object> controlsSection = settings.sectionByClass(ControlsSection.class).values();
+
+            if (controlsSection == null) return;
         });
 
+        // Cursor unlock
         glfwSetKeyCallback(window, (ignored, key, ignored1, action, ignored2) -> {
             if (key != GLFW_KEY_ESCAPE || action != GLFW_PRESS) return;
 

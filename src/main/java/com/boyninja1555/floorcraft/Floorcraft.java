@@ -42,7 +42,7 @@ public class Floorcraft {
     private Settings settings;
     private long window;
 
-    private BlockRegistry blockRegistry;
+    private static BlockRegistry blockRegistry;
 
     private TextureAtlas textures;
     private TextureAtlas uiIcons;
@@ -57,10 +57,11 @@ public class Floorcraft {
     // UI meshes
     private UIMesh crosshair;
     private UIMesh[] fpsCounter;
+    private UIMesh[] coords;
 
     private final float[] matrixBuffer = new float[16];
 
-    public BlockRegistry blockRegistry() {
+    public static BlockRegistry blockRegistry() {
         return blockRegistry;
     }
 
@@ -82,6 +83,7 @@ public class Floorcraft {
         // UI cleanup
         crosshair.cleanup();
         Arrays.stream(fpsCounter).toList().forEach(UIMesh::cleanup);
+        Arrays.stream(coords).toList().forEach(UIMesh::cleanup);
 
         // End
         glfwFreeCallbacks(window);
@@ -127,7 +129,7 @@ public class Floorcraft {
         GL.createCapabilities();
         glEnable(GL_CULL_FACE);
 
-        player = new Player(settings, new Vector3f(Chunk.WIDTH / 2f + .5f, Chunk.HEIGHT - 83f, Chunk.DEPTH / 2f + 5.5f), 0f, true);
+        player = new Player(settings, new Vector3f(Chunk.WIDTH / 2f + .5f, Chunk.HEIGHT - 19, Chunk.DEPTH / 2f + 5.5f), 0f, true);
         world = new World(player);
 
         // Window resizing
@@ -138,7 +140,7 @@ public class Floorcraft {
             player.camera().updateProjection();
         });
 
-        Controls.register(window, player, width, height);
+        Controls.register(settings, window, world, player, width, height);
 
         // Viewport size
         glViewport(0, 0, width.get(), height.get());
@@ -163,6 +165,16 @@ public class Floorcraft {
         // UI
         crosshair = new UIMesh(uiIcons.region(0, 0));
         fpsCounter = new UIMesh[]{new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character(' ')), new UIMesh(font.character('f')), new UIMesh(font.character('p')), new UIMesh(font.character('s'))};
+        coords = new UIMesh[]{
+                new UIMesh(font.character('0')),
+                new UIMesh(font.character('0')),
+                new UIMesh(font.character(' ')),
+                new UIMesh(font.character('0')),
+                new UIMesh(font.character('0')),
+                new UIMesh(font.character(' ')),
+                new UIMesh(font.character('0')),
+                new UIMesh(font.character('0')),
+        };
 
         // Meshes
         Block[] chunkBlocks = new Block[Chunk.WIDTH * Chunk.DEPTH * Chunk.HEIGHT];
@@ -264,16 +276,36 @@ public class Floorcraft {
 
         String fps = FpsTracker.to3digits();
 
-        int i = 0;
+        int fi = 0;
         for (UIMesh value : fpsCounter) {
             Matrix4f tModel = new Matrix4f().translation(tx, ty, 0f).scale(tSize, tSize, 1f);
             glUniformMatrix4fv(uModel, false, tModel.get(matrixBuffer));
 
-            value.useAtlasRegion(font.character(fps.charAt(i)));
+            value.useAtlasRegion(font.character(fps.charAt(fi)));
             value.render();
 
             tx += tSize + 5f;
-            i++;
+            fi++;
+        }
+
+        // Coords
+        float coSize = 24f;
+        float cox = 10f;
+        float coy = tSize + 10f * 2;
+        font.atlas.bind();
+
+        String playerPosition = String.format("%02d", Math.round(player.position().x)) + " " + String.format("%02d", Math.round(player.position().y)) + " " + String.format("%02d", Math.round(player.position().z));
+
+        int coi = 0;
+        for (UIMesh value : coords) {
+            Matrix4f coModel = new Matrix4f().translation(cox, coy, 0f).scale(coSize, coSize, 1f);
+            glUniformMatrix4fv(uModel, false, coModel.get(matrixBuffer));
+
+            value.useAtlasRegion(font.character(playerPosition.charAt(coi)));
+            value.render();
+
+            cox += coSize + 5f;
+            coi++;
         }
 
         glDisable(GL_BLEND);

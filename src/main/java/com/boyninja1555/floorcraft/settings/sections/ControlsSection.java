@@ -11,6 +11,7 @@ public class ControlsSection extends SettingsSection<ControlsSection.Keys> {
     public enum Keys {
         // Mouse
         MOUSE_SENSITIVITY,
+        BLOCK_MODIFY_RANGE,
 
         // Movement
         MOVE_FORWARDS,
@@ -27,6 +28,7 @@ public class ControlsSection extends SettingsSection<ControlsSection.Keys> {
         return Map.of(
                 // Mouse
                 Keys.MOUSE_SENSITIVITY, .1f,
+                Keys.BLOCK_MODIFY_RANGE, 5f,
 
                 // Movement
                 Keys.MOVE_FORWARDS, GLFW_KEY_W,

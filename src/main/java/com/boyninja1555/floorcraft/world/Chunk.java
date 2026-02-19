@@ -1,10 +1,12 @@
 package com.boyninja1555.floorcraft.world;
 
+import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.mesh.Mesh;
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class Chunk {
         this.position = position;
         this.blocks = blocks;
 
-        Vector3f worldOffset = new Vector3f(position.x * WIDTH, -1f - HEIGHT, position.y * DEPTH);
+        Vector3f worldOffset = new Vector3f(position.x * WIDTH, 0, position.y * DEPTH);
 
         opaqueMesh = new Mesh(worldOffset, null, build(false), false) {
         };
@@ -35,15 +37,29 @@ public class Chunk {
     }
 
     public void generateMesh() {
-        opaqueMesh.updateVertices(build(false));
-        transparentMesh.updateVertices(build(true));
-        opaqueMesh.init();
-        transparentMesh.init();
+        float[] opaqueV = build(false);
+        float[] transparentV = build(true);
+        if (opaqueMesh.vao() == 0) {
+            opaqueMesh.updateVertices(opaqueV);
+            transparentMesh.updateVertices(transparentV);
+            opaqueMesh.init();
+            transparentMesh.init();
+        } else {
+            opaqueMesh.updateVertices(opaqueV);
+            transparentMesh.updateVertices(transparentV);
+        }
     }
 
     public Block blockAt(int lx, int ly, int lz) {
         if (lx < 0 || ly < 0 || lz < 0 || lx >= WIDTH || ly >= HEIGHT || lz >= DEPTH) return null;
         return blocks[lx + (ly * WIDTH) + (lz * WIDTH * HEIGHT)];
+    }
+
+    public void setBlock(int lx, int ly, int lz, Class<? extends Block> block) {
+        if (lx < 0 || ly < 0 || lz < 0 || lx >= WIDTH || ly >= HEIGHT || lz >= DEPTH) return;
+
+        blocks[lx + (ly * WIDTH) + (lz * WIDTH * HEIGHT)] = Floorcraft.blockRegistry().get(block);
+        generateMesh();
     }
 
     private float[] build(boolean buildTransparent) {
@@ -83,7 +99,7 @@ public class Chunk {
     }
 
     private boolean shouldShowFace(int wx, int wy, int wz, Block current) {
-        Block neighbor = world.blockAt(wx, wy, wz);
+        Block neighbor = world.blockAt(new Vector3i(wx, wy, wz));
         if (neighbor == null) return true;
         return neighbor.transparent() && !current.transparent();
     }

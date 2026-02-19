@@ -38,6 +38,10 @@ public abstract class Mesh {
         this.transparent = transparent;
     }
 
+    public int vao() {
+        return vao;
+    }
+
     public void updateVertices(float[] newVertices) {
         this.vertices = newVertices;
         this.vertexCount = newVertices.length / 8;

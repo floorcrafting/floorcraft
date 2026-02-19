@@ -3,6 +3,7 @@ package com.boyninja1555.floorcraft.world;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.entities.Player;
 import org.joml.Vector2i;
+import org.joml.Vector3i;
 
 import java.util.*;
 
@@ -27,19 +28,29 @@ public class World {
             chunk.generateMesh();
     }
 
-    public Block blockAt(int x, int y, int z) {
-        int cx = Math.floorDiv(x, Chunk.WIDTH);
-        int cz = Math.floorDiv(z, Chunk.DEPTH);
-
-        Chunk chunk = chunks.get(new Vector2i(cx, cz));
+    public Block blockAt(Vector3i position) {
+        Chunk chunk = chunkByBlockPosition(new Vector2i(position.x, position.z));
 
         if (chunk == null) return null;
-        int lx = Math.floorMod(x, Chunk.WIDTH);
-        int lz = Math.floorMod(z, Chunk.DEPTH);
+        int lx = Math.floorMod(position.x, Chunk.WIDTH);
+        int lz = Math.floorMod(position.z, Chunk.DEPTH);
 
-        if (y < 0 || y >= Chunk.HEIGHT) return null;
-        return chunk.blockAt(lx, y, lz);
+        if (position.y < 0 || position.y >= Chunk.HEIGHT) return null;
+        return chunk.blockAt(lx, position.y, lz);
     }
+
+    public void setBlock(Vector3i position, Class<? extends Block> block) {
+        Chunk chunk = chunkByBlockPosition(new Vector2i(position.x, position.z));
+
+        if (chunk == null) return;
+        int lx = Math.floorMod(position.x, Chunk.WIDTH);
+        int lz = Math.floorMod(position.z, Chunk.DEPTH);
+        if (position.y < 0 || position.y >= Chunk.HEIGHT) return;
+
+        chunk.setBlock(lx, position.y, lz, block);
+    }
+
+    // World rendering
 
     public void render(int uModel, float[] matrixBuffer) {
         if (playerRef == null) return;
@@ -71,7 +82,11 @@ public class World {
         glDepthMask(true);
     }
 
-    public Map<Vector2i, Chunk> chunks() {
-        return chunks;
+    // Unique utilities
+
+    private Chunk chunkByBlockPosition(Vector2i position) {
+        int cx = Math.floorDiv(position.x, Chunk.WIDTH);
+        int cz = Math.floorDiv(position.y, Chunk.DEPTH);
+        return chunks.get(new Vector2i(cx, cz));
     }
 }
