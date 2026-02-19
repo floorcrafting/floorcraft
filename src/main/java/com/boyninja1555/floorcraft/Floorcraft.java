@@ -1,6 +1,9 @@
 package com.boyninja1555.floorcraft;
 
-import com.boyninja1555.floorcraft.blocks.*;
+import com.boyninja1555.floorcraft.blocks.DirtBlock;
+import com.boyninja1555.floorcraft.blocks.GlassBlock;
+import com.boyninja1555.floorcraft.blocks.LemonBlock;
+import com.boyninja1555.floorcraft.blocks.StoneBlock;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
@@ -17,13 +20,15 @@ import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
 import com.boyninja1555.floorcraft.world.World;
 import com.google.gson.Gson;
-import org.joml.*;
+import org.joml.Matrix4f;
+import org.joml.Vector2i;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -178,27 +183,25 @@ public class Floorcraft {
         Block[] chunkBlocks = new Block[Chunk.WIDTH * Chunk.DEPTH * Chunk.HEIGHT];
         Block stone = blockRegistry.get(StoneBlock.class);
         Block dirt = blockRegistry.get(DirtBlock.class);
-        Block glass = blockRegistry.get(GlassBlock.class);
-        Block lemon = blockRegistry.get(LemonBlock.class);
-        Block[] blockTypes = {stone, dirt, lemon};
-        Random random = new Random();
         System.out.println("Creating world chunks...");
 
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int y = 0; y < Chunk.HEIGHT; y++) {
                 for (int z = 0; z < Chunk.DEPTH; z++) {
                     int index = x + (y * Chunk.WIDTH) + (z * Chunk.WIDTH * Chunk.HEIGHT);
-                    if (y < Chunk.HEIGHT - 20) chunkBlocks[index] = blockTypes[random.nextInt(blockTypes.length)];
-                    else {
-                        if (x == 8 && z >= 8 && z <= Chunk.DEPTH - 8 || x == Chunk.WIDTH - 8 && z >= 8 && z <= Chunk.DEPTH - 8 || z == 8 && x >= 8 && x <= Chunk.WIDTH - 8 || z == Chunk.DEPTH - 8 && x >= 8 && x <= Chunk.WIDTH - 8)
-                            if (y == Chunk.HEIGHT - 1) chunkBlocks[index] = lemon;
-                            else chunkBlocks[index] = glass;
-                        else if (y == Chunk.HEIGHT - 20 && (x == Chunk.WIDTH / 2 - 1 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 - 2 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 + 1 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 + 2 && z == Chunk.DEPTH / 2))
-                            chunkBlocks[index] = dirt;
-                        else if (y == Chunk.HEIGHT - 20 && x == Chunk.WIDTH / 2 && z == Chunk.DEPTH / 2)
-                            chunkBlocks[index] = stone;
-                        else chunkBlocks[index] = null;
-                    }
+                    if (y < Chunk.HEIGHT - 24) chunkBlocks[index] = stone;
+                    else if (y < Chunk.HEIGHT - 20) chunkBlocks[index] = dirt;
+                    else chunkBlocks[index] = null;
+                    // else {
+                    //     if (x == 8 && z >= 8 && z <= Chunk.DEPTH - 8 || x == Chunk.WIDTH - 8 && z >= 8 && z <= Chunk.DEPTH - 8 || z == 8 && x >= 8 && x <= Chunk.WIDTH - 8 || z == Chunk.DEPTH - 8 && x >= 8 && x <= Chunk.WIDTH - 8)
+                    //         if (y == Chunk.HEIGHT - 1) chunkBlocks[index] = lemon;
+                    //         else chunkBlocks[index] = glass;
+                    //     else if (y == Chunk.HEIGHT - 20 && (x == Chunk.WIDTH / 2 - 1 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 - 2 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 + 1 && z == Chunk.DEPTH / 2 || x == Chunk.WIDTH / 2 + 2 && z == Chunk.DEPTH / 2))
+                    //         chunkBlocks[index] = dirt;
+                    //     else if (y == Chunk.HEIGHT - 20 && x == Chunk.WIDTH / 2 && z == Chunk.DEPTH / 2)
+                    //         chunkBlocks[index] = stone;
+                    //     else chunkBlocks[index] = null;
+                    // }
                 }
             }
         }
@@ -212,26 +215,7 @@ public class Floorcraft {
                 new Vector2i(0, 1), chunkBlocks.clone()
         ));
 
-        System.out.println("World created");
-
-//        meshes.add(dirt.toMesh(new Vector3f(-2f, 0f, 0f), new Cube.FaceStates<>(true, true, true, false, true, true)));
-//        meshes.add(dirt.toMesh(new Vector3f(-1f, 0f, 0f), new Cube.FaceStates<>(true, true, false, false, true, true)));
-//        meshes.add(stone.toMesh(new Vector3f(0f, 0f, 0f), new Cube.FaceStates<>(true, true, false, false, true, true)));
-//        meshes.add(dirt.toMesh(new Vector3f(1f, 0f, 0f), new Cube.FaceStates<>(true, true, false, false, true, true)));
-//        meshes.add(dirt.toMesh(new Vector3f(2f, 0f, 0f), new Cube.FaceStates<>(true, true, false, true, true, true)));
-
-//        // Floor, ceiling, walls
-//        for (int x = 0; x < 21; x++)
-//            for (int z = 0; z < 21; z++) {
-//                meshes.add(glass.toMesh(new Vector3f(x - 10, -1, z - 1), new Cube.FaceStates<>(false, false, false, false, true, false)));  // Floor
-//                meshes.add(lemon.toMesh(new Vector3f(x - 10, 3, z - 1), new Cube.FaceStates<>(false, false, false, false, false, true)));   // Ceiling
-//
-//                if (x == 0 || x == 20 || z == 0 || z == 20) {
-//                    meshes.add(glass.toMesh(new Vector3f(x - 10, 0, z - 1), Cube.FaceStates.FULL_TRUE));  // Bottom
-//                    meshes.add(glass.toMesh(new Vector3f(x - 10, 1, z - 1), Cube.FaceStates.FULL_TRUE));  // Middle
-//                    meshes.add(glass.toMesh(new Vector3f(x - 10, 2, z - 1), Cube.FaceStates.FULL_TRUE));  // Top
-//                }  // Left
-//            }
+        System.out.println("World generated");
     }
 
     private void updateWorld(float deltaTime, int uProj, int uView, int uModel) {

@@ -29,6 +29,7 @@ public class World {
                 addChunk(chunk.getKey(), chunk.getValue());
 
             save();
+            refreshMeshes();
             return;
         }
 
@@ -135,8 +136,8 @@ public class World {
 
     // Unique utilities
 
-    private WorldState state() {
-        return new WorldState(playerRef.position(), playerRef.direction(), chunks.values().toArray(new Chunk[0]));
+    public WorldState state() {
+        return new WorldState(playerRef.position(), playerRef.direction(), playerRef.activeBlock(), chunks.values().toArray(new Chunk[0]));
     }
 
     private Chunk chunkByBlockPosition(Vector2i position) {

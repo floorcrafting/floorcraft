@@ -32,14 +32,13 @@ public class BlockRegistry {
     }
 
     public Block getById(int id) {
-        List<Block> results = blocks.stream()
-                .filter(b -> WorldBlockIDs.all().get(b) == id)
-                .map(this::get)
-                .toList();
+        List<Block> results = blocks.stream().filter(b -> WorldBlockIDs.all().get(b) == id).map(this::get).toList();
 
-        if (results.isEmpty())
-            return get(NoBlock.class);
-
+        if (results.isEmpty()) return get(NoBlock.class);
         return results.getFirst();
+    }
+
+    public List<Block> getAll() {
+        return blocks.stream().map(this::get).toList();
     }
 }

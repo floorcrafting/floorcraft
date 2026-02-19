@@ -1,5 +1,11 @@
 package com.boyninja1555.floorcraft.entities;
 
+import com.boyninja1555.floorcraft.Floorcraft;
+import com.boyninja1555.floorcraft.blocks.DirtBlock;
+import com.boyninja1555.floorcraft.blocks.GlassBlock;
+import com.boyninja1555.floorcraft.blocks.LemonBlock;
+import com.boyninja1555.floorcraft.blocks.StoneBlock;
+import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.settings.lib.SettingsProfile;
 import com.boyninja1555.floorcraft.settings.sections.ControlsSection;
@@ -29,9 +35,13 @@ public class Player extends Entity {
     public Vector3f forward = new Vector3f(0f, 0f, -1f);
     public Vector3f right = new Vector3f(1f, 0f, 0f);
 
+    // Inventory
+    private Block activeBlock;
+
     public Player(SettingsProfile settings, Vector3f position, Vector2f rotation, float gravity, boolean you) {
         super(position, rotation, gravity);
         this.settings = settings;
+        this.activeBlock = Floorcraft.blockRegistry().get(LemonBlock.class);
 
         Map<?, Object> graphicsSettings = settings.sectionByClass(GraphicsSection.class).values();
 
@@ -48,6 +58,7 @@ public class Player extends Entity {
     public Player(SettingsProfile settings, Vector3f position, float gravity, boolean you) {
         super(position, gravity);
         this.settings = settings;
+        this.activeBlock = Floorcraft.blockRegistry().get(LemonBlock.class);
 
         Map<?, Object> graphicsSettings = settings.sectionByClass(GraphicsSection.class).values();
 
@@ -58,6 +69,14 @@ public class Player extends Entity {
         if (you)
             camera = new Camera(this, windowSize.x, windowSize.y, (int) graphicsSettings.get(GraphicsSection.Keys.FOV));
         else camera = null;
+    }
+
+    public Block activeBlock() {
+        return activeBlock;
+    }
+
+    public void activeBlock(Block block) {
+        activeBlock = block;
     }
 
     public Camera camera() {
@@ -122,6 +141,20 @@ public class Player extends Entity {
 
         if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SNEAK)) == GLFW_PRESS)
             teleport(position().add(0f, -velocity, 0f));
+
+        // Block selection
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_STONE)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(StoneBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_DIRT)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(DirtBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_GLASS)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(GlassBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_LEMON)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(LemonBlock.class));
     }
 
     private void updateDirectionalVectors() {

@@ -27,6 +27,12 @@ public abstract class Block {
         if (!path.toFile().isFile()) return Floorcraft.blockRegistry().get(NoBlock.class).definition();
         try (FileReader reader = new FileReader(path.toFile())) {
             definitionCache = Floorcraft.gson.fromJson(reader, StaticBlockDefinition.class);
+
+            if (definitionCache.texture() == null)
+                throw new IOException("Missing \"texture\" field");
+
+            if (definitionCache.transparent() == null)
+                throw new IOException("Missing \"transparent\" field");
         } catch (IOException ex) {
             ErrorHandler.error("Could not load the block definition of " + identifier() + "!\n" + ex);
             definitionCache = Floorcraft.blockRegistry().get(NoBlock.class).definition();

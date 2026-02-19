@@ -1,4 +1,4 @@
 package com.boyninja1555.floorcraft.blocks.lib;
 
-public record StaticBlockDefinition(int[][] texture, boolean transparent) {
+public record StaticBlockDefinition(Integer[][] texture, Boolean transparent) {
 }

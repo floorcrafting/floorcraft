@@ -30,9 +30,10 @@ public class WorldFile {
 
     public WorldState load() {
         try (DataInputStream in = new DataInputStream(new FileInputStream(file))) {
-            // Player location
+            // Player data
             Vector3f playerPosition = readPositionF(in);
             Vector2f playerDirection = readDirection(in);
+            Block playerActiveBlock = Floorcraft.blockRegistry().getById(in.readInt());
 
             // Chunks
             List<Chunk> chunks = new ArrayList<>();
@@ -40,7 +41,7 @@ public class WorldFile {
             for (int i = 0; i < chunkCount; i++)
                 chunks.add(readChunk(in));
 
-            return new WorldState(playerPosition, playerDirection, chunks.toArray(new Chunk[0]));
+            return new WorldState(playerPosition, playerDirection, playerActiveBlock, chunks.toArray(new Chunk[0]));
         } catch (IOException ex) {
             ErrorHandler.error("Could not load world!\n" + ex);
             return null;
@@ -49,9 +50,10 @@ public class WorldFile {
 
     public void save(WorldState state) {
         try (DataOutputStream out = new DataOutputStream(new FileOutputStream(file))) {
-            // Player location
+            // Player data
             writePositionF(out, state.playerPosition());
             writeDirection(out, state.playerDirection());
+            out.writeInt(WorldBlockIDs.all().get(state.activeBlock().getClass()));
 
             // Chunks
             out.writeInt(state.chunks().length);

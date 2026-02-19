@@ -1,6 +1,5 @@
 package com.boyninja1555.floorcraft.lib;
 
-import com.boyninja1555.floorcraft.blocks.LemonBlock;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.world.World;
 import org.joml.Vector3i;
@@ -49,7 +48,7 @@ public class Controls {
 
                 if (blockPosition == null) return;
 
-                world.setBlock(blockPosition, LemonBlock.class);
+                world.setBlock(blockPosition, player.activeBlock().getClass());
             }
         });
 
