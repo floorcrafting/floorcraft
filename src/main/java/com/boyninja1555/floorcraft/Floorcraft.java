@@ -20,7 +20,6 @@ import org.joml.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
-import java.lang.Math;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
@@ -52,7 +51,6 @@ public class Floorcraft {
     // UI meshes
     private UIMesh crosshair;
     private UIMesh[] fpsCounter;
-    private UIMesh[] coords;
 
     private final float[] matrixBuffer = new float[16];
 
@@ -78,7 +76,6 @@ public class Floorcraft {
         // UI cleanup
         crosshair.cleanup();
         Arrays.stream(fpsCounter).toList().forEach(UIMesh::cleanup);
-        Arrays.stream(coords).toList().forEach(UIMesh::cleanup);
 
         // End
         glfwFreeCallbacks(window);
@@ -160,16 +157,6 @@ public class Floorcraft {
         // UI
         crosshair = new UIMesh(uiIcons.region(0, 0));
         fpsCounter = new UIMesh[]{new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character(' ')), new UIMesh(font.character('f')), new UIMesh(font.character('p')), new UIMesh(font.character('s'))};
-        coords = new UIMesh[]{
-                new UIMesh(font.character('0')),
-                new UIMesh(font.character('0')),
-                new UIMesh(font.character(' ')),
-                new UIMesh(font.character('0')),
-                new UIMesh(font.character('0')),
-                new UIMesh(font.character(' ')),
-                new UIMesh(font.character('0')),
-                new UIMesh(font.character('0')),
-        };
 
         // Meshes
         Block[] chunkBlocks = new Block[Chunk.WIDTH * Chunk.DEPTH * Chunk.HEIGHT];
@@ -199,10 +186,10 @@ public class Floorcraft {
             }
         }
 
-        world.addChunk(new Vector2i(0, 0), chunkBlocks);
-        world.addChunk(new Vector2i(1, 0), chunkBlocks);
-        world.addChunk(new Vector2i(1, 1), chunkBlocks);
-        world.addChunk(new Vector2i(0, 1), chunkBlocks);
+        world.addChunk(new Vector2i(0, 0), chunkBlocks.clone());
+        world.addChunk(new Vector2i(1, 0), chunkBlocks.clone());
+        world.addChunk(new Vector2i(1, 1), chunkBlocks.clone());
+        world.addChunk(new Vector2i(0, 1), chunkBlocks.clone());
         world.refreshMeshes();
 
 //        meshes.add(dirt.toMesh(new Vector3f(-2f, 0f, 0f), new Cube.FaceStates<>(true, true, true, false, true, true)));
@@ -281,26 +268,6 @@ public class Floorcraft {
 
             tx += tSize + 5f;
             fi++;
-        }
-
-        // Coords
-        float coSize = 24f;
-        float cox = 10f;
-        float coy = tSize + 10f * 2;
-        font.atlas.bind();
-
-        String playerPosition = String.format("%02d", Math.round(player.position().x)) + " " + String.format("%02d", Math.round(player.position().y)) + " " + String.format("%02d", Math.round(player.position().z));
-
-        int coi = 0;
-        for (UIMesh value : coords) {
-            Matrix4f coModel = new Matrix4f().translation(cox, coy, 0f).scale(coSize, coSize, 1f);
-            glUniformMatrix4fv(uModel, false, coModel.get(matrixBuffer));
-
-            value.useAtlasRegion(font.character(playerPosition.charAt(coi)));
-            value.render();
-
-            cox += coSize + 5f;
-            coi++;
         }
 
         glDisable(GL_BLEND);

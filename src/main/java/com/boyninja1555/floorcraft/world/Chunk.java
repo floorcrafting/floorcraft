@@ -58,7 +58,7 @@ public class Chunk {
     public void setBlock(int lx, int ly, int lz, Class<? extends Block> block) {
         if (lx < 0 || ly < 0 || lz < 0 || lx >= WIDTH || ly >= HEIGHT || lz >= DEPTH) return;
 
-        blocks[lx + (ly * WIDTH) + (lz * WIDTH * HEIGHT)] = Floorcraft.blockRegistry().get(block);
+        blocks[lx + (ly * WIDTH) + (lz * WIDTH * HEIGHT)] = block == null ? null : Floorcraft.blockRegistry().get(block);
         generateMesh();
     }
 
