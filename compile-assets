@@ -1,16 +1,26 @@
 #!/bin/sh
 
-SOURCE="assets/"
+SOURCE="assets"
 OUT="assets.zip"
 
 if [ -d "$SOURCE" ]; then
-	zip -r -j assets.zip $SOURCE
-	echo "Compiled sources at $SOURCE to $OUT"
+    if [ -f "$OUT" ]; then
+        rm "$OUT"
+    fi
+
+    PREV_DIR="$(pwd)"
+
+    cd "$SOURCE" || exit 1
+    rm -f "$PREV_DIR/$OUT"
+    zip -r "$PREV_DIR/$OUT" . -x "*.DS_Store"
+    cd "$PREV_DIR" || exit 1
+
+    echo "Compiled sources at $SOURCE to $OUT"
 else
     echo "Error! Sources at $SOURCE do not exist"
     exit 1
 fi
 
 if [ -d ".git" ]; then
-    git add assets.zip
+    git add "$OUT"
 fi
