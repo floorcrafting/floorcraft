@@ -38,11 +38,11 @@ public class Player extends Entity {
         if (graphicsSettings == null) ErrorHandler.crash("Missing graphics settings");
 
         Vector2i windowSize = (Vector2i) graphicsSettings.get(GraphicsSection.Keys.WINDOW_SIZE);
+
         this.you = you;
         if (you)
             camera = new Camera(this, windowSize.x, windowSize.y, (int) graphicsSettings.get(GraphicsSection.Keys.FOV));
-        else
-            camera = null;
+        else camera = null;
     }
 
     public Player(SettingsProfile settings, Vector3f position, float gravity, boolean you) {
@@ -57,8 +57,7 @@ public class Player extends Entity {
         this.you = you;
         if (you)
             camera = new Camera(this, windowSize.x, windowSize.y, (int) graphicsSettings.get(GraphicsSection.Keys.FOV));
-        else
-            camera = null;
+        else camera = null;
     }
 
     public Camera camera() {
@@ -76,10 +75,10 @@ public class Player extends Entity {
         float mouseSensitivity = (float) controlsSettings.get(ControlsSection.Keys.MOUSE_SENSITIVITY);
         xoffset *= mouseSensitivity;
         yoffset *= mouseSensitivity;
-        rotation(rotation().add(new Vector2f(yoffset, xoffset)));
+        direction(direction().add(new Vector2f(yoffset, xoffset)));
 
-        if (rotation().x < -89f) rotation(new Vector2f(-89f, rotation().y));
-        if (rotation().x > 89f) rotation(new Vector2f(89f, rotation().y));
+        if (direction().x < -89f) direction(new Vector2f(-89f, direction().y));
+        if (direction().x > 89f) direction(new Vector2f(89f, direction().y));
 
         updateDirectionalVectors();
     }
@@ -123,8 +122,8 @@ public class Player extends Entity {
 
     private void updateDirectionalVectors() {
         if (!you) return;
-        float pitch = rotation().x;
-        float yaw = rotation().y;
+        float pitch = direction().x;
+        float yaw = direction().y;
 
         Vector3f newFront = new Vector3f();
         newFront.x = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
