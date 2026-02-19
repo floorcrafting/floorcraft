@@ -19,24 +19,40 @@ public abstract class Mesh {
     public final boolean transparent;
     private final Vector3f position;
     private final Matrix4f model = new Matrix4f().identity();
+    private float[] vertices;
     private int vao;
     private int vbo;
     private int vertexCount;
 
-    public Mesh(Vector3f position, Texture texture, boolean transparent) {
+    public Mesh(Vector3f position, Texture texture, float[] vertices, boolean transparent) {
         this.position = position;
         this.texture = texture;
+        this.vertices = vertices;
         this.transparent = transparent;
     }
 
-    public Mesh(Vector3i position, Texture texture, boolean transparent) {
+    public Mesh(Vector3i position, Texture texture, float[] vertices, boolean transparent) {
         this.position = new Vector3f(position.x, position.y, position.z);
         this.texture = texture;
+        this.vertices = vertices;
         this.transparent = transparent;
+    }
+
+    public void updateVertices(float[] newVertices) {
+        this.vertices = newVertices;
+        this.vertexCount = newVertices.length / 8;
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+        FloatBuffer buffer = MemoryUtil.memAllocFloat(newVertices.length);
+        buffer.put(newVertices).flip();
+
+        glBufferData(GL_ARRAY_BUFFER, buffer, GL_DYNAMIC_DRAW);
+        MemoryUtil.memFree(buffer);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     public void init() {
-        float[] vertices = vertices();
         model.translate(position);
         vertexCount = vertices.length / 8;
         vao = glGenVertexArrays();
@@ -101,6 +117,4 @@ public abstract class Mesh {
         model.identity();
         model.translate(position);
     }
-
-    public abstract float[] vertices();
 }

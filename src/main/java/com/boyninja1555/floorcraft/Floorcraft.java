@@ -18,6 +18,7 @@ import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
+import com.boyninja1555.floorcraft.world.World;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -25,7 +26,9 @@ import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -48,7 +51,7 @@ public class Floorcraft {
     private ShaderProgram shader;
     private ShaderProgram uiShader;
 
-    private List<Chunk> chunks;
+    private World world;
     private Player player;
 
     // UI meshes
@@ -74,7 +77,7 @@ public class Floorcraft {
         // General cleanup
         shader = null;
         uiShader = null;
-        chunks = null;
+        world = null;
 
         // UI cleanup
         crosshair.cleanup();
@@ -125,6 +128,7 @@ public class Floorcraft {
         glEnable(GL_CULL_FACE);
 
         player = new Player(settings, new Vector3f(Chunk.WIDTH / 2f + .5f, Chunk.HEIGHT - 83f, Chunk.DEPTH / 2f + 5.5f), 0f, true);
+        world = new World(player);
 
         // Window resizing
         glfwSetFramebufferSizeCallback(window, (ignored, w, h) -> {
@@ -161,7 +165,6 @@ public class Floorcraft {
         fpsCounter = new UIMesh[]{new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character(' ')), new UIMesh(font.character('f')), new UIMesh(font.character('p')), new UIMesh(font.character('s'))};
 
         // Meshes
-        chunks = new ArrayList<>();
         Block[] chunkBlocks = new Block[Chunk.WIDTH * Chunk.DEPTH * Chunk.HEIGHT];
         Block stone = blockRegistry.get(StoneBlock.class);
         Block dirt = blockRegistry.get(DirtBlock.class);
@@ -189,8 +192,11 @@ public class Floorcraft {
             }
         }
 
-        Chunk chunk = new Chunk(new Vector2i(0, 0), chunkBlocks);
-        chunks.add(chunk);
+        world.addChunk(new Vector2i(0, 0), chunkBlocks);
+        world.addChunk(new Vector2i(1, 0), chunkBlocks);
+        world.addChunk(new Vector2i(1, 1), chunkBlocks);
+        world.addChunk(new Vector2i(0, 1), chunkBlocks);
+        world.refreshMeshes();
 
 //        meshes.add(dirt.toMesh(new Vector3f(-2f, 0f, 0f), new Cube.FaceStates<>(true, true, true, false, true, true)));
 //        meshes.add(dirt.toMesh(new Vector3f(-1f, 0f, 0f), new Cube.FaceStates<>(true, true, false, false, true, true)));
@@ -212,34 +218,18 @@ public class Floorcraft {
 //            }
     }
 
-    private void renderWorld(float deltaTime, int uProj, int uView, int uModel) {
-        shader.bind();
-
-        glUniformMatrix4fv(uProj, false, player.camera().projection().get(matrixBuffer));
-        glUniformMatrix4fv(uView, false, player.camera().view().get(matrixBuffer));
-
+    private void updateWorld(float deltaTime, int uProj, int uView, int uModel) {
+        // Movement updates
         player.processKeyboard(window, deltaTime);
         player.camera().updateView();
         textures.bind();
 
-        for (Chunk chunk : chunks) {
-            // Opaque
-            glEnable(GL_DEPTH_TEST);
-            glDepthMask(true);
+        // Rendering
+        shader.bind();
 
-            glUniformMatrix4fv(uModel, false, chunk.opaque().modelMatrix().get(matrixBuffer));
-            chunk.opaque().render();
-
-            // Transparent
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glDepthMask(false);
-
-            glUniformMatrix4fv(uModel, false, chunk.transparent().modelMatrix().get(matrixBuffer));
-            chunk.transparent().render();
-
-            glDepthMask(true);
-        }
+        glUniformMatrix4fv(uProj, false, player.camera().projection().get(matrixBuffer));
+        glUniformMatrix4fv(uView, false, player.camera().view().get(matrixBuffer));
+        world.render(uModel, matrixBuffer);
     }
 
     private void renderUI(int uProj, int uModel) {
@@ -311,7 +301,7 @@ public class Floorcraft {
             lastFrame.set(currentTime);
 
             player.tick(deltaTime);
-            renderWorld(deltaTime, uProj, uView, uModel);
+            updateWorld(deltaTime, uProj, uView, uModel);
             renderUI(uiUProj, uiUModel);
 
             glfwSwapBuffers(window);
