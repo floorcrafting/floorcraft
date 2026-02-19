@@ -68,4 +68,16 @@ public class AssetManager {
         else if (os.contains("mac")) return Paths.get(home, "Library", "Application Support", "Floorcraft");
         else return Paths.get(home, ".floorcraft");
     }
+
+    public static Path assetsPath() {
+        return storagePath().resolve("assets");
+    }
+
+    public static Path blocksPath() {
+        return assetsPath().resolve("blocks");
+    }
+
+    public static Path texturesPath() {
+        return assetsPath().resolve("textures");
+    }
 }

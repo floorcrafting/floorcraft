@@ -2,6 +2,8 @@ package com.boyninja1555.floorcraft.world;
 
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.entities.Player;
+import com.boyninja1555.floorcraft.world.format.WorldFile;
+import com.boyninja1555.floorcraft.world.format.WorldState;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
@@ -14,9 +16,37 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 public class World {
     private final Player playerRef;
     private final Map<Vector2i, Chunk> chunks = new HashMap<>();
+    private final WorldFile file;
 
     public World(Player playerRef) {
         this.playerRef = playerRef;
+        this.file = new WorldFile(this);
+    }
+
+    public void init(Map<Vector2i, Block[]> defaultChunks) {
+        if (!file.exists()) {
+            for (Map.Entry<Vector2i, Block[]> chunk : defaultChunks.entrySet())
+                addChunk(chunk.getKey(), chunk.getValue());
+
+            save();
+            return;
+        }
+
+        load();
+        refreshMeshes();
+    }
+
+    public void load() {
+        WorldState state = file.load();
+        playerRef.teleport(state.playerPosition());
+        playerRef.direction(state.playerDirection());
+
+        for (Chunk chunk : state.chunks())
+            chunks.put(chunk.position(), chunk);
+    }
+
+    public void save() {
+        file.save(state());
     }
 
     public void addChunk(Vector2i position, Block[] blocks) {
@@ -104,6 +134,10 @@ public class World {
     }
 
     // Unique utilities
+
+    private WorldState state() {
+        return new WorldState(playerRef.position(), playerRef.direction(), chunks.values().toArray(new Chunk[0]));
+    }
 
     private Chunk chunkByBlockPosition(Vector2i position) {
         int cx = Math.floorDiv(position.x, Chunk.WIDTH);

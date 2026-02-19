@@ -2,7 +2,6 @@ package com.boyninja1555.floorcraft.lib;
 
 import com.boyninja1555.floorcraft.blocks.LemonBlock;
 import com.boyninja1555.floorcraft.entities.Player;
-import com.boyninja1555.floorcraft.settings.lib.SettingsProfile;
 import com.boyninja1555.floorcraft.world.World;
 import org.joml.Vector3i;
 
@@ -14,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Controls {
 
-    public static void register(SettingsProfile settings, long window, World world, Player player, AtomicInteger width, AtomicInteger height) {
+    public static void register(long window, World world, Player player, AtomicInteger width, AtomicInteger height) {
         // Camera rotation
         AtomicBoolean cursorLocked = new AtomicBoolean(false);
         AtomicReference<Float> lastX = new AtomicReference<>((float) width.get() / 2);
@@ -37,8 +36,7 @@ public class Controls {
                 return;
             }
 
-            if (!cursorLocked.get())
-                return;
+            if (!cursorLocked.get()) return;
 
             if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && cursorLocked.get()) {
                 Vector3i blockPosition = world.raycast(player.position(), player.forward, 5f, false);
@@ -55,12 +53,16 @@ public class Controls {
             }
         });
 
-        // Cursor unlock
         glfwSetKeyCallback(window, (ignored, key, ignored1, action, ignored2) -> {
-            if (key != GLFW_KEY_ESCAPE || action != GLFW_PRESS) return;
+            // Cursor unlock
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                cursorLocked.set(false);
+                return;
+            }
 
-            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-            cursorLocked.set(false);
+            // World saving
+            if (key == GLFW_KEY_HOME && action == GLFW_PRESS) world.save();
         });
     }
 }

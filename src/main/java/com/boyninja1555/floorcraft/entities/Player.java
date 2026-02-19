@@ -66,6 +66,12 @@ public class Player extends Entity {
 
     // Movement
 
+    @Override
+    public void direction(Vector2f direction) {
+        super.direction(direction);
+        updateDirectionalVectors();
+    }
+
     public void processMouseMovement(float xoffset, float yoffset) {
         if (!you) return;
 
@@ -79,8 +85,6 @@ public class Player extends Entity {
 
         if (direction().x < -89f) direction(new Vector2f(-89f, direction().y));
         if (direction().x > 89f) direction(new Vector2f(89f, direction().y));
-
-        updateDirectionalVectors();
     }
 
     public void processKeyboard(long window, float deltaTime) {

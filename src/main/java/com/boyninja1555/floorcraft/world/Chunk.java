@@ -3,12 +3,14 @@ package com.boyninja1555.floorcraft.world;
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.mesh.Mesh;
+import com.boyninja1555.floorcraft.texture.BlockTexture;
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Chunk {
@@ -34,6 +36,10 @@ public class Chunk {
 
         transparentMesh = new Mesh(worldOffset, null, build(true), true) {
         };
+    }
+
+    public Block[] blocks() {
+        return blocks;
     }
 
     public void generateMesh() {
@@ -70,27 +76,30 @@ public class Chunk {
                 for (int z = 0; z < DEPTH; z++) {
                     Block block = blockAt(x, y, z);
 
-                    if (block == null || block.transparent() != buildTransparent) continue;
+                    if (block == null || block.definition().transparent() != buildTransparent) continue;
                     int wx = x + (position.x * WIDTH);
                     int wz = z + (position.y * DEPTH);
 
+                    AtlasRegion[] regions = Arrays.stream(block.definition().texture()).map(r -> Floorcraft.textures().region(r[0], r[1])).toList().toArray(new AtlasRegion[0]);
+                    BlockTexture texture = new BlockTexture(regions);
+
                     if (shouldShowFace(wx, y + 1, wz, block))
-                        addFace(vertices, x, y, z, 0, 1, 0, block.texture().sides().getFirst());
+                        addFace(vertices, x, y, z, 0, 1, 0, texture.sides().getFirst());
 
                     if (shouldShowFace(wx, y - 1, wz, block))
-                        addFace(vertices, x, y, z, 0, -1, 0, block.texture().sides().get(1));
+                        addFace(vertices, x, y, z, 0, -1, 0, texture.sides().get(1));
 
                     if (shouldShowFace(wx, y, wz + 1, block))
-                        addFace(vertices, x, y, z, 0, 0, 1, block.texture().sides().get(2));
+                        addFace(vertices, x, y, z, 0, 0, 1, texture.sides().get(2));
 
                     if (shouldShowFace(wx, y, wz - 1, block))
-                        addFace(vertices, x, y, z, 0, 0, -1, block.texture().sides().get(3));
+                        addFace(vertices, x, y, z, 0, 0, -1, texture.sides().get(3));
 
                     if (shouldShowFace(wx + 1, y, wz, block))
-                        addFace(vertices, x, y, z, 1, 0, 0, block.texture().sides().get(5));
+                        addFace(vertices, x, y, z, 1, 0, 0, texture.sides().get(5));
 
                     if (shouldShowFace(wx - 1, y, wz, block))
-                        addFace(vertices, x, y, z, -1, 0, 0, block.texture().sides().get(4));
+                        addFace(vertices, x, y, z, -1, 0, 0, texture.sides().get(4));
                 }
             }
         }
@@ -101,7 +110,7 @@ public class Chunk {
     private boolean shouldShowFace(int wx, int wy, int wz, Block current) {
         Block neighbor = world.blockAt(new Vector3i(wx, wy, wz));
         if (neighbor == null) return true;
-        return neighbor.transparent() && !current.transparent();
+        return neighbor.definition().transparent() && !current.definition().transparent();
     }
 
     private void addFace(List<Float> verts, int x, int y, int z, int nx, int ny, int nz, AtlasRegion region) {

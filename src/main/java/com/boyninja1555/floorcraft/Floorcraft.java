@@ -16,6 +16,7 @@ import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
 import com.boyninja1555.floorcraft.world.World;
+import com.google.gson.Gson;
 import org.joml.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
@@ -33,12 +34,14 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Floorcraft {
+    public static final Gson gson = new Gson();
+
     private Settings settings;
     private long window;
 
     private static BlockRegistry blockRegistry;
 
-    private TextureAtlas textures;
+    private static TextureAtlas textures;
     private TextureAtlas uiIcons;
     private Font font;
 
@@ -56,6 +59,10 @@ public class Floorcraft {
 
     public static BlockRegistry blockRegistry() {
         return blockRegistry;
+    }
+
+    public static TextureAtlas textures() {
+        return textures;
     }
 
     public void run() throws Exception {
@@ -92,6 +99,11 @@ public class Floorcraft {
     }
 
     private void init() throws Exception {
+        // Block registration
+        blockRegistry = new BlockRegistry();
+        defaultBlocks();
+
+        // GLFW
         GLFWErrorCallback.createPrint(System.err).set();
 
         if (!glfwInit()) ErrorHandler.crash("Unable to load GLFW");
@@ -111,18 +123,18 @@ public class Floorcraft {
         AtomicInteger width = new AtomicInteger(windowSize.x);
         AtomicInteger height = new AtomicInteger(windowSize.y);
         window = glfwCreateWindow(width.get(), height.get(), "Floorcraft", NULL, NULL);
+        System.out.println("GLFW window created");
 
         if (window == NULL) ErrorHandler.crash("Failed to create the window");
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
         glfwShowWindow(window);
+        System.out.println("GLFW window showing");
 
         GL.createCapabilities();
         glEnable(GL_CULL_FACE);
-
-        player = new Player(settings, new Vector3f(Chunk.WIDTH / 2f + .5f, Chunk.HEIGHT - 19, Chunk.DEPTH / 2f + 5.5f), 0f, true);
-        world = new World(player);
+        System.out.println("GLFW capabilities now active");
 
         // Window resizing
         glfwSetFramebufferSizeCallback(window, (ignored, w, h) -> {
@@ -132,33 +144,37 @@ public class Floorcraft {
             player.camera().updateProjection();
         });
 
-        Controls.register(settings, window, world, player, width, height);
-
         // Viewport size
         glViewport(0, 0, width.get(), height.get());
 
         // Shaders
         shader = new ShaderProgram("default.vert", "default.frag");
         uiShader = new ShaderProgram("hud.vert", "hud.frag");
+        System.out.println("Shaders loaded");
 
         // Blocks texture atlas
         textures = new TextureAtlas("blocks.png", 8);
         textures.bind();
         shader.uniformInt("uTexture", 0);
+        System.out.println("Block atlas loaded");
+
+        // Player & world
+        player = new Player(settings, new Vector3f(Chunk.WIDTH / 2f + .5f, Chunk.HEIGHT - 19, Chunk.DEPTH / 2f + 5.5f), 0f, true);
+        world = new World(player);
+        Controls.register(window, world, player, width, height);
+        System.out.println("Player & world created (world not generated yet)");
 
         // UI texture atlas
         uiIcons = new TextureAtlas("ui.png", 8);
         font = new Font();
-
-        // Block registration
-        blockRegistry = new BlockRegistry(textures);
-        defaultBlocks();
+        System.out.println("UI atlas loaded");
 
         // UI
         crosshair = new UIMesh(uiIcons.region(0, 0));
         fpsCounter = new UIMesh[]{new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character(' ')), new UIMesh(font.character('f')), new UIMesh(font.character('p')), new UIMesh(font.character('s'))};
+        System.out.println("UI elements created");
 
-        // Meshes
+        // Chunks
         Block[] chunkBlocks = new Block[Chunk.WIDTH * Chunk.DEPTH * Chunk.HEIGHT];
         Block stone = blockRegistry.get(StoneBlock.class);
         Block dirt = blockRegistry.get(DirtBlock.class);
@@ -166,6 +182,7 @@ public class Floorcraft {
         Block lemon = blockRegistry.get(LemonBlock.class);
         Block[] blockTypes = {stone, dirt, lemon};
         Random random = new Random();
+        System.out.println("Creating world chunks...");
 
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int y = 0; y < Chunk.HEIGHT; y++) {
@@ -186,11 +203,16 @@ public class Floorcraft {
             }
         }
 
-        world.addChunk(new Vector2i(0, 0), chunkBlocks.clone());
-        world.addChunk(new Vector2i(1, 0), chunkBlocks.clone());
-        world.addChunk(new Vector2i(1, 1), chunkBlocks.clone());
-        world.addChunk(new Vector2i(0, 1), chunkBlocks.clone());
-        world.refreshMeshes();
+        System.out.println("Chunk blocks created");
+
+        world.init(Map.of(
+                new Vector2i(0, 0), chunkBlocks.clone(),
+                new Vector2i(1, 0), chunkBlocks.clone(),
+                new Vector2i(1, 1), chunkBlocks.clone(),
+                new Vector2i(0, 1), chunkBlocks.clone()
+        ));
+
+        System.out.println("World created");
 
 //        meshes.add(dirt.toMesh(new Vector3f(-2f, 0f, 0f), new Cube.FaceStates<>(true, true, true, false, true, true)));
 //        meshes.add(dirt.toMesh(new Vector3f(-1f, 0f, 0f), new Cube.FaceStates<>(true, true, false, false, true, true)));
@@ -312,6 +334,8 @@ public class Floorcraft {
         try {
             new Floorcraft().run();
         } catch (Exception ex) {
+            ex.printStackTrace();
+
             String message = "Could not launch Floorcraft!\n" + ex;
             System.err.println(message);
             ErrorHandler.crash(message);

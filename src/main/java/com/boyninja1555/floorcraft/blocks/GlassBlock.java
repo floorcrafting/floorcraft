@@ -1,11 +1,8 @@
 package com.boyninja1555.floorcraft.blocks;
 
 import com.boyninja1555.floorcraft.blocks.lib.Block;
-import com.boyninja1555.floorcraft.texture.BlockTexture;
-import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3i;
 
 public class GlassBlock extends Block {
 
@@ -14,18 +11,7 @@ public class GlassBlock extends Block {
     }
 
     @Override
-    public @NotNull BlockTexture texture() {
-        final AtlasRegion TEXTURE = atlas.region(2, 0);
-        return new BlockTexture(TEXTURE, TEXTURE, TEXTURE, TEXTURE, TEXTURE, TEXTURE);
-    }
-
-    @Override
-    public boolean transparent() {
-        return true;
-    }
-
-    @Override
-    public boolean physical() {
-        return true;
+    public @NotNull String identifier() {
+        return "glass";
     }
 }

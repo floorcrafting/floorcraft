@@ -1,19 +1,39 @@
 package com.boyninja1555.floorcraft.blocks.lib;
 
-import com.boyninja1555.floorcraft.texture.BlockTexture;
+import com.boyninja1555.floorcraft.Floorcraft;
+import com.boyninja1555.floorcraft.lib.AssetManager;
+import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+
 public abstract class Block {
     public final TextureAtlas atlas;
+    private StaticBlockDefinition definitionCache;
 
     public Block(TextureAtlas atlas) {
         this.atlas = atlas;
+        this.definitionCache = null;
     }
 
-    public abstract @NotNull BlockTexture texture();
+    public StaticBlockDefinition definition() {
+        if (definitionCache != null) return definitionCache;
 
-    public abstract boolean transparent();
+        Path path = AssetManager.blocksPath().resolve(identifier() + ".json");
 
-    public abstract boolean physical();
+        if (!path.toFile().isFile()) return Floorcraft.blockRegistry().get(NoBlock.class).definition();
+        try (FileReader reader = new FileReader(path.toFile())) {
+            definitionCache = Floorcraft.gson.fromJson(reader, StaticBlockDefinition.class);
+        } catch (IOException ex) {
+            ErrorHandler.error("Could not load the block definition of " + identifier() + "!\n" + ex);
+            definitionCache = Floorcraft.blockRegistry().get(NoBlock.class).definition();
+        }
+
+        return definitionCache;
+    }
+
+    public abstract @NotNull String identifier();
 }
