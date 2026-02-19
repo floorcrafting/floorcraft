@@ -1,12 +1,14 @@
 package com.boyninja1555.floorcraft.lib;
 
 import com.boyninja1555.floorcraft.blocks.DirtBlock;
+import com.boyninja1555.floorcraft.blocks.LemonBlock;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.settings.lib.SettingsProfile;
 import com.boyninja1555.floorcraft.settings.sections.ControlsSection;
 import com.boyninja1555.floorcraft.world.World;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -42,9 +44,11 @@ public class Controls {
 
             // TODO: Block breaking & placing
 
-            Map<?, Object> controlsSection = settings.sectionByClass(ControlsSection.class).values();
+            Vector3i blockPosition = world.raycast(player.position(), player.forward, 6f);
 
-            if (controlsSection == null) return;
+            if (blockPosition == null) return;
+
+            world.setBlock(blockPosition, LemonBlock.class);
         });
 
         // Cursor unlock
@@ -54,5 +58,15 @@ public class Controls {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             cursorLocked.set(false);
         });
+    }
+
+    public static Vector3f directionFromRotation(Vector2f py) {
+        float radPitch = (float) Math.toRadians(py.x);
+        float radYaw = (float) Math.toRadians(py.y);
+
+        float x = (float) (Math.cos(radPitch) * Math.sin(radYaw));
+        float y = (float) (Math.sin(radPitch));
+        float z = (float) (Math.cos(radPitch) * Math.cos(radYaw));
+        return new Vector3f(x, y, z).normalize();
     }
 }

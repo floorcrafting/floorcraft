@@ -23,4 +23,9 @@ public class DirtBlock extends Block {
     public boolean transparent() {
         return false;
     }
+
+    @Override
+    public boolean physical() {
+        return true;
+    }
 }

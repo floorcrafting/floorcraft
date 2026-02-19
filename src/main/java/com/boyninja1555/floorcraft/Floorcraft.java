@@ -1,9 +1,6 @@
 package com.boyninja1555.floorcraft;
 
-import com.boyninja1555.floorcraft.blocks.DirtBlock;
-import com.boyninja1555.floorcraft.blocks.GlassBlock;
-import com.boyninja1555.floorcraft.blocks.LemonBlock;
-import com.boyninja1555.floorcraft.blocks.StoneBlock;
+import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
@@ -19,13 +16,11 @@ import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
 import com.boyninja1555.floorcraft.world.World;
-import org.joml.Matrix4f;
-import org.joml.Vector2i;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import org.joml.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+import java.lang.Math;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;

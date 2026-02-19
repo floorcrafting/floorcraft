@@ -3,6 +3,7 @@ package com.boyninja1555.floorcraft.world;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.entities.Player;
 import org.joml.Vector2i;
+import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.*;
@@ -13,9 +14,11 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 public class World {
     private final Player playerRef;
     private final Map<Vector2i, Chunk> chunks = new HashMap<>();
+    private Vector3i highlighted;
 
     public World(Player playerRef) {
         this.playerRef = playerRef;
+        this.highlighted = null;
     }
 
     public void addChunk(Vector2i position, Block[] blocks) {
@@ -50,6 +53,10 @@ public class World {
         chunk.setBlock(lx, position.y, lz, block);
     }
 
+    public Vector3i highlighted() {
+        return highlighted;
+    }
+
     // World rendering
 
     public void render(int uModel, float[] matrixBuffer) {
@@ -79,7 +86,28 @@ public class World {
             chunk.transparent().render();
         }
 
+        // Outlines
+        highlighted = raycast(playerRef.position(), playerRef.forward, 6f);
+
         glDepthMask(true);
+    }
+
+    // Raycasting
+
+    public Vector3i raycast(Vector3f origin, Vector3f direction, float maxDistance) {
+        Vector3f current = new Vector3f(origin);
+
+        float step = .05f;
+        for (float traveled = 0; traveled <= maxDistance; traveled += step) {
+            Vector3i blockPos = new Vector3i((int) Math.floor(current.x), (int) Math.floor(current.y), (int) Math.floor(current.z));
+            Block block = blockAt(blockPos);
+
+            if (block != null) return blockPos;
+
+            current.fma(step, direction);
+        }
+
+        return null;
     }
 
     // Unique utilities

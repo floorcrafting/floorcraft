@@ -23,4 +23,9 @@ public class GlassBlock extends Block {
     public boolean transparent() {
         return true;
     }
+
+    @Override
+    public boolean physical() {
+        return true;
+    }
 }

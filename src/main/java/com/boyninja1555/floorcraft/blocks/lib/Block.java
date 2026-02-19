@@ -14,4 +14,6 @@ public abstract class Block {
     public abstract @NotNull BlockTexture texture();
 
     public abstract boolean transparent();
+
+    public abstract boolean physical();
 }
