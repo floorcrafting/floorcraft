@@ -1,5 +1,6 @@
 package com.boyninja1555.floorcraft.lib;
 
+import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.world.World;
 import org.joml.Vector3i;
@@ -49,6 +50,16 @@ public class Controls {
                 if (blockPosition == null) return;
 
                 world.setBlock(blockPosition, player.activeBlock().getClass());
+            } else if (button == GLFW_MOUSE_BUTTON_MIDDLE && action == GLFW_PRESS && cursorLocked.get()) {
+                Vector3i blockPosition = world.raycast(player.position(), player.forward, 5f, false);
+
+                if (blockPosition == null) return;
+
+                Block block = world.blockAt(blockPosition);
+
+                if (block == null) return;
+
+                player.activeBlock(block);
             }
         });
 
