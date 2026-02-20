@@ -14,6 +14,7 @@ import com.boyninja1555.floorcraft.lib.FpsTracker;
 import com.boyninja1555.floorcraft.mesh.UIMesh;
 import com.boyninja1555.floorcraft.settings.Settings;
 import com.boyninja1555.floorcraft.settings.sections.GraphicsSection;
+import com.boyninja1555.floorcraft.texture.BlockItemTexture;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
@@ -46,19 +47,23 @@ public class Floorcraft {
 
     private static BlockRegistry blockRegistry;
 
+    // Textures
     private static TextureAtlas textures;
     private TextureAtlas uiIcons;
     private Font font;
 
+    // Shaders
     private ShaderProgram shader;
     private ShaderProgram uiShader;
 
+    // Objects
     private World world;
     private Player player;
 
     // UI meshes
     private UIMesh crosshair;
     private UIMesh[] fpsCounter;
+    private UIMesh activeBlockBox;
 
     private final float[] matrixBuffer = new float[16];
 
@@ -88,6 +93,7 @@ public class Floorcraft {
         // UI cleanup
         crosshair.cleanup();
         Arrays.stream(fpsCounter).toList().forEach(UIMesh::cleanup);
+        activeBlockBox.cleanup();
 
         // End
         glfwFreeCallbacks(window);
@@ -177,6 +183,7 @@ public class Floorcraft {
         // UI
         crosshair = new UIMesh(uiIcons.region(0, 0));
         fpsCounter = new UIMesh[]{new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character(' ')), new UIMesh(font.character('f')), new UIMesh(font.character('p')), new UIMesh(font.character('s'))};
+        activeBlockBox = new UIMesh(BlockItemTexture.get(player.activeBlock()));
         System.out.println("UI elements created");
 
         // Chunks
@@ -246,12 +253,13 @@ public class Floorcraft {
         uiShader.bind();
         Matrix4f ortho = new Matrix4f().ortho(0f, width, height, 0f, -1f, 1f);
         glUniformMatrix4fv(uProj, false, ortho.get(matrixBuffer));
-        uiIcons.bind();
 
         // Crosshair
         float cSize = 24f;
         float cx = (width / 2f) - (cSize / 2f);
         float cy = (height / 2f) - (cSize / 2f);
+        uiIcons.bind();
+
         Matrix4f cModel = new Matrix4f().translation(cx, cy, 0f).scale(cSize, cSize, 1f);
         glUniformMatrix4fv(uModel, false, cModel.get(matrixBuffer));
         crosshair.render();
@@ -275,6 +283,17 @@ public class Floorcraft {
             tx += tSize + 5f;
             fi++;
         }
+
+        // Active block box
+        float aSize = 48f;
+        float ax = width - aSize - 10f;
+        float ay = 10f;
+        textures.bind();
+
+        Matrix4f aModel = new Matrix4f().translation(ax, ay, 0f).scale(aSize, aSize, 1f);
+        glUniformMatrix4fv(uModel, false, aModel.get(matrixBuffer));
+        activeBlockBox.useAtlasRegion(BlockItemTexture.get(player.activeBlock()));
+        activeBlockBox.render();
 
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
