@@ -72,7 +72,29 @@ public class Controls {
             }
 
             // World saving
-            if (key == GLFW_KEY_HOME && action == GLFW_PRESS) world.save();
+            if ((key == GLFW_KEY_HOME || key == GLFW_KEY_Z) && action == GLFW_PRESS) {
+                world.save();
+                return;
+            }
+
+            // Show storage directory
+            if (key == GLFW_KEY_X && action == GLFW_PRESS) {
+                cursorLocked.set(false);
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                String path = AssetManager.storagePath().toAbsolutePath().toString();
+                String os = System.getProperty("os.name").toLowerCase();
+
+                try {
+                    if (os.contains("win"))
+                        new ProcessBuilder("explorer.exe", path).start();
+                    else if (os.contains("mac"))
+                        new ProcessBuilder("open", path).start();
+                    else
+                        new ProcessBuilder("xdg-open", path).start();
+                } catch (Exception ex) {
+                    ErrorHandler.error("Could not open storage directory!\n" + ex);
+                }
+            }
         });
     }
 }
