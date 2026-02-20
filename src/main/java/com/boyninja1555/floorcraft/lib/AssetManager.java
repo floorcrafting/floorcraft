@@ -18,6 +18,7 @@ public class AssetManager {
         try {
             Path storage = storagePath();
             Path assetsPath = storage.resolve("assets");
+            System.out.println("Storing resources and assets at " + storage);
 
             if (!Files.exists(assetsPath)) Files.createDirectories(assetsPath);
             if (Files.exists(assetsPath.resolve(".floorcraft"))) return CompletableFuture.completedFuture(null);
