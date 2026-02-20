@@ -1,9 +1,6 @@
 package com.boyninja1555.floorcraft;
 
-import com.boyninja1555.floorcraft.blocks.DirtBlock;
-import com.boyninja1555.floorcraft.blocks.GlassBlock;
-import com.boyninja1555.floorcraft.blocks.LemonBlock;
-import com.boyninja1555.floorcraft.blocks.StoneBlock;
+import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
@@ -107,6 +104,12 @@ public class Floorcraft {
         blockRegistry.register(DirtBlock.class);
         blockRegistry.register(GlassBlock.class);
         blockRegistry.register(LemonBlock.class);
+        blockRegistry.register(HeartBlock.class);
+        blockRegistry.register(SeeSeeBlock.class);
+        blockRegistry.register(SkinnedBlock.class);
+        blockRegistry.register(AgonyBlock.class);
+        blockRegistry.register(PreservedDeityHeadBlock.class);
+        blockRegistry.register(DisturbedHeadBlock.class);
     }
 
     private void init() throws Exception {

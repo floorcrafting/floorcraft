@@ -18,7 +18,7 @@ public class ControlsSection extends SettingsSection<ControlsSection.Keys> {
         MOVE_FORWARDS, MOVE_BACKWARDS, MOVE_LEFT, MOVE_RIGHT, SPRINT, JUMP, SNEAK,
 
         // Block selection
-        SELECT_STONE, SELECT_DIRT, SELECT_GLASS, SELECT_LEMON,
+        SELECT_STONE, SELECT_DIRT, SELECT_GLASS, SELECT_LEMON, SELECT_HEART, SELECT_SEE_SEE, SELECT_SKINNED, SELECT_AGONY, SELECT_PRESERVED_DEITY_HEAD, SELECT_DISTURBED_HEAD,
     }
 
     @Override
@@ -43,6 +43,12 @@ public class ControlsSection extends SettingsSection<ControlsSection.Keys> {
         values.put(Keys.SELECT_DIRT, GLFW_KEY_2);
         values.put(Keys.SELECT_GLASS, GLFW_KEY_3);
         values.put(Keys.SELECT_LEMON, GLFW_KEY_4);
+        values.put(Keys.SELECT_HEART, GLFW_KEY_5);
+        values.put(Keys.SELECT_SEE_SEE, GLFW_KEY_6);
+        values.put(Keys.SELECT_SKINNED, GLFW_KEY_7);
+        values.put(Keys.SELECT_AGONY, GLFW_KEY_8);
+        values.put(Keys.SELECT_PRESERVED_DEITY_HEAD, GLFW_KEY_9);
+        values.put(Keys.SELECT_DISTURBED_HEAD, GLFW_KEY_0);
         return Collections.unmodifiableMap(values);
     }
 }

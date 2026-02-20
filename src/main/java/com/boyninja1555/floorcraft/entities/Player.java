@@ -1,10 +1,7 @@
 package com.boyninja1555.floorcraft.entities;
 
 import com.boyninja1555.floorcraft.Floorcraft;
-import com.boyninja1555.floorcraft.blocks.DirtBlock;
-import com.boyninja1555.floorcraft.blocks.GlassBlock;
-import com.boyninja1555.floorcraft.blocks.LemonBlock;
-import com.boyninja1555.floorcraft.blocks.StoneBlock;
+import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.settings.lib.SettingsProfile;
@@ -155,6 +152,24 @@ public class Player extends Entity {
 
         if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_LEMON)) == GLFW_PRESS)
             activeBlock(Floorcraft.blockRegistry().get(LemonBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_HEART)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(HeartBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_SEE_SEE)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(SeeSeeBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_SKINNED)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(SkinnedBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_AGONY)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(AgonyBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_PRESERVED_DEITY_HEAD)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(PreservedDeityHeadBlock.class));
+
+        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_DISTURBED_HEAD)) == GLFW_PRESS)
+            activeBlock(Floorcraft.blockRegistry().get(DisturbedHeadBlock.class));
     }
 
     private void updateDirectionalVectors() {
