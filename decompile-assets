@@ -1,0 +1,16 @@
+#!/bin/sh
+
+SOURCE="assets.zip"
+OUT="assets"
+
+if [ -f "$SOURCE" ]; then
+    if [ -d "$OUT" ]; then
+        rm -r "$OUT"
+    fi
+
+    unzip "$SOURCE" -d "$OUT"
+    echo "Decompiled assets at $SOURCE to $OUT"
+else
+    echo "Error! Compiled assets at $SOURCE do not exist"
+    exit 1
+fi
