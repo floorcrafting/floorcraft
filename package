@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-echo "Warning: This script automatically detects your platform and forces an output type you may not want! Please use a platform-specific script instead."
-./prepackage
-./conveyor make app --overwrite
-echo "Package built! Note this build is only for your platform."

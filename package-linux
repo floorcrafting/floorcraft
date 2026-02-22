@@ -1,5 +1,0 @@
-#!/bin/sh
-set -e
-./prepackage
-./conveyor make linux-tarball --overwrite
-echo "Package built! Note this build is only for Linux."

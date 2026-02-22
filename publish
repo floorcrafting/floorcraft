@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+./prepackage
+./conveyor make site --overwrite
+echo "Floorcraft built! Note this build is a website intended for downloading the game."

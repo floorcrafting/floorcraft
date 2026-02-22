@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+./prepackage
+./conveyor make app --overwrite
+echo "Floorcraft built! Note this build is only for development on your local platform."
