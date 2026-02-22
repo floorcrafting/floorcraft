@@ -7,7 +7,7 @@ printf "%s" "Press Enter to publish the site..."
 read ans
 rm -rf docs
 mkdir docs
-cp -r output/site/* docs/
+cp -r output/* docs/
 git add docs
 git commit -m "Update download website $RANDOM-$RANDOM-$RANDOM"
 git push
