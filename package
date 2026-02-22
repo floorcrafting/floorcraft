@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
 ./compile-assets
 ./gradlew clean jar
-conveyor make app --overwrite
+./conveyor make app --overwrite
+echo "Package built! Note this build is only for your platform."

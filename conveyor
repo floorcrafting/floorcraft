@@ -1,0 +1,7 @@
+#!/bin/sh
+if ! command -v conveyor >/dev/null 2>&1; then
+  echo "Conveyor not found in your PATH! It's used for packaging Floorcraft into native binaries that don't require Java."
+  echo "Please install it from https://downloads.hydraulic.dev/conveyor/download.html"
+  exit 1
+fi
+exec conveyor "$@"
