@@ -60,7 +60,7 @@ public class Font {
     public List<AtlasRegion> string(String string) {
         List<AtlasRegion> regions = new ArrayList<>();
 
-        for (char c : string.toCharArray())
+        for (char c : string.toLowerCase().toCharArray())
             regions.add(character(c));
 
         return regions;
