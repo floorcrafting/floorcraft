@@ -15,10 +15,7 @@ import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
 import com.boyninja1555.floorcraft.world.World;
 import com.google.gson.Gson;
-import org.joml.Matrix4f;
-import org.joml.Vector2i;
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import org.joml.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
@@ -268,6 +265,16 @@ public class Floorcraft {
     }
 
     private void loop() {
+        boolean outlineEnabled = false;
+        try {
+            BlockOutline.init(new ShaderProgram("outline.vert", "outline.frag", "outline.geom"));
+            outlineEnabled = true;
+        } catch (Exception ex) {
+            String message = "Could not enable block outline! It will not show.\n" + ex;
+            System.err.println(message);
+            ErrorHandler.error(message);
+        }
+
         Map<?, Object> graphicsSection = settings.sectionByClass(GraphicsSection.class).values();
 
         if (graphicsSection == null) ErrorHandler.crash("Missing graphics settings");
@@ -291,6 +298,11 @@ public class Floorcraft {
             updateWorld(deltaTime, uProj, uView, uModel);
             renderUI(uiUProj, uiUModel);
 
+            if (outlineEnabled) {
+                Vector3i selectedBlock = world.raycast(player.position(), player.forward, 5f, false);
+                BlockOutline.render(selectedBlock, player.camera().projection(), player.camera().view(), .01f, 0f, 0f, 0f);
+            }
+
             glfwSwapBuffers(window);
             glfwPollEvents();
             FpsTracker.updateFPS();
@@ -298,6 +310,7 @@ public class Floorcraft {
         }
 
         shader.unbind();
+        BlockOutline.cleanup();
         DiscordRichPresence.stop();
     }
 

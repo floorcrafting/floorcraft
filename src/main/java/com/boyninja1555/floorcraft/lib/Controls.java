@@ -60,6 +60,7 @@ public class Controls {
                 if (block == null) return;
 
                 player.activeBlock(block);
+                DiscordRichPresence.updateStatus();
             }
         });
 
