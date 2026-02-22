@@ -28,11 +28,11 @@ public abstract class Block {
         try (FileReader reader = new FileReader(path.toFile())) {
             definitionCache = Floorcraft.gson.fromJson(reader, StaticBlockDefinition.class);
 
-            if (definitionCache.texture() == null)
-                throw new IOException("Missing \"texture\" field");
+            if (definitionCache.name() == null)
+                definitionCache = new StaticBlockDefinition("block." + identifier(), definitionCache.texture(), definition().transparent());
 
-            if (definitionCache.transparent() == null)
-                throw new IOException("Missing \"transparent\" field");
+            if (definitionCache.texture() == null) throw new IOException("Missing \"texture\" field");
+            if (definitionCache.transparent() == null) throw new IOException("Missing \"transparent\" field");
         } catch (IOException ex) {
             ErrorHandler.error("Could not load the block definition of " + identifier() + "!\n" + ex);
             definitionCache = Floorcraft.blockRegistry().get(NoBlock.class).definition();

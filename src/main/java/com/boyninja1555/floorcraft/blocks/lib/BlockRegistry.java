@@ -7,26 +7,33 @@ import com.boyninja1555.floorcraft.world.format.WorldBlockIDs;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BlockRegistry {
     private final List<Class<? extends Block>> blocks;
+    private final Map<Class<? extends Block>, Block> getterCache;
 
     public BlockRegistry() {
-        this.blocks = new ArrayList<>();
+        blocks = new ArrayList<>();
+        getterCache = new HashMap<>();
     }
 
     public void register(Class<? extends Block> block) {
         blocks.add(block);
     }
 
-    public Block get(Class<? extends Block> block) {
-        if (!blocks.contains(block)) return null;
+    public Block get(Class<? extends Block> blockClass) {
+        if (getterCache.containsKey(blockClass)) return getterCache.get(blockClass);
+        if (!blocks.contains(blockClass)) return null;
         try {
-            return block.getConstructor(TextureAtlas.class).newInstance(Floorcraft.textures());
+            Block block = blockClass.getConstructor(TextureAtlas.class).newInstance(Floorcraft.textures());
+            getterCache.put(blockClass, block);
+            return block;
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException ex) {
-            ErrorHandler.crash("Could not load " + block.getName() + " block!\n" + ex);
+            ErrorHandler.crash("Could not load " + blockClass.getName() + " block!\n" + ex);
             return null;
         }
     }

@@ -8,11 +8,14 @@ import com.boyninja1555.floorcraft.lib.AssetManager;
 import com.boyninja1555.floorcraft.lib.Controls;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.lib.FpsTracker;
-import com.boyninja1555.floorcraft.mesh.UIMesh;
 import com.boyninja1555.floorcraft.settings.Settings;
 import com.boyninja1555.floorcraft.settings.sections.GraphicsSection;
-import com.boyninja1555.floorcraft.texture.BlockItemTexture;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
+import com.boyninja1555.floorcraft.ui.UIManager;
+import com.boyninja1555.floorcraft.ui.element.UIActiveBlock;
+import com.boyninja1555.floorcraft.ui.element.UIActiveBlockText;
+import com.boyninja1555.floorcraft.ui.element.UICrosshair;
+import com.boyninja1555.floorcraft.ui.element.UIFpsText;
 import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
@@ -25,7 +28,6 @@ import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,21 +48,23 @@ public class Floorcraft {
 
     // Textures
     private static TextureAtlas textures;
-    private TextureAtlas uiIcons;
-    private Font font;
+    private static TextureAtlas uiIcons;
+    private static Font font;
 
     // Shaders
     private ShaderProgram shader;
     private ShaderProgram uiShader;
 
     // Objects
-    private World world;
-    private Player player;
+    private static World world;
+    private static Player player;
 
     // UI meshes
-    private UIMesh crosshair;
-    private UIMesh[] fpsCounter;
-    private UIMesh activeBlockBox;
+    private UIManager ui;
+    // private UIMesh crosshair;
+    // private UIMesh[] fpsCounter;
+    // private List<UIMesh> activeBlockText;
+    // private UIMesh activeBlockBox;
 
     private final float[] matrixBuffer = new float[16];
 
@@ -70,6 +74,22 @@ public class Floorcraft {
 
     public static TextureAtlas textures() {
         return textures;
+    }
+
+    public static TextureAtlas uiIcons() {
+        return uiIcons;
+    }
+
+    public static Font font() {
+        return font;
+    }
+
+    public static World world() {
+        return world;
+    }
+
+    public static Player player() {
+        return player;
     }
 
     public void run() throws Exception {
@@ -87,10 +107,11 @@ public class Floorcraft {
         uiShader = null;
         world = null;
 
-        // UI cleanup
-        crosshair.cleanup();
-        Arrays.stream(fpsCounter).toList().forEach(UIMesh::cleanup);
-        activeBlockBox.cleanup();
+        // // UI cleanup
+        // crosshair.cleanup();
+        // Arrays.stream(fpsCounter).forEach(UIMesh::cleanup);
+        // activeBlockText.forEach(UIMesh::cleanup);
+        // activeBlockBox.cleanup();
 
         // End
         glfwFreeCallbacks(window);
@@ -184,9 +205,11 @@ public class Floorcraft {
         System.out.println("UI atlas loaded");
 
         // UI
-        crosshair = new UIMesh(uiIcons.region(0, 0));
-        fpsCounter = new UIMesh[]{new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character('0')), new UIMesh(font.character(' ')), new UIMesh(font.character('f')), new UIMesh(font.character('p')), new UIMesh(font.character('s'))};
-        activeBlockBox = new UIMesh(BlockItemTexture.get(player.activeBlock()));
+        ui = new UIManager();
+        ui.newElement(UICrosshair.class);
+        ui.newElement(UIFpsText.class);
+        ui.newElement(UIActiveBlock.class);
+        ui.newElement(UIActiveBlockText.class);
         System.out.println("UI elements created");
 
         // Chunks
@@ -218,12 +241,7 @@ public class Floorcraft {
 
         System.out.println("Chunk blocks created");
 
-        world.init(Map.of(
-                new Vector2i(0, 0), chunkBlocks.clone(),
-                new Vector2i(1, 0), chunkBlocks.clone(),
-                new Vector2i(1, 1), chunkBlocks.clone(),
-                new Vector2i(0, 1), chunkBlocks.clone()
-        ));
+        world.init(Map.of(new Vector2i(0, 0), chunkBlocks.clone(), new Vector2i(1, 0), chunkBlocks.clone(), new Vector2i(1, 1), chunkBlocks.clone(), new Vector2i(0, 1), chunkBlocks.clone()));
 
         System.out.println("World generated");
     }
@@ -256,47 +274,7 @@ public class Floorcraft {
         uiShader.bind();
         Matrix4f ortho = new Matrix4f().ortho(0f, width, height, 0f, -1f, 1f);
         glUniformMatrix4fv(uProj, false, ortho.get(matrixBuffer));
-
-        // Crosshair
-        float cSize = 24f;
-        float cx = (width / 2f) - (cSize / 2f);
-        float cy = (height / 2f) - (cSize / 2f);
-        uiIcons.bind();
-
-        Matrix4f cModel = new Matrix4f().translation(cx, cy, 0f).scale(cSize, cSize, 1f);
-        glUniformMatrix4fv(uModel, false, cModel.get(matrixBuffer));
-        crosshair.render();
-
-        // FPS counter
-        float tSize = 24f;
-        float tx = 10f;
-        float ty = 10f;
-        font.atlas.bind();
-
-        String fps = FpsTracker.to3digits();
-
-        int fi = 0;
-        for (UIMesh value : fpsCounter) {
-            Matrix4f tModel = new Matrix4f().translation(tx, ty, 0f).scale(tSize, tSize, 1f);
-            glUniformMatrix4fv(uModel, false, tModel.get(matrixBuffer));
-
-            value.useAtlasRegion(font.character(fps.charAt(fi)));
-            value.render();
-
-            tx += tSize + 5f;
-            fi++;
-        }
-
-        // Active block box
-        float aSize = 48f;
-        float ax = width - aSize - 10f;
-        float ay = 10f;
-        textures.bind();
-
-        Matrix4f aModel = new Matrix4f().translation(ax, ay, 0f).scale(aSize, aSize, 1f);
-        glUniformMatrix4fv(uModel, false, aModel.get(matrixBuffer));
-        activeBlockBox.useAtlasRegion(BlockItemTexture.get(player.activeBlock()));
-        activeBlockBox.render();
+        ui.render(matrixBuffer, uModel, new Vector2i(width, height), 10f);
 
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
