@@ -1,4 +1,0 @@
-#!/bin/sh
-./compile-assets
-./gradlew clean jar
-conveyor make windows-msix --overwrite

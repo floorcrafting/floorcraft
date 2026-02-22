@@ -18,8 +18,7 @@ Instead of distributing it like a traditional game, you run it directly as a **G
 
 If you prefer distributing prebuilt binaries, that’s completely fine. Packaging scripts are included:
 
-- `./package` (for compiling to a macOS app, which is what I originally made the game for)
-- `./package-win` (for compiling to a `.msix` file)
+- `./package` (for compiling to your local OS)
 - `./compile-assets` (for compiling default assets to the hosted `assets.zip` file from your local `assets` directory)
 - `./decompile-assets` (for decompiling default assets from the hosted `assets.zip` file)
 
