@@ -53,6 +53,7 @@ public class Font {
             case 'y' -> atlas.region(3, 2);
             case 'z' -> atlas.region(4, 2);
             case '.' -> atlas.region(5, 2);
+            case '-' -> atlas.region(6, 2);
             default -> atlas.region(0, 0);
         };
     }

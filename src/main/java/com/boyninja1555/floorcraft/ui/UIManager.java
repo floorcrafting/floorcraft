@@ -30,18 +30,18 @@ public class UIManager {
         }
     }
 
-    public void render(float[] matrixBuffer, int uModel, Vector2i windowSize, float padding) {
+    public void render(float[] matrixBuffer, int uModel, Vector2i windowSize, float paddingX, float paddingY) {
         Map<UISide, Float> offsets = new EnumMap<>(UISide.class);
 
         for (UIElement element : elements) {
             float elementSize = element.size();
 
-            Vector2f position = element.position(windowSize, offsets, padding);
+            Vector2f position = element.position(windowSize, offsets, paddingX);
             UISide side = element.side();
 
             if (side != null) {
-                float current = offsets.getOrDefault(side, padding);
-                offsets.put(side, current + elementSize + padding);
+                float current = offsets.getOrDefault(side, paddingY);
+                offsets.put(side, current + elementSize + paddingY);
             }
 
             element.atlas().bind();
@@ -53,7 +53,7 @@ public class UIManager {
 
                 UIMesh mesh = new UIMesh(region);
                 mesh.render();
-                x += (elementSize + padding);
+                x += (elementSize + paddingX);
             }
         }
     }

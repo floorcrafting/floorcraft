@@ -9,10 +9,7 @@ import com.boyninja1555.floorcraft.settings.Settings;
 import com.boyninja1555.floorcraft.settings.sections.GraphicsSection;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import com.boyninja1555.floorcraft.ui.UIManager;
-import com.boyninja1555.floorcraft.ui.element.UIActiveBlock;
-import com.boyninja1555.floorcraft.ui.element.UIActiveBlockText;
-import com.boyninja1555.floorcraft.ui.element.UICrosshair;
-import com.boyninja1555.floorcraft.ui.element.UIFpsText;
+import com.boyninja1555.floorcraft.ui.element.*;
 import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
@@ -58,10 +55,6 @@ public class Floorcraft {
 
     // UI meshes
     private UIManager ui;
-    // private UIMesh crosshair;
-    // private UIMesh[] fpsCounter;
-    // private List<UIMesh> activeBlockText;
-    // private UIMesh activeBlockBox;
 
     private final float[] matrixBuffer = new float[16];
 
@@ -99,16 +92,10 @@ public class Floorcraft {
         init();
         loop();
 
-        // General cleanup
+        // Cleanup
         shader = null;
         uiShader = null;
         world = null;
-
-        // // UI cleanup
-        // crosshair.cleanup();
-        // Arrays.stream(fpsCounter).forEach(UIMesh::cleanup);
-        // activeBlockText.forEach(UIMesh::cleanup);
-        // activeBlockBox.cleanup();
 
         // End
         glfwFreeCallbacks(window);
@@ -205,6 +192,7 @@ public class Floorcraft {
         ui = new UIManager();
         ui.newElement(UICrosshair.class);
         ui.newElement(UIFpsText.class);
+        ui.newElement(UICoordinatesText.class);
         ui.newElement(UIActiveBlock.class);
         ui.newElement(UIActiveBlockText.class);
         System.out.println("UI elements created");
@@ -271,7 +259,7 @@ public class Floorcraft {
         uiShader.bind();
         Matrix4f ortho = new Matrix4f().ortho(0f, width, height, 0f, -1f, 1f);
         glUniformMatrix4fv(uProj, false, ortho.get(matrixBuffer));
-        ui.render(matrixBuffer, uModel, new Vector2i(width, height), 10f);
+        ui.render(matrixBuffer, uModel, new Vector2i(width, height), 10f, 15f);
 
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);
