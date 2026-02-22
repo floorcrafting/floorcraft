@@ -1,13 +1,15 @@
 package com.boyninja1555.floorcraft.visual;
 
+import java.nio.file.Path;
+
 import static org.lwjgl.opengl.GL20.*;
 
 public class ShaderProgram {
     private final int programId;
 
     public ShaderProgram(String vertexPath, String fragmentPath) throws Exception {
-        int vertex = loadShader(vertexPath, GL_VERTEX_SHADER);
-        int fragment = loadShader(fragmentPath, GL_FRAGMENT_SHADER);
+        int vertex = loadShader(Path.of("shaders", vertexPath).toString(), GL_VERTEX_SHADER);
+        int fragment = loadShader(Path.of("shaders", fragmentPath).toString(), GL_FRAGMENT_SHADER);
 
         programId = glCreateProgram();
         glAttachShader(programId, vertex);

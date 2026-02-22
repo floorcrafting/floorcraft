@@ -24,9 +24,7 @@ If you prefer distributing prebuilt binaries, that’s completely fine. Packagin
 
 Players can override default assets in-game by pressing **`X`**, which opens the local assets directory.
 
-The direct URL for `assets.zip` is defined in  
-`com.boyninja1555.floorcraft.lib.AssetManager`  
-(typically a GitHub raw link).
+The direct URL for `assets.zip` is defined in `com.boyninja1555.floorcraft.lib.AssetManager` (typically a GitHub raw link).
 
 There is no built-in modding system in the base game.  
 You mod it by cloning the repository, making changes, and running it.
@@ -37,21 +35,22 @@ If you’d like to fork the project and add a simpler modding layer, go for it.
 
 ## Controls
 
-| Keybind(s)      | Description |
-|-----------------|------------|
-| `Escape`        | Unfocuses the game window and disables cursor lock |
-| `W / A / S / D` | Move forward / left / backward / right |
-| `Space`         | Move up |
-| `Control`       | Move down |
-| `Left Shift`    | Sprint |
-| `1–9`, `0`      | Select block type |
-| `Z` / `Home`    | Save the current world |
-| `X`             | Open the game files in your file manager (useful for textures or world management) |
+| Keybind(s)        | Description                                                                                       |
+|-------------------|---------------------------------------------------------------------------------------------------|
+| `Escape`          | Unfocuses the game window and disables cursor lock                                                |
+| `W / A / S / D`   | Moves forward / left / backward / right                                                           |
+| `Space`           | Moves up                                                                                          |
+| `Control`         | Moves down                                                                                        |
+| `Left Shift`      | Sprints                                                                                           |
+| `1–9`, `0`        | Selects block type                                                                                |
+| `Z` / `Home`      | Saves the current world                                                                           |
+| `X`               | Opens the game files in your file manager (useful for custom assets/textures or world management) |
+| `Shift + /` (`?`) | Opens the game wiki (GitHub)                                                                      |
 
 ---
 
 ## Controls (Window Unfocused)
 
-| Keybind(s) | Description |
-|------------|------------|
-| `Left Click` | Focus the game window and enable cursor lock |
+| Keybind(s)   | Description                                    |
+|--------------|------------------------------------------------|
+| `Left Click` | Focuses the game window and enable cursor lock |

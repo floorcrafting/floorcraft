@@ -4,10 +4,7 @@ import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.Block;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
-import com.boyninja1555.floorcraft.lib.AssetManager;
-import com.boyninja1555.floorcraft.lib.Controls;
-import com.boyninja1555.floorcraft.lib.ErrorHandler;
-import com.boyninja1555.floorcraft.lib.FpsTracker;
+import com.boyninja1555.floorcraft.lib.*;
 import com.boyninja1555.floorcraft.settings.Settings;
 import com.boyninja1555.floorcraft.settings.sections.GraphicsSection;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
@@ -313,6 +310,7 @@ public class Floorcraft {
     }
 
     public static void main(String[] args) {
+        AppProperties.load();
         AssetManager.init().join();
 
         try {

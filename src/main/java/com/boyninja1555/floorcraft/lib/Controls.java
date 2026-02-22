@@ -63,7 +63,7 @@ public class Controls {
             }
         });
 
-        glfwSetKeyCallback(window, (ignored, key, ignored1, action, ignored2) -> {
+        glfwSetKeyCallback(window, (ignored, key, ignored1, action, mods) -> {
             // Cursor unlock
             if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
                 glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -85,14 +85,27 @@ public class Controls {
                 String os = System.getProperty("os.name").toLowerCase();
 
                 try {
-                    if (os.contains("win"))
-                        new ProcessBuilder("explorer.exe", path).start();
-                    else if (os.contains("mac"))
-                        new ProcessBuilder("open", path).start();
-                    else
-                        new ProcessBuilder("xdg-open", path).start();
+                    if (os.contains("win")) new ProcessBuilder("explorer.exe", path).start();
+                    else if (os.contains("mac")) new ProcessBuilder("open", path).start();
+                    else new ProcessBuilder("xdg-open", path).start();
                 } catch (Exception ex) {
                     ErrorHandler.error("Could not open storage directory!\n" + ex);
+                }
+            }
+
+            // Wiki
+            if (key == GLFW_KEY_SLASH && (mods & GLFW_MOD_SHIFT) != 0) {
+                cursorLocked.set(false);
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                String url = AppProperties.wiki();
+                String os = System.getProperty("os.name").toLowerCase();
+
+                try {
+                    if (os.contains("win")) new ProcessBuilder("cmd", "/c", "start", url).start();
+                    else if (os.contains("mac")) new ProcessBuilder("open", url).start();
+                    else if (os.contains("nix") || os.contains("nux")) new ProcessBuilder("xdg-open", url).start();
+                } catch (Exception ex) {
+                    ErrorHandler.error("Could not open wiki!\n" + ex);
                 }
             }
         });
