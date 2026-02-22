@@ -22,7 +22,7 @@ public class AssetManager {
 
             if (!Files.exists(assetsPath)) Files.createDirectories(assetsPath);
             if (Files.exists(assetsPath.resolve(".floorcraft"))) return CompletableFuture.completedFuture(null);
-            return download("https://raw.githubusercontent.com/boyninja1555/floorcraft/main/assets.zip", assetsPath);
+            return download(AppProperties.assetsUrl(), assetsPath);
         } catch (Exception e) {
             return CompletableFuture.failedFuture(e);
         }

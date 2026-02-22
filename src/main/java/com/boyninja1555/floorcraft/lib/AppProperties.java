@@ -7,8 +7,13 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class AppProperties {
+    private static String assetsUrl;
     private static String wiki;
     private static long discordId;
+
+    public static String assetsUrl() {
+        return assetsUrl;
+    }
 
     public static String wiki() {
         return wiki;
@@ -23,6 +28,7 @@ public class AppProperties {
 
         try (InputStream stream = Floorcraft.class.getResourceAsStream("/globals.properties")) {
             props.load(stream);
+            assetsUrl = props.getProperty("assets");
             wiki = props.getProperty("wiki");
             discordId = Long.parseLong(props.getProperty("discord-id"));
         } catch (IOException ex) {

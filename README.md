@@ -1,56 +1,72 @@
 <div align="center">
-  <h1>Floorcraft</h1>
+    <h1>Floorcraft</h1>
+    <p><a href="https://boyninja1555.github.io/floorcraft/download.html">Download</a> | <a href="https://dsc.gg/floorcraft">Discord</a></p>
 </div>
 
-## Overview
+---
 
-**Floorcraft** is a voxel game built for developers first.
+## What is Floorcraft?
 
-Instead of distributing it like a traditional game, you run it directly as a **Gradle project**. The focus is on:
+Floorcraft is an open-source voxel engine inspired by games like Minecraft — but built different.
 
-- Modding freedom
-- Easy debugging
-- Full extensibility
+This isn’t about survival grind loops.  
+This isn’t about combat balancing spreadsheets.
 
-```shell
-./gradlew run
-```
+This is about building.
 
-If you prefer distributing prebuilt binaries, that’s completely fine. Packaging scripts are included:
-
-- `./package` (for compiling to your local OS)
-- `./compile-assets` (for compiling default assets to the hosted `assets.zip` file from your local `assets` directory)
-- `./decompile-assets` (for decompiling default assets from the hosted `assets.zip` file)
-
-Players can override default assets in-game by pressing **`X`**, which opens the local assets directory.
-
-The direct URL for `assets.zip` is defined in `com.boyninja1555.floorcraft.lib.AssetManager` (typically a GitHub raw link).
-
-There is no built-in modding system in the base game.  
-You mod it by cloning the repository, making changes, and running it.
-
-If you’d like to fork the project and add a simpler modding layer, go for it.
+Massive structures. Clean architecture. Weird experiments. Overengineered megabases. Tiny minimalist builds. If it fits
+on a grid, it belongs here.
 
 ---
 
-## Controls
+## Why Floorcraft Exists
 
-| Keybind(s)        | Description                                                                                       |
-|-------------------|---------------------------------------------------------------------------------------------------|
-| `Escape`          | Unfocuses the game window and disables cursor lock                                                |
-| `W / A / S / D`   | Moves forward / left / backward / right                                                           |
-| `Space`           | Moves up                                                                                          |
-| `Control`         | Moves down                                                                                        |
-| `Left Shift`      | Sprints                                                                                           |
-| `1–9`, `0`        | Selects block type                                                                                |
-| `Z` / `Home`      | Saves the current world                                                                           |
-| `X`               | Opens the game files in your file manager (useful for custom assets/textures or world management) |
-| `Shift + /` (`?`) | Opens the game wiki (GitHub)                                                                      |
+Because building shouldn’t feel like a side feature.
+
+Floorcraft is designed to:
+
+- Stay out of your way
+- Be moddable without fighting the engine
+- Let you control everything
+
+You want to tweak textures? Easy.
+You want to rewrite behavior? Go ahead.
+You want to fork the engine and make something unrecognizable? Please do.
 
 ---
 
-## Controls (Window Unfocused)
+## Modding
 
-| Keybind(s)   | Description                                    |
-|--------------|------------------------------------------------|
-| `Left Click` | Focuses the game window and enable cursor lock |
+Most modding happens inside the `assets/` directory.
+
+The engine downloads it for you automatically.
+Press **`X` in-game** and it opens instantly.
+
+From there you can:
+
+- Redefine blocks
+- Change textures
+- Break things
+
+And since Floorcraft is fully open-source, modding doesn’t stop at assets. If you want to dive into the engine itself,
+nothing’s stopping you.
+
+If you're going to mod the engine itself, there are a few steps to help you! You can find
+those [here](README-MODDING.md). Note this type of modding is extremely technical and requires knowledge of real
+programming in most cases.
+
+---
+
+## Licensing
+
+Floorcraft is licensed under the [MIT license](LICENSE.md)!
+
+That means you can:
+
+- Use it commercially
+- Modify it
+- Redistribute it
+- Fork it
+- Do wild experimental things with it
+
+Just include the license!!!
