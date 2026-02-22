@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+./prepackage
+./conveyor make windows-app --overwrite
+echo "Package built! Note this build is only for Windows."
