@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 plugins {
     id "java"
     id "application"
@@ -51,5 +53,11 @@ dependencies {
 
 application {
     mainClass = "${group}.floorcraft.Floorcraft"
-    applicationDefaultJvmArgs = ["--enable-native-access=ALL-UNNAMED", "-XstartOnFirstThread"]
+
+    def jvmArgs = ["--enable-native-access=ALL-UNNAMED"]
+    if (OperatingSystem.current().isMacOsX()) {
+        jvmArgs << "-XstartOnFirstThread"
+    }
+
+    applicationDefaultJvmArgs = jvmArgs
 }
