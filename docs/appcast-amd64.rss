@@ -1,0 +1,23 @@
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+    <channel>
+        <title>Floorcraft Changelog</title>
+        <link>https://boyninja1555.github.io/floorcraft/appcast-amd64.rss</link>
+        <description>Most recent changes with links to updates.</description>
+        <language>en</language>
+        <item>
+            <title>Version 1</title>
+            <link>https://boyninja1555.github.io/floorcraft/</link>
+            <sparkle:version>1.0</sparkle:version>
+            <sparkle:shortVersionString>1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
+            <description>
+                <![CDATA[ New release: version 1 ]]>
+            </description>
+            <pubDate>Sun, 22 Feb 2026 22:14:32 GMT</pubDate>
+            <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-1-mac-amd64.zip" 
+                       length="38485564" 
+                       type="application/octet-stream" 
+                       sparkle:edSignature="oq6GmMMXr6oCr7/9rraQtRlA07PRzWYcyEavhnR7DK51kEEK7RXRl5t5V3Q7X9K82k5U6RthmoygVQhUzQb+Ag=="/>
+        </item>
+    </channel>
+</rss>
