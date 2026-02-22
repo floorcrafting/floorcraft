@@ -148,6 +148,7 @@ public class Floorcraft {
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
+        WindowIcon.setWindowIcon(window, "icon.png");
         glfwShowWindow(window);
         System.out.println("GLFW window showing");
 
