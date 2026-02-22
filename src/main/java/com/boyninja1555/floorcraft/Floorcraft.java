@@ -230,6 +230,7 @@ public class Floorcraft {
         world.init(Map.of(new Vector2i(0, 0), chunkBlocks.clone(), new Vector2i(1, 0), chunkBlocks.clone(), new Vector2i(1, 1), chunkBlocks.clone(), new Vector2i(0, 1), chunkBlocks.clone()));
 
         System.out.println("World generated");
+        DiscordRichPresence.updateStatus();
     }
 
     private void updateWorld(float deltaTime, int uProj, int uView, int uModel) {
@@ -293,14 +294,17 @@ public class Floorcraft {
             glfwSwapBuffers(window);
             glfwPollEvents();
             FpsTracker.updateFPS();
+            DiscordRichPresence.tick();
         }
 
         shader.unbind();
+        DiscordRichPresence.stop();
     }
 
     public static void main(String[] args) {
         AppProperties.load();
         AssetManager.init().join();
+        DiscordRichPresence.init();
 
         try {
             new Floorcraft().run();

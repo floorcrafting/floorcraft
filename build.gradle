@@ -18,20 +18,20 @@ java {
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 project.ext.lwjglVersion = "3.4.1"
-def platforms = [
-        "natives-windows",
-        "natives-windows-arm64",
-        "natives-macos",
-        "natives-macos-arm64",
-        "natives-linux",
-        "natives-linux-arm64"
-]
+def platforms = ["natives-windows",
+                 "natives-windows-arm64",
+                 "natives-macos",
+                 "natives-macos-arm64",
+                 "natives-linux",
+                 "natives-linux-arm64"]
 
 dependencies {
     implementation "org.jetbrains:annotations:26.0.2-1"
+    implementation "com.github.JnCrMx:discord-game-sdk4j:master-SNAPSHOT"
     implementation "com.google.code.gson:gson:2.13.2"
     implementation "org.joml:joml:1.10.5"
 
