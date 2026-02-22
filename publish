@@ -3,3 +3,10 @@ set -e
 ./prepackage
 ./conveyor make site --overwrite
 echo "Floorcraft built! Note this build is a website intended for downloading the game."
+printf "%s" "Press Enter to publish the site..."
+read ans
+git checkout gh-pages
+cp -r output/site/* .
+git commit -am "Site update $RANDOM-$RANDOM-$RANDOM"
+git push
+git checkout main
