@@ -1,20 +1,20 @@
 #version 330 core
 
-in vec2 vTexCoord;
 in vec3 vNormal;
-in vec3 vFragPos;
+in vec2 vTexCoord;
 
 uniform sampler2D uTexture;
-uniform mat4 uView;
 
 out vec4 FragColor;
 
 void main() {
     vec4 texColor = texture(uTexture, vTexCoord);
-    vec3 cameraPos = inverse(mat3(uView)) * vec3(0.0, 0.0, 5.0);
-    vec3 lightDir = normalize(cameraPos - vFragPos);
-    float diff = 1.0;     // max(dot(normalize(vNormal), lightDir), 0.0);
-    float ambient = 1.0;  // 0.3
-    vec3 finalColor = texColor.rgb * (ambient + (1.0 - ambient) * diff);
-    FragColor = vec4(finalColor, texColor.a);
+    float brightness = 1.0;
+    if (vNormal.y > 0.5)       brightness = 1.0; // Top
+    else if (vNormal.y < -0.5) brightness = 0.5; // Bottom
+    else if (vNormal.z > 0.5)  brightness = 0.8; // Front
+    else if (vNormal.z < -0.5) brightness = 0.8; // Back
+    else if (vNormal.x > 0.5)  brightness = 0.6; // Right
+    else if (vNormal.x < -0.5) brightness = 0.6; // Left
+    FragColor = vec4(texColor.rgb * brightness, texColor.a);
 }
