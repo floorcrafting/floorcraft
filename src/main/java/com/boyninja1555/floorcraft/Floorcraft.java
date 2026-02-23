@@ -1,7 +1,7 @@
 package com.boyninja1555.floorcraft;
 
 import com.boyninja1555.floorcraft.blocks.*;
-import com.boyninja1555.floorcraft.blocks.lib.Block;
+import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.lib.*;

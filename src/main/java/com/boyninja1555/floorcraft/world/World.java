@@ -1,6 +1,6 @@
 package com.boyninja1555.floorcraft.world;
 
-import com.boyninja1555.floorcraft.blocks.lib.Block;
+import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.world.format.WorldFile;
 import com.boyninja1555.floorcraft.world.format.WorldState;

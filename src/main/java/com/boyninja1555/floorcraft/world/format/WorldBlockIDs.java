@@ -1,7 +1,7 @@
 package com.boyninja1555.floorcraft.world.format;
 
 import com.boyninja1555.floorcraft.blocks.*;
-import com.boyninja1555.floorcraft.blocks.lib.Block;
+import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.blocks.lib.NoBlock;
 
 import java.util.HashMap;

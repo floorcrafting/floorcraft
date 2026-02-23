@@ -1,7 +1,7 @@
 package com.boyninja1555.floorcraft.world;
 
 import com.boyninja1555.floorcraft.Floorcraft;
-import com.boyninja1555.floorcraft.blocks.lib.Block;
+import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.mesh.Mesh;
 import com.boyninja1555.floorcraft.texture.BlockTexture;
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
