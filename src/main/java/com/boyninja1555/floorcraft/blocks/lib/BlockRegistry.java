@@ -29,7 +29,7 @@ public class BlockRegistry {
         if (!blocks.contains(blockClass)) return null;
         try {
             Block block = blockClass.getConstructor(TextureAtlas.class).newInstance(Floorcraft.textures());
-            getterCache.put(blockClass, block);
+            if (block.cacheEnabled()) getterCache.put(blockClass, block);
             return block;
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
                  InvocationTargetException ex) {

@@ -11,12 +11,18 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public abstract class Block {
-    public final TextureAtlas atlas;
+    public final @NotNull TextureAtlas atlas;
+    public final @NotNull String modelData;
     private StaticBlockDefinition definitionCache;
 
-    public Block(TextureAtlas atlas) {
+    public Block(@NotNull TextureAtlas atlas, @NotNull String modelData) {
         this.atlas = atlas;
+        this.modelData = modelData;
         this.definitionCache = null;
+    }
+
+    public Block(@NotNull TextureAtlas atlas) {
+        this(atlas, "");
     }
 
     public StaticBlockDefinition definition() {
@@ -42,4 +48,8 @@ public abstract class Block {
     }
 
     public abstract @NotNull String identifier();
+
+    public boolean cacheEnabled() {
+        return true;
+    }
 }

@@ -102,6 +102,7 @@ public class Floorcraft {
     }
 
     private void defaultBlocks() {
+        blockRegistry.register(CustomBlock.class);
         blockRegistry.register(StoneBlock.class);
         blockRegistry.register(DirtBlock.class);
         blockRegistry.register(GlassBlock.class);
