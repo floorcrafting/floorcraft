@@ -1,7 +1,6 @@
 package com.boyninja1555.floorcraft.blocks;
 
 import com.boyninja1555.floorcraft.Floorcraft;
-import com.boyninja1555.floorcraft.blocks.lib.NoBlock;
 import com.boyninja1555.floorcraft.blocks.lib.StaticBlockDefinition;
 import com.boyninja1555.floorcraft.lib.AssetManager;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;

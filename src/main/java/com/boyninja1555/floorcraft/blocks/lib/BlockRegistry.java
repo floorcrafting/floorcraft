@@ -2,6 +2,7 @@ package com.boyninja1555.floorcraft.blocks.lib;
 
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.Block;
+import com.boyninja1555.floorcraft.blocks.NoBlock;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import com.boyninja1555.floorcraft.world.format.WorldBlockIDs;

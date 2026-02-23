@@ -1,6 +1,5 @@
-package com.boyninja1555.floorcraft.blocks.lib;
+package com.boyninja1555.floorcraft.blocks;
 
-import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import org.jetbrains.annotations.NotNull;
 
