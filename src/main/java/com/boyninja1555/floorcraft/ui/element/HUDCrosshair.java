@@ -1,7 +1,7 @@
 package com.boyninja1555.floorcraft.ui.element;
 
-import com.boyninja1555.floorcraft.ui.element.lib.UIIcon;
-import com.boyninja1555.floorcraft.ui.element.lib.base.UISide;
+import com.boyninja1555.floorcraft.ui.element.lib.HUDIcon;
+import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
@@ -9,7 +9,7 @@ import org.joml.Vector2i;
 
 import java.util.Map;
 
-public class UICrosshair extends UIIcon {
+public class HUDCrosshair extends HUDIcon {
 
     @Override
     public @NotNull Vector2i iconRegion() {
@@ -17,7 +17,7 @@ public class UICrosshair extends UIIcon {
     }
 
     @Override
-    public @Nullable UISide side() {
+    public @Nullable HUDSide side() {
         return null;
     }
 
@@ -27,7 +27,7 @@ public class UICrosshair extends UIIcon {
     }
 
     @Override
-    public Vector2f position(Vector2i windowSize, Map<UISide, Float> existingCountOnSides, float padding) {
+    public Vector2f position(Vector2i windowSize, Map<HUDSide, Float> existingCountOnSides, float padding) {
         return new Vector2f(windowSize.x / 2f - size() / 2f, windowSize.y / 2f - size() / 2f);
     }
 }

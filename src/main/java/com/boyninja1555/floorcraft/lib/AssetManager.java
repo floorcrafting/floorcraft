@@ -81,4 +81,8 @@ public class AssetManager {
     public static Path texturesPath() {
         return assetsPath().resolve("textures");
     }
+
+    public static Path soundsPath() {
+        return assetsPath().resolve("sounds");
+    }
 }

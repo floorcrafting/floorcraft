@@ -2,8 +2,8 @@ package com.boyninja1555.floorcraft.ui;
 
 import com.boyninja1555.floorcraft.mesh.UIMesh;
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
-import com.boyninja1555.floorcraft.ui.element.lib.base.UIElement;
-import com.boyninja1555.floorcraft.ui.element.lib.base.UISide;
+import com.boyninja1555.floorcraft.ui.element.lib.base.HUDElement;
+import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -15,29 +15,29 @@ import java.util.Map;
 
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
-public class UIManager {
-    private final List<UIElement> elements;
+public class HUDManager {
+    private final List<HUDElement> elements;
 
-    public UIManager() {
+    public HUDManager() {
         elements = new ArrayList<>();
     }
 
-    public void newElement(Class<? extends UIElement> elementClass) {
+    public void newElement(Class<? extends HUDElement> elementClass) {
         try {
-            UIElement element = elementClass.getConstructor().newInstance();
+            HUDElement element = elementClass.getConstructor().newInstance();
             elements.add(element);
         } catch (Exception ignored) {
         }
     }
 
     public void render(float[] matrixBuffer, int uModel, Vector2i windowSize, float paddingX, float paddingY) {
-        Map<UISide, Float> offsets = new EnumMap<>(UISide.class);
+        Map<HUDSide, Float> offsets = new EnumMap<>(HUDSide.class);
 
-        for (UIElement element : elements) {
+        for (HUDElement element : elements) {
             float elementSize = element.size();
 
             Vector2f position = element.position(windowSize, offsets, paddingX);
-            UISide side = element.side();
+            HUDSide side = element.side();
 
             if (side != null) {
                 float current = offsets.getOrDefault(side, paddingY);

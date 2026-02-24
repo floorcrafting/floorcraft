@@ -2,12 +2,12 @@ package com.boyninja1555.floorcraft.ui.element;
 
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.Block;
-import com.boyninja1555.floorcraft.ui.element.lib.UIBlock;
-import com.boyninja1555.floorcraft.ui.element.lib.base.UISide;
+import com.boyninja1555.floorcraft.ui.element.lib.HUDBlock;
+import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class UIActiveBlock extends UIBlock {
+public class HUDActiveBlock extends HUDBlock {
 
     @Override
     public @NotNull Class<? extends Block> block() {
@@ -15,8 +15,8 @@ public class UIActiveBlock extends UIBlock {
     }
 
     @Override
-    public @Nullable UISide side() {
-        return UISide.RIGHT;
+    public @Nullable HUDSide side() {
+        return HUDSide.RIGHT;
     }
 
     @Override

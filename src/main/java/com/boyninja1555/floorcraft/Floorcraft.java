@@ -1,5 +1,7 @@
 package com.boyninja1555.floorcraft;
 
+import com.boyninja1555.floorcraft.audio.AudioManager;
+import com.boyninja1555.floorcraft.audio.SoundPlayer;
 import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
@@ -7,7 +9,7 @@ import com.boyninja1555.floorcraft.lib.*;
 import com.boyninja1555.floorcraft.settings.Settings;
 import com.boyninja1555.floorcraft.settings.sections.GraphicsSection;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
-import com.boyninja1555.floorcraft.ui.UIManager;
+import com.boyninja1555.floorcraft.ui.HUDManager;
 import com.boyninja1555.floorcraft.ui.element.*;
 import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
@@ -50,7 +52,7 @@ public class Floorcraft {
     private static Player player;
 
     // UI meshes
-    private UIManager ui;
+    private HUDManager hud;
 
     private final float[] matrixBuffer = new float[16];
 
@@ -114,10 +116,18 @@ public class Floorcraft {
         blockRegistry.register(DisturbedHeadBlock.class);
     }
 
+    private void defaultSounds() {
+        SoundPlayer.registerForBlock(SeeSeeBlock.class);
+    }
+
     private void init() throws Exception {
         // Block registration
         blockRegistry = new BlockRegistry();
         defaultBlocks();
+
+        // Audio registration
+        AudioManager.init();
+        defaultSounds();
 
         // GLFW
         GLFWErrorCallback.createPrint(System.err).set();
@@ -186,14 +196,14 @@ public class Floorcraft {
         font = new Font();
         System.out.println("UI atlas loaded");
 
-        // UI
-        ui = new UIManager();
-        ui.newElement(UICrosshair.class);
-        ui.newElement(UIFpsText.class);
-        ui.newElement(UICoordinatesText.class);
-        ui.newElement(UIActiveBlock.class);
-        ui.newElement(UIActiveBlockText.class);
-        System.out.println("UI elements created");
+        // HUD
+        hud = new HUDManager();
+        hud.newElement(HUDCrosshair.class);
+        hud.newElement(HUDFpsText.class);
+        hud.newElement(HUDCoordinatesText.class);
+        hud.newElement(HUDActiveBlock.class);
+        hud.newElement(HUDActiveBlockText.class);
+        System.out.println("HUD elements created");
 
         // Chunks
         Block[] chunkBlocks = new Block[Chunk.WIDTH * Chunk.DEPTH * Chunk.HEIGHT];
@@ -260,7 +270,7 @@ public class Floorcraft {
         uiShader.bind();
         Matrix4f ortho = new Matrix4f().ortho(0f, width, height, 0f, -1f, 1f);
         glUniformMatrix4fv(uProj, false, ortho.get(matrixBuffer));
-        ui.render(matrixBuffer, uModel, new Vector2i(width, height), 10f, 15f);
+        hud.render(matrixBuffer, uModel, new Vector2i(width, height), 10f, 15f);
 
         glDisable(GL_BLEND);
         glEnable(GL_DEPTH_TEST);

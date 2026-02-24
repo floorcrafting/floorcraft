@@ -1,11 +1,11 @@
 package com.boyninja1555.floorcraft.ui.element;
 
 import com.boyninja1555.floorcraft.lib.FpsTracker;
-import com.boyninja1555.floorcraft.ui.element.lib.UIText;
-import com.boyninja1555.floorcraft.ui.element.lib.base.UISide;
+import com.boyninja1555.floorcraft.ui.element.lib.HUDText;
+import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
 import org.jetbrains.annotations.Nullable;
 
-public class UIFpsText extends UIText {
+public class HUDFpsText extends HUDText {
 
     @Override
     public String text() {
@@ -13,8 +13,8 @@ public class UIFpsText extends UIText {
     }
 
     @Override
-    public @Nullable UISide side() {
-        return UISide.LEFT;
+    public @Nullable HUDSide side() {
+        return HUDSide.LEFT;
     }
 
     @Override

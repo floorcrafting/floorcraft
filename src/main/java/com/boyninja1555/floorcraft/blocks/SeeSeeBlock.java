@@ -1,5 +1,6 @@
 package com.boyninja1555.floorcraft.blocks;
 
+import com.boyninja1555.floorcraft.audio.SoundPlayer;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import com.boyninja1555.floorcraft.world.World;
 import com.boyninja1555.floorcraft.world.tick.WorldTicker;
@@ -20,7 +21,13 @@ public class SeeSeeBlock extends Block {
 
     @Override
     public void onPlace(World world, Vector3i position) {
+        SoundPlayer.playForBlock(getClass(), SoundPlayer.BlockSoundType.PLACE, position, 1f, 1f);
         WorldTicker.schedule(position, FALL_DELAY);
+    }
+
+    @Override
+    public void onBreak(World world, Vector3i position) {
+        SoundPlayer.playForBlock(getClass(), SoundPlayer.BlockSoundType.BREAK, position, .7f, .8f);
     }
 
     @Override

@@ -10,14 +10,14 @@ import org.joml.Vector2i;
 import java.util.List;
 import java.util.Map;
 
-public abstract class UIElement {
+public abstract class HUDElement {
 
     /**
      * The side this element will appear on.
      *
      * @return Instance of UISide (enum) or null if you override the position() method.
      */
-    public abstract @Nullable UISide side();
+    public abstract @Nullable HUDSide side();
 
     /**
      * The texture atlas to pull regions from during rendering.
@@ -41,13 +41,13 @@ public abstract class UIElement {
     /**
      * Override this if you did not specify a side, or it will render at (0,0).
      */
-    public Vector2f position(Vector2i windowSize, Map<UISide, Float> existingOffsetOnSides, float padding) {
-        UISide side = side();
+    public Vector2f position(Vector2i windowSize, Map<HUDSide, Float> existingOffsetOnSides, float padding) {
+        HUDSide side = side();
 
         if (side == null) return new Vector2f(0f, 0f);
         float size = size();
         float yOffset = existingOffsetOnSides.getOrDefault(side, padding);
-        if (side == UISide.LEFT) return new Vector2f(padding, yOffset);
+        if (side == HUDSide.LEFT) return new Vector2f(padding, yOffset);
         else {
             float totalWidth = (regions().size() * size) + ((regions().size() - 1) * padding);
             float x = windowSize.x - totalWidth - padding;

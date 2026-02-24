@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.boyninja1555"
-version = "2.3"
+version = "2.4"
 
 java {
     toolchain {
@@ -40,6 +40,7 @@ dependencies {
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-glfw"
     implementation "org.lwjgl:lwjgl-opengl"
+    implementation "org.lwjgl:lwjgl-openal"
     implementation "org.lwjgl:lwjgl-stb"
 
     // LWJGL natives
@@ -47,6 +48,7 @@ dependencies {
         runtimeOnly "org.lwjgl:lwjgl::$plat"
         runtimeOnly "org.lwjgl:lwjgl-glfw::$plat"
         runtimeOnly "org.lwjgl:lwjgl-opengl::$plat"
+        runtimeOnly "org.lwjgl:lwjgl-openal::$plat"
         runtimeOnly "org.lwjgl:lwjgl-stb::$plat"
     }
 }

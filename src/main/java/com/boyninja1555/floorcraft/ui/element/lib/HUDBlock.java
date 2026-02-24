@@ -5,12 +5,12 @@ import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.texture.BlockItemTexture;
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
-import com.boyninja1555.floorcraft.ui.element.lib.base.UIElement;
+import com.boyninja1555.floorcraft.ui.element.lib.base.HUDElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public abstract class UIBlock extends UIElement {
+public abstract class HUDBlock extends HUDElement {
 
     @Override
     public @NotNull TextureAtlas atlas() {
