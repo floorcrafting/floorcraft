@@ -5,7 +5,9 @@ import com.boyninja1555.floorcraft.blocks.lib.StaticBlockDefinition;
 import com.boyninja1555.floorcraft.lib.AssetManager;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
+import com.boyninja1555.floorcraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3i;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -52,5 +54,14 @@ public abstract class Block {
 
     public boolean cacheEnabled() {
         return true;
+    }
+
+    public void onPlace(World world, Vector3i position) {
+    }
+
+    public void onBreak(World world, Vector3i position) {
+    }
+
+    public void onTick(World world, Vector3i position, float deltaTime) {
     }
 }

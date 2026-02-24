@@ -1,8 +1,8 @@
 package com.boyninja1555.floorcraft.entities;
 
 import com.boyninja1555.floorcraft.Floorcraft;
-import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.Block;
+import com.boyninja1555.floorcraft.blocks.LemonBlock;
 import com.boyninja1555.floorcraft.lib.BlockKeybinds;
 import com.boyninja1555.floorcraft.lib.DiscordRichPresence;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
@@ -76,6 +76,7 @@ public class Player extends Entity {
 
     public void activeBlock(Block block) {
         activeBlock = block;
+        DiscordRichPresence.updateStatus();
     }
 
     public Camera camera() {
@@ -142,10 +143,7 @@ public class Player extends Entity {
             teleport(position().add(0f, -velocity, 0f));
 
         // Block selection
-        BlockKeybinds.detectKeys(window, block -> {
-            activeBlock(Floorcraft.blockRegistry().get(block));
-            DiscordRichPresence.updateStatus();
-        });
+        BlockKeybinds.detectKeys(window, b -> activeBlock(Floorcraft.blockRegistry().get(b)));
     }
 
     private void updateDirectionalVectors() {

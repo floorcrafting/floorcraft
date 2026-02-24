@@ -231,6 +231,8 @@ public class Floorcraft {
     }
 
     private void updateWorld(float deltaTime, int uProj, int uView, int uModel) {
+        world.tick(deltaTime);
+
         // Movement updates
         player.processKeyboard(window, deltaTime);
         player.camera().updateView();

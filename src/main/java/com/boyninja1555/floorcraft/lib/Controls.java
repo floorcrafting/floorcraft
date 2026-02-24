@@ -43,7 +43,7 @@ public class Controls {
 
                 if (blockPosition == null) return;
 
-                world.setBlock(blockPosition, null);
+                world.removeBlock(blockPosition);
             } else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS && cursorLocked.get()) {
                 Vector3i blockPosition = world.raycast(player.position(), player.forward, 5f, true);
 
@@ -60,7 +60,6 @@ public class Controls {
                 if (block == null) return;
 
                 player.activeBlock(block);
-                DiscordRichPresence.updateStatus();
             }
         });
 

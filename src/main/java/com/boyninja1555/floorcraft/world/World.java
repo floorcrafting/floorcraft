@@ -1,14 +1,19 @@
 package com.boyninja1555.floorcraft.world;
 
 import com.boyninja1555.floorcraft.blocks.Block;
+import com.boyninja1555.floorcraft.entities.Entity;
 import com.boyninja1555.floorcraft.entities.Player;
+import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.world.format.WorldBlockIDs;
 import com.boyninja1555.floorcraft.world.format.WorldFile;
 import com.boyninja1555.floorcraft.world.format.WorldState;
+import com.boyninja1555.floorcraft.world.tick.WorldTicker;
+import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -16,12 +21,14 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class World {
     private final Player playerRef;
+    private final List<Entity> entities;
     private final Map<Vector2i, Chunk> chunks;
     private final List<Chunk> chunkCache;
     private final WorldFile file;
 
     public World(Player playerRef) {
         this.playerRef = playerRef;
+        this.entities = new ArrayList<>();
         this.chunks = new HashMap<>();
         this.chunkCache = new ArrayList<>();
         this.file = new WorldFile(this);
@@ -54,6 +61,22 @@ public class World {
         file.save(state());
     }
 
+    public void spawnEntity(Class<? extends Entity> type, Vector3f position, Vector2f direction, float gravity) {
+        try {
+            Entity entity = type.getConstructor(Vector3f.class, Vector2f.class, Float.class).newInstance(position, direction, gravity);
+            entities.add(entity);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException ex) {
+            String message = "Could not spawn " + type.getName() + "!\n" + ex;
+            System.err.println(message);
+            ErrorHandler.error(message);
+        }
+    }
+
+    public void spawnEntity(Class<? extends Entity> type, Vector3f position, Vector2f direction) {
+        spawnEntity(type, position, direction, Entity.DEFAULT_GRAVITY);
+    }
+
     public void addChunk(Vector2i position, Block[] blocks) {
         int[] ids = new int[blocks.length];
         for (int i = 0; i < blocks.length; i++)
@@ -79,18 +102,54 @@ public class World {
         return chunk.blockAt(lx, position.y, lz);
     }
 
-    public void setBlock(Vector3i position, Class<? extends Block> block) {
+    public void setBlock(Vector3i position, Class<? extends Block> blockClass, boolean useRemoveHook) {
         Chunk chunk = chunkByBlockPosition(new Vector2i(position.x, position.z));
 
         if (chunk == null) return;
+
+        Block oldBlock = blockAt(position);
+
+        if (useRemoveHook && oldBlock != null) oldBlock.onBreak(this, position);
         int lx = Math.floorMod(position.x, Chunk.WIDTH);
         int lz = Math.floorMod(position.z, Chunk.DEPTH);
         if (position.y < 0 || position.y >= Chunk.HEIGHT) return;
 
-        chunk.setBlock(lx, position.y, lz, block);
+        chunk.setBlock(lx, position.y, lz, blockClass);
+        Block block = blockAt(position);
+
+        if (block != null) block.onPlace(this, position);
     }
 
-    // World rendering
+    public void setBlock(Vector3i position, Class<? extends Block> blockClass) {
+        setBlock(position, blockClass, blockClass == null);
+    }
+
+    public void removeBlock(Vector3i position) {
+        setBlock(position, null);
+    }
+
+    public void moveBlock(Vector3i oldPosition, Vector3i newPosition, boolean switchBlocks) {
+        Block oldBlock = blockAt(oldPosition);
+        Block newBlock = blockAt(newPosition);
+
+        if (switchBlocks) {
+            setBlock(oldPosition, newBlock.getClass());
+            setBlock(newPosition, oldBlock.getClass());
+        } else {
+            setBlock(oldPosition, null, false);
+            setBlock(newPosition, oldBlock.getClass());
+        }
+    }
+
+    public void moveBlock(Vector3i oldPosition, Vector3i newPosition) {
+        moveBlock(oldPosition, newPosition, false);
+    }
+
+    // World updates
+
+    public void tick(float deltaTime) {
+        WorldTicker.tick(this, deltaTime);
+    }
 
     public void render(int uModel, float[] matrixBuffer) {
         if (playerRef == null) return;
