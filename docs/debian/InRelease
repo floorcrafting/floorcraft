@@ -3,26 +3,26 @@ Hash: SHA256
 
 Architectures: amd64 arm64
 Components: main
-Date: Tue, 24 Feb 2026 08:21:23 GMT
+Date: Tue, 24 Feb 2026 09:27:25 GMT
 Description: Public archive for Floorcraft
 Origin: Floorcraft
 Suite: debian
 MD5Sum:
- 5f08b882956107e4285edca3a47d2f36               943 Packages
- 627e46bbd41cdbd95a0dda5938a5cd24               472 Packages.xz
+ 913dc5585ef189f17165254fcd234dcb               943 Packages
+ 0fe5912734aef39416a0a5c058503827               476 Packages.xz
 SHA1:
- c56d8cf7176a60a6c542cac0b21123ce9d28982c               943 Packages
- 701266f0ce55e38a029b1c2fc68c7c9b2af37d9a               472 Packages.xz
+ e7af29503376032d8737fa69e1cfafc455e25e78               943 Packages
+ 3cfa254450789e6613624716cde3a9e9782b136c               476 Packages.xz
 SHA256:
- ca3185b87a9dc778787202b657052b6b2c53c51826f435ef49dd20a2d4670ed2               943 Packages
- 98697ddf3beaf26313f9a32bb40e79c0b284d480fd66c207946748e40f926e05               472 Packages.xz
+ f5f93968f7b977290d1cbb9ee5454f2fa8ee621b6131706116d102a8df402944               943 Packages
+ 42d13aa1940749958133602718ee27713c8232c2cca687bc2c6890e34133c385               476 Packages.xz
 SHA512:
- 51f6666fb2134d4e9f5287cf39d3f440dee4669ad9a76d3f14e8c1e89f1a70b0385af5e305aee12337a9a6973b15b39f1ca6ebc0025528180b7198d01a7dce2b               943 Packages
- a2e81cdaef00f265dd99779d090fdb6ed057e9e9a7217710d4d7709dffeda9f1c24b82274945ccc109cf93308b8c19c87ba43d193c2d1ada01e4cdc1f64a3bc8               472 Packages.xz
+ dc8611971f488842c7a50862e928e1dd50e4e6f34ebbb79ec700edfce049febcc96a8d38f5c1f75dae1c085f12d5feeece679effcb26535e47a1837698bafb99               943 Packages
+ 1a157305422860dbeba7d9cee648e2f359b4029750a161d3a26e8e57692613609c9a1305c77932912dc3045668a6f8963611386cb18dfa8b6d487ca0dee91cce               476 Packages.xz
 -----BEGIN PGP SIGNATURE-----
 Version: BCPG v1.77.00
 
-iF4EARMIAAYFAmmdX4MACgkQnDJwUWU9nfeKXgD+Ir/qKFsAml1PmqGOOGWS4zl0
-kjwRy5TZ+fnLY0iC+psA/08Q4r4u783/As0cPz2m3VK/8Hf+eV6c8624wr5dAwJE
-=5Kg3
+iF4EARMIAAYFAmmdbv0ACgkQnDJwUWU9nfeoKgEA86ABvrmyrSc6RFmzxo6U+j24
+sx30pgv4NrLP6Zwvfp0BAJe1DF4xyMHTstukI2zpEb7z9qzRxJ8kdfPSsV8rzp0e
+=zxac
 -----END PGP SIGNATURE-----

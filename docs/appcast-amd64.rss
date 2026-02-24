@@ -5,30 +5,35 @@
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
-            <title>Version 2.2</title>
+            <title>Version 2.3</title>
             <link>https://boyninja1555.github.io/floorcraft/</link>
-            <sparkle:version>2.2.0</sparkle:version>
-            <sparkle:shortVersionString>2.2</sparkle:shortVersionString>
+            <sparkle:version>2.3.0</sparkle:version>
+            <sparkle:shortVersionString>2.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description>
-                <![CDATA[ New release: version 2.2 ]]>
+                <![CDATA[ New release: version 2.3 ]]>
             </description>
-            <pubDate>Tue, 24 Feb 2026 08:20:46 GMT</pubDate>
-            <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.2-mac-amd64.zip" 
-                       length="38491521" 
+            <pubDate>Tue, 24 Feb 2026 09:26:51 GMT</pubDate>
+            <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.3-mac-amd64.zip" 
+                       length="38495961" 
                        type="application/octet-stream" 
-                       sparkle:edSignature="QbkSwbYG28RThtj3AwEOzL+0Z1DHOoYvo0amuoqyt8fIKUjW0bEG5Dmx0Rl/wX4OweJzaPjU4N/5wgwEg09yCQ=="/>
+                       sparkle:edSignature="wWiNwpXVksY7RjhMg4fsvtEBzBV6EcCDnrYnl247qFiXL+VbLp9a+Brujo1VPllrYttP7ZVZRLPVs+2G4vAdBg=="/>
             <sparkle:deltas>
-                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2-2.2-mac-amd64.delta"
+                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2-2.3-mac-amd64.delta"
                            sparkle:deltaFrom="2.0"
-                           length="272078"
+                           length="281646"
                            type="application/octet-stream"
-                           sparkle:edSignature="1CV9FrgBRqDPOEpLqrF2HqOYUWE4s4X+9w4i4Fu8ON1jXj+ybIV40Nrw/vLjWGxCWUHNyh/j8mm3l1k+BAbkBA=="/>
-                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.1-2.2-mac-amd64.delta"
+                           sparkle:edSignature="UVRs2C4dXx5XGmWiqKoZkMmVJMtyDQj4oMfyGU4hcPbB3y1YdAVx6CXc8Nuklj5KiOfEw+eFp2/xyz56kOQfAg=="/>
+                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.1-2.3-mac-amd64.delta"
                            sparkle:deltaFrom="2.1.0"
-                           length="295250"
+                           length="254654"
                            type="application/octet-stream"
-                           sparkle:edSignature="WtyqDksjunweYXKBOtElOoCGbOOLzzjCsGO1GzWa+iz/7SMuHq0SVV/L2i2G6SNpF2QJCC+d4EiVf3wj5T/7Bw=="/>
+                           sparkle:edSignature="HBVrMzp4x5Tbm4u7h58NlDZrNohQy7VFsqz0WJ/tdGGGRe3w0FSgdMN7GlALK7MzRKej7MPORlTowaCgVnInCg=="/>
+                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.2-2.3-mac-amd64.delta"
+                           sparkle:deltaFrom="2.2.0"
+                           length="298510"
+                           type="application/octet-stream"
+                           sparkle:edSignature="CffWIG1PhqKwl0FkaGoJCmb9bxR4eh0d9vfE7Gx67yr+OEnmrlhIK3xg+0ddP3X/c4NM/OI0dC8prXz2XcdPDQ=="/>
             </sparkle:deltas>
         </item>
     </channel>
