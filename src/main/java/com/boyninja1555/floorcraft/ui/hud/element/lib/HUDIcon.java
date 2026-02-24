@@ -1,9 +1,9 @@
-package com.boyninja1555.floorcraft.ui.element.lib;
+package com.boyninja1555.floorcraft.ui.hud.element.lib;
 
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
-import com.boyninja1555.floorcraft.ui.element.lib.base.HUDElement;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.base.HUDElement;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector2i;
 

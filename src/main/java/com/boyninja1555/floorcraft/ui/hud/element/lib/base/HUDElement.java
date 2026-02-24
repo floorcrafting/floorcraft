@@ -1,4 +1,4 @@
-package com.boyninja1555.floorcraft.ui.element.lib.base;
+package com.boyninja1555.floorcraft.ui.hud.element.lib.base;
 
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;

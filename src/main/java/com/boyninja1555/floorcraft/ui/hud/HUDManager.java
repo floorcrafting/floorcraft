@@ -1,9 +1,9 @@
-package com.boyninja1555.floorcraft.ui;
+package com.boyninja1555.floorcraft.ui.hud;
 
 import com.boyninja1555.floorcraft.mesh.UIMesh;
 import com.boyninja1555.floorcraft.texture.atlas.AtlasRegion;
-import com.boyninja1555.floorcraft.ui.element.lib.base.HUDElement;
-import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.base.HUDElement;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.base.HUDSide;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector2i;

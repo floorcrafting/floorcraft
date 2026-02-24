@@ -1,9 +1,9 @@
-package com.boyninja1555.floorcraft.ui.element;
+package com.boyninja1555.floorcraft.ui.hud.element;
 
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.Block;
-import com.boyninja1555.floorcraft.ui.element.lib.HUDBlock;
-import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.HUDBlock;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.base.HUDSide;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

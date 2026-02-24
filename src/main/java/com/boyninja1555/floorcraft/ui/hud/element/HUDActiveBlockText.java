@@ -1,8 +1,8 @@
-package com.boyninja1555.floorcraft.ui.element;
+package com.boyninja1555.floorcraft.ui.hud.element;
 
 import com.boyninja1555.floorcraft.Floorcraft;
-import com.boyninja1555.floorcraft.ui.element.lib.HUDText;
-import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.HUDText;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.base.HUDSide;
 import org.jetbrains.annotations.Nullable;
 
 public class HUDActiveBlockText extends HUDText {

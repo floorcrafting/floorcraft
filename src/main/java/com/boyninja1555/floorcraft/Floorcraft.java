@@ -9,8 +9,8 @@ import com.boyninja1555.floorcraft.lib.*;
 import com.boyninja1555.floorcraft.settings.Settings;
 import com.boyninja1555.floorcraft.settings.sections.GraphicsSection;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
-import com.boyninja1555.floorcraft.ui.HUDManager;
-import com.boyninja1555.floorcraft.ui.element.*;
+import com.boyninja1555.floorcraft.ui.hud.HUDManager;
+import com.boyninja1555.floorcraft.ui.hud.element.*;
 import com.boyninja1555.floorcraft.visual.Font;
 import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
@@ -52,7 +52,7 @@ public class Floorcraft {
     private static Player player;
 
     // UI meshes
-    private HUDManager hud;
+    private static HUDManager hud;
 
     private final float[] matrixBuffer = new float[16];
 
@@ -70,6 +70,10 @@ public class Floorcraft {
 
     public static Font font() {
         return font;
+    }
+
+    public static HUDManager hud() {
+        return hud;
     }
 
     public static World world() {

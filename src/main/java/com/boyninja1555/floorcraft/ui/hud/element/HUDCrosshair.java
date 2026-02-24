@@ -1,7 +1,7 @@
-package com.boyninja1555.floorcraft.ui.element;
+package com.boyninja1555.floorcraft.ui.hud.element;
 
-import com.boyninja1555.floorcraft.ui.element.lib.HUDIcon;
-import com.boyninja1555.floorcraft.ui.element.lib.base.HUDSide;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.HUDIcon;
+import com.boyninja1555.floorcraft.ui.hud.element.lib.base.HUDSide;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
