@@ -22,6 +22,7 @@ public class WorldBlockIDs {
         values.put(AgonyBlock.class, 8);
         values.put(PreservedDeityHeadBlock.class, 9);
         values.put(DisturbedHeadBlock.class, 10);
+        values.put(CustomBlock.class, 11);
         return values;
     }
 }
