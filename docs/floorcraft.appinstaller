@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AppInstaller xmlns="http://schemas.microsoft.com/appx/appinstaller/2018" Version="2.1.0.0" Uri="https://boyninja1555.github.io/floorcraft/floorcraft.appinstaller">
+<AppInstaller xmlns="http://schemas.microsoft.com/appx/appinstaller/2018" Version="2.2.0.0" Uri="https://boyninja1555.github.io/floorcraft/floorcraft.appinstaller">
     <MainPackage
             Name="Floorcraft"
             Publisher="CN=Floorcraft"
-            Version="2.1.0.0"
+            Version="2.2.0.0"
             ProcessorArchitecture="x64"
-            Uri="https://boyninja1555.github.io/floorcraft/floorcraft-2.1.x64.msix" />
+            Uri="https://boyninja1555.github.io/floorcraft/floorcraft-2.2.x64.msix" />
     
 
     <UpdateSettings>
