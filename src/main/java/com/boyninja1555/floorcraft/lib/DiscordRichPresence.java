@@ -9,20 +9,29 @@ public class DiscordRichPresence {
     private static long lastReconnectAttempt = 0;
     private static Core core;
     private static Activity activity;
+    private static boolean dontEvenThinkAboutIt;
 
     public static void init() {
-        CreateParams params = new CreateParams();
-        params.setClientID(AppProperties.discordId());
-        params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
+        dontEvenThinkAboutIt = false;
 
-        core = new Core(params);
-        activity = new Activity();
-        activity.assets().setLargeImage("icon");
-        activity.assets().setLargeText("Floorcraft");
-        updateStatus();
+        try {
+            CreateParams params = new CreateParams();
+            params.setClientID(AppProperties.discordId());
+            params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
+
+            core = new Core(params);
+            activity = new Activity();
+            activity.assets().setLargeImage("icon");
+            activity.assets().setLargeText("Floorcraft");
+            updateStatus();
+        } catch (Exception ignored) {
+            core = null;
+            dontEvenThinkAboutIt = true;
+        }
     }
 
     public static void updateStatus() {
+        if (dontEvenThinkAboutIt || core == null) return;
         if (Floorcraft.player() == null) {
             activity.setDetails("Loading Floorcraft");
             activity.setState("Loading...");
@@ -35,6 +44,7 @@ public class DiscordRichPresence {
     }
 
     public static void tick() {
+        if (dontEvenThinkAboutIt) return;
         if (core == null) {
             if (System.currentTimeMillis() - lastReconnectAttempt > 5000) {
                 lastReconnectAttempt = System.currentTimeMillis();
@@ -56,6 +66,8 @@ public class DiscordRichPresence {
     }
 
     public static void stop() {
+        if (dontEvenThinkAboutIt || core == null) return;
+
         activity.setDetails("Exiting Floorcraft");
         activity.setState("Exiting...");
         core.activityManager().updateActivity(activity);
