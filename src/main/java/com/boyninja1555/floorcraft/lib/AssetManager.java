@@ -85,4 +85,8 @@ public class AssetManager {
     public static Path soundsPath() {
         return assetsPath().resolve("sounds");
     }
+
+    public static Path musicPath() {
+        return assetsPath().resolve("music");
+    }
 }

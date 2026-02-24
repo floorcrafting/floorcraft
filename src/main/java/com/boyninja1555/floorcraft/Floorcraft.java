@@ -1,6 +1,7 @@
 package com.boyninja1555.floorcraft;
 
 import com.boyninja1555.floorcraft.audio.AudioManager;
+import com.boyninja1555.floorcraft.audio.MusicPlayer;
 import com.boyninja1555.floorcraft.audio.SoundPlayer;
 import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
@@ -131,6 +132,8 @@ public class Floorcraft {
 
         // Audio registration
         AudioManager.init();
+        SoundPlayer.settings(settings);
+        MusicPlayer.init(settings);
         defaultSounds();
 
         // GLFW
@@ -327,6 +330,8 @@ public class Floorcraft {
 
         shader.unbind();
         BlockOutline.cleanup();
+        SoundPlayer.cleanup();
+        MusicPlayer.cleanup();
         DiscordRichPresence.stop();
     }
 

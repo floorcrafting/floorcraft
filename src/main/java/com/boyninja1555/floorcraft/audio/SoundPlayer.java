@@ -3,6 +3,8 @@ package com.boyninja1555.floorcraft.audio;
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.lib.AssetManager;
+import com.boyninja1555.floorcraft.settings.Settings;
+import com.boyninja1555.floorcraft.settings.sections.AudioSection;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
@@ -17,6 +19,11 @@ public class SoundPlayer {
     private static final Map<String, Integer> buffers = new HashMap<>();
     private static final List<Integer> activeSources = new ArrayList<>();
     private static final int MAX_SOURCES = 32;
+    private static Settings settings;
+
+    public static void settings(Settings settings) {
+        SoundPlayer.settings = settings;
+    }
 
     public enum BlockSoundType {
         BREAK("break"), PLACE("place");
@@ -71,8 +78,16 @@ public class SoundPlayer {
     }
 
     public static void playForBlock(Class<? extends Block> blockClass, BlockSoundType type, Vector3i position, float volume, float pitch) {
+        Map<?, Object> audioSection = settings.sectionByClass(AudioSection.class).values();
+
+        if (audioSection == null) {
+            Block block = Floorcraft.blockRegistry().get(blockClass);
+            play("blocks." + block.identifier() + "." + type.string, new Vector3f(position), volume, pitch);
+            return;
+        }
+
         Block block = Floorcraft.blockRegistry().get(blockClass);
-        play("blocks." + block.identifier() + "." + type.string, new Vector3f(position), volume, pitch);
+        play("blocks." + block.identifier() + "." + type.string, new Vector3f(position), volume * (float) audioSection.get(AudioSection.Keys.OTHER_VOLUME), pitch);
     }
 
     private static int getAvailableSource() {
