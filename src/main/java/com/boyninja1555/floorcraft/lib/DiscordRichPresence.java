@@ -6,7 +6,13 @@ import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.activity.Activity;
 
 public class DiscordRichPresence {
+    private static final long RECONNECT_DELAY_MS = 10000;
+    private static final long UPDATE_COOLDOWN_MS = 5000;
+
     private static long lastReconnectAttempt = 0;
+    private static long lastUpdateSent = 0;
+    private static boolean needsUpdate = false;
+
     private static Core core;
     private static Activity activity;
     private static boolean dontEvenThinkAboutIt;
@@ -31,7 +37,7 @@ public class DiscordRichPresence {
     }
 
     public static void updateStatus() {
-        if (dontEvenThinkAboutIt || core == null) return;
+        if (dontEvenThinkAboutIt) return;
         if (Floorcraft.player() == null) {
             activity.setDetails("Loading Floorcraft");
             activity.setState("Loading...");
@@ -40,27 +46,30 @@ public class DiscordRichPresence {
             activity.setState("Holding " + Floorcraft.player().activeBlock().definition().name() + " block");
         }
 
-        core.activityManager().updateActivity(activity);
+        needsUpdate = true;
     }
 
     public static void tick() {
         if (dontEvenThinkAboutIt) return;
+        long now = System.currentTimeMillis();
         if (core == null) {
-            if (System.currentTimeMillis() - lastReconnectAttempt > 5000) {
-                lastReconnectAttempt = System.currentTimeMillis();
-
-                try {
-                    init();
-                } catch (Exception ignored) {
-                }
+            if (now - lastReconnectAttempt > RECONNECT_DELAY_MS) {
+                lastReconnectAttempt = now;
+                init();
             }
-
             return;
+        }
+
+        if (needsUpdate && (now - lastUpdateSent > UPDATE_COOLDOWN_MS)) {
+            core.activityManager().updateActivity(activity);
+            lastUpdateSent = now;
+            needsUpdate = false;
         }
 
         try {
             core.runCallbacks();
         } catch (Exception e) {
+            core.close();
             core = null;
         }
     }

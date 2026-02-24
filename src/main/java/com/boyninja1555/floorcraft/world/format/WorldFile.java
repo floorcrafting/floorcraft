@@ -73,8 +73,7 @@ public class WorldFile {
     private Chunk readChunk(DataInputStream in) throws IOException {
         int x = in.readInt();
         int z = in.readInt();
-
-        Block[] blocks = new Block[Chunk.WIDTH * Chunk.HEIGHT * Chunk.DEPTH];
+        int[] blocks = new int[Chunk.WIDTH * Chunk.HEIGHT * Chunk.DEPTH];
 
         for (int i = 0; i < blocks.length; i++)
             blocks[i] = readBlock(in);
@@ -86,23 +85,18 @@ public class WorldFile {
         out.writeInt(chunk.position().x);
         out.writeInt(chunk.position().y);
 
-        for (Block block : chunk.blocks())
+        for (int block : chunk.blocks())
             writeBlock(out, block);
     }
 
     // Block
 
-    private Block readBlock(DataInputStream in) throws IOException {
-        return Floorcraft.blockRegistry().getById(in.readInt());
+    private int readBlock(DataInputStream in) throws IOException {
+        return in.readInt();
     }
 
-    private void writeBlock(DataOutputStream out, Block block) throws IOException {
-        if (block == null) {
-            out.writeInt(-1);
-            return;
-        }
-
-        out.writeInt(WorldBlockIDs.all().get(block.getClass()));
+    private void writeBlock(DataOutputStream out, int block) throws IOException {
+        out.writeInt(block);
     }
 
     // Position

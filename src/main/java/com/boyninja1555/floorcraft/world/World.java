@@ -2,6 +2,7 @@ package com.boyninja1555.floorcraft.world;
 
 import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.entities.Player;
+import com.boyninja1555.floorcraft.world.format.WorldBlockIDs;
 import com.boyninja1555.floorcraft.world.format.WorldFile;
 import com.boyninja1555.floorcraft.world.format.WorldState;
 import org.joml.Vector2i;
@@ -15,11 +16,14 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
 public class World {
     private final Player playerRef;
-    private final Map<Vector2i, Chunk> chunks = new HashMap<>();
+    private final Map<Vector2i, Chunk> chunks;
+    private final List<Chunk> chunkCache;
     private final WorldFile file;
 
     public World(Player playerRef) {
         this.playerRef = playerRef;
+        this.chunks = new HashMap<>();
+        this.chunkCache = new ArrayList<>();
         this.file = new WorldFile(this);
     }
 
@@ -51,7 +55,11 @@ public class World {
     }
 
     public void addChunk(Vector2i position, Block[] blocks) {
-        Chunk chunk = new Chunk(this, position, blocks);
+        int[] ids = new int[blocks.length];
+        for (int i = 0; i < blocks.length; i++)
+            ids[i] = WorldBlockIDs.idFromBlock(blocks[i].getClass());
+
+        Chunk chunk = new Chunk(this, position, ids);
         chunks.put(position, chunk);
     }
 
@@ -87,30 +95,35 @@ public class World {
     public void render(int uModel, float[] matrixBuffer) {
         if (playerRef == null) return;
 
-        List<Chunk> sortedChunks = new ArrayList<>(chunks.values());
-        sortedChunks.sort(Comparator.comparingDouble(c -> c.position().distanceSquared((int) playerRef.position().x / Chunk.WIDTH, (int) playerRef.position().z / Chunk.DEPTH)));
+        // Update cache only when needed or once per frame without recreating the list
+        chunkCache.clear();
+        chunkCache.addAll(chunks.values());
 
-        // Opaque
+        // Only sort if we have transparent blocks to worry about
+        int px = (int) playerRef.position().x / Chunk.WIDTH;
+        int pz = (int) playerRef.position().z / Chunk.DEPTH;
+        chunkCache.sort(Comparator.comparingDouble(c -> c.position().distanceSquared(px, pz)));
+
+        // Opaque Pass
         glEnable(GL_DEPTH_TEST);
         glDepthMask(true);
         glDisable(GL_BLEND);
 
-        for (Chunk chunk : sortedChunks) {
+        for (Chunk chunk : chunkCache) {
             glUniformMatrix4fv(uModel, false, chunk.opaque().modelMatrix().get(matrixBuffer));
             chunk.opaque().render();
         }
 
-        // Transparent
+        // Transparent Pass (Back-to-Front)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDepthMask(false);
 
-        for (int i = sortedChunks.size() - 1; i >= 0; i--) {
-            Chunk chunk = sortedChunks.get(i);
+        for (int i = chunkCache.size() - 1; i >= 0; i--) {
+            Chunk chunk = chunkCache.get(i);
             glUniformMatrix4fv(uModel, false, chunk.transparent().modelMatrix().get(matrixBuffer));
             chunk.transparent().render();
         }
-
         glDepthMask(true);
     }
 
@@ -119,15 +132,21 @@ public class World {
     public Vector3i raycast(Vector3f origin, Vector3f direction, float maxDistance, boolean stopAtLastAir) {
         Vector3f current = new Vector3f(origin);
         Vector3i lastAir = null;
+        Vector3i blockPos = new Vector3i();
 
         float step = .05f;
         for (float traveled = 0; traveled <= maxDistance; traveled += step) {
-            Vector3i blockPos = new Vector3i((int) Math.floor(current.x), (int) Math.floor(current.y), (int) Math.floor(current.z));
-            Block block = blockAt(blockPos);
+            blockPos.set((int) Math.floor(current.x), (int) Math.floor(current.y), (int) Math.floor(current.z));
 
-            if (block != null) return stopAtLastAir ? lastAir : blockPos;
+            if (blockAt(blockPos) != null) {
+                return stopAtLastAir ? lastAir : new Vector3i(blockPos);
+            }
 
-            lastAir = blockPos;
+            if (stopAtLastAir) {
+                if (lastAir == null) lastAir = new Vector3i();
+                lastAir.set(blockPos);
+            }
+
             current.fma(step, direction);
         }
 

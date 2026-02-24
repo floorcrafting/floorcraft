@@ -1,17 +1,17 @@
 package com.boyninja1555.floorcraft.world.format;
 
+import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.*;
-import com.boyninja1555.floorcraft.blocks.Block;
-import com.boyninja1555.floorcraft.blocks.NoBlock;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class WorldBlockIDs {
+    private static final Map<Integer, Class<? extends Block>> reversedCache = new HashMap<>();
 
     public static Map<Class<? extends Block>, Integer> all() {
         Map<Class<? extends Block>, Integer> values = new HashMap<>();
-        values.put(NoBlock.class, 0);
+        values.put(NoBlock.class, -1);
         values.put(StoneBlock.class, 1);
         values.put(DirtBlock.class, 2);
         values.put(GlassBlock.class, 3);
@@ -24,5 +24,35 @@ public class WorldBlockIDs {
         values.put(DisturbedHeadBlock.class, 10);
         values.put(CustomBlock.class, 11);
         return values;
+    }
+
+    public static int idFromBlock(Class<? extends Block> block) {
+        return all().get(block);
+    }
+
+    public static int idFromBlock(Block block) {
+        return all().get(block.getClass());
+    }
+
+    public static Class<? extends Block> blockClassFromId(int id) {
+        if (reversedCache.containsKey(id)) return reversedCache.get(id);
+        for (Map.Entry<Class<? extends Block>, Integer> entry : all().entrySet()) {
+            Class<? extends Block> key = entry.getKey();
+            int value = entry.getValue();
+            if (value != id) continue;
+
+            reversedCache.put(value, key);
+            return key;
+        }
+
+        reversedCache.put(id, null);
+        return null;
+    }
+
+    public static Block blockFromId(int id) {
+        Class<? extends Block> blockClass = blockClassFromId(id);
+
+        if (blockClass == null) return null;
+        return Floorcraft.blockRegistry().get(blockClass);
     }
 }

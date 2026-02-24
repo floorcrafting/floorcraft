@@ -35,11 +35,11 @@ public abstract class Entity {
     }
 
     public Vector3f position() {
-        return new Vector3f(position.x, position.y, position.z);
+        return new Vector3f(position);
     }
 
     public Vector2f direction() {
-        return new Vector2f(direction.x, direction.y);
+        return new Vector2f(direction);
     }
 
     public float gravity() {

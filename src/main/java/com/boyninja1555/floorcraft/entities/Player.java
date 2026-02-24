@@ -3,6 +3,7 @@ package com.boyninja1555.floorcraft.entities;
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.Block;
+import com.boyninja1555.floorcraft.lib.BlockKeybinds;
 import com.boyninja1555.floorcraft.lib.DiscordRichPresence;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.settings.lib.SettingsProfile;
@@ -141,56 +142,10 @@ public class Player extends Entity {
             teleport(position().add(0f, -velocity, 0f));
 
         // Block selection
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_STONE)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(StoneBlock.class));
+        BlockKeybinds.detectKeys(window, block -> {
+            activeBlock(Floorcraft.blockRegistry().get(block));
             DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_DIRT)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(DirtBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_GLASS)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(GlassBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_LEMON)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(LemonBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_HEART)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(HeartBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_SEE_SEE)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(SeeSeeBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_SKINNED)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(SkinnedBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_AGONY)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(AgonyBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_PRESERVED_DEITY_HEAD)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(PreservedDeityHeadBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
-
-        if (glfwGetKey(window, (int) controlsSettings.get(ControlsSection.Keys.SELECT_DISTURBED_HEAD)) == GLFW_PRESS) {
-            activeBlock(Floorcraft.blockRegistry().get(DisturbedHeadBlock.class));
-            DiscordRichPresence.updateStatus();
-        }
+        });
     }
 
     private void updateDirectionalVectors() {
