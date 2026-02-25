@@ -1,5 +1,7 @@
 package com.boyninja1555.floorcraft.visual;
 
+import org.joml.Vector3f;
+
 import java.nio.file.Path;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -50,6 +52,14 @@ public class ShaderProgram {
 
     public void uniformInt(String name, int value) {
         glUniform1i(uniformLocation(name), value);
+    }
+
+    public void uniformFloat(String name, float value) {
+        glUniform1f(uniformLocation(name), value);
+    }
+
+    public void uniformVec3f(String name, Vector3f value) {
+        glUniform3f(uniformLocation(name), value.x, value.y, value.z);
     }
 
     private int loadShader(String path, int type) throws Exception {

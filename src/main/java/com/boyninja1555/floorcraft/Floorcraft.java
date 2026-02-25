@@ -7,8 +7,10 @@ import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.lib.*;
+import com.boyninja1555.floorcraft.mesh.WorldCage;
 import com.boyninja1555.floorcraft.settings.Settings;
 import com.boyninja1555.floorcraft.settings.sections.GraphicsSection;
+import com.boyninja1555.floorcraft.settings.sections.WorldCreationSection;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import com.boyninja1555.floorcraft.ui.hud.HUDManager;
 import com.boyninja1555.floorcraft.ui.hud.element.*;
@@ -17,10 +19,14 @@ import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
 import com.boyninja1555.floorcraft.world.World;
 import com.google.gson.Gson;
-import org.joml.*;
+import org.joml.Matrix4f;
+import org.joml.Vector2i;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -47,6 +53,8 @@ public class Floorcraft {
     // Shaders
     private ShaderProgram shader;
     private ShaderProgram uiShader;
+    private ShaderProgram skyShader;
+    private ShaderProgram barrierShader;
 
     // Objects
     private static World world;
@@ -92,13 +100,22 @@ public class Floorcraft {
 
         if (graphicsSection == null) ErrorHandler.crash("Missing graphics settings");
 
-        init();
-        loop();
+        Map<?, Object> worldCreationSection = settings.sectionByClass(WorldCreationSection.class).values();
 
-        // Cleanup
+        if (worldCreationSection == null) ErrorHandler.crash("Missing world creation settings");
+
+        init(graphicsSection, worldCreationSection);
+        loop(graphicsSection, worldCreationSection);
+
+        // Shader cleanup
         shader = null;
         uiShader = null;
+        skyShader = null;
+        barrierShader = null;
+
+        // Cleanup
         world = null;
+        WorldCage.cleanup();
 
         // End
         glfwFreeCallbacks(window);
@@ -125,7 +142,7 @@ public class Floorcraft {
         SoundPlayer.registerForBlock(SeeSeeBlock.class);
     }
 
-    private void init() throws Exception {
+    private void init(Map<?, Object> graphicsSection, Map<?, Object> worldCreationSection) throws Exception {
         // Block registration
         blockRegistry = new BlockRegistry();
         defaultBlocks();
@@ -148,9 +165,6 @@ public class Floorcraft {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-        Map<?, Object> graphicsSection = settings.sectionByClass(GraphicsSection.class).values();
-
-        if (graphicsSection == null) ErrorHandler.crash("Missing graphics settings");
 
         Vector2i windowSize = (Vector2i) graphicsSection.get(GraphicsSection.Keys.WINDOW_SIZE);
         AtomicInteger width = new AtomicInteger(windowSize.x);
@@ -184,6 +198,9 @@ public class Floorcraft {
         // Shaders
         shader = new ShaderProgram("default.vert", "default.frag");
         uiShader = new ShaderProgram("hud.vert", "hud.frag");
+        skyShader = new ShaderProgram("sky.vert", "sky.frag");
+        barrierShader = new ShaderProgram("barrier.vert", "barrier.frag");
+        WorldCage.init();
         System.out.println("Shaders loaded");
 
         // Blocks texture atlas
@@ -193,7 +210,7 @@ public class Floorcraft {
         System.out.println("Block atlas loaded");
 
         // Player & world
-        player = new Player(settings, new Vector3f(Chunk.WIDTH / 2f + .5f, Chunk.HEIGHT - 19, Chunk.DEPTH / 2f + 5.5f), 0f, true);
+        player = new Player(settings, new Vector3f(Chunk.WIDTH / 2f + .5f, Chunk.HEIGHT - 5, Chunk.DEPTH / 2f + 5.5f), 0f, true);
         world = new World(player);
         Controls.register(window, world, player, width, height);
         System.out.println("Player & world created (world not generated yet)");
@@ -218,12 +235,13 @@ public class Floorcraft {
         Block dirt = blockRegistry.get(DirtBlock.class);
         System.out.println("Creating world chunks...");
 
+        int airHeight = 32;
         for (int x = 0; x < Chunk.WIDTH; x++) {
             for (int y = 0; y < Chunk.HEIGHT; y++) {
                 for (int z = 0; z < Chunk.DEPTH; z++) {
                     int index = x + (y * Chunk.WIDTH) + (z * Chunk.WIDTH * Chunk.HEIGHT);
-                    if (y < Chunk.HEIGHT - 24) chunkBlocks[index] = stone;
-                    else if (y < Chunk.HEIGHT - 20) chunkBlocks[index] = dirt;
+                    if (y < Chunk.HEIGHT - airHeight - 4) chunkBlocks[index] = stone;
+                    else if (y < Chunk.HEIGHT - airHeight) chunkBlocks[index] = dirt;
                     else chunkBlocks[index] = null;
                     // else {
                     //     if (x == 8 && z >= 8 && z <= Chunk.DEPTH - 8 || x == Chunk.WIDTH - 8 && z >= 8 && z <= Chunk.DEPTH - 8 || z == 8 && x >= 8 && x <= Chunk.WIDTH - 8 || z == Chunk.DEPTH - 8 && x >= 8 && x <= Chunk.WIDTH - 8)
@@ -240,24 +258,50 @@ public class Floorcraft {
         }
 
         System.out.println("Chunk blocks created");
+        Vector2i worldDimensions = (Vector2i) worldCreationSection.get(WorldCreationSection.Keys.WORLD_DIMENSIONS);
+        Map<Vector2i, Block[]> chunks = new HashMap<>();
 
-        world.init(Map.of(new Vector2i(0, 0), chunkBlocks.clone(), new Vector2i(1, 0), chunkBlocks.clone(), new Vector2i(1, 1), chunkBlocks.clone(), new Vector2i(0, 1), chunkBlocks.clone()));
+        for (int x = 0; x < worldDimensions.x; x++)
+            for (int z = 0; z < worldDimensions.y; z++)
+                chunks.put(new Vector2i(x, z), chunkBlocks);
 
+        world.init(chunks);
         System.out.println("World generated");
         DiscordRichPresence.updateStatus();
+
+        if (world.justCreated()) {
+            player.teleport(new Vector3f((worldDimensions.x * Chunk.WIDTH) / 2f, Chunk.HEIGHT - airHeight + 2, (worldDimensions.x * Chunk.DEPTH) / 2f));
+            world.save();
+        }
     }
 
-    private void updateWorld(float deltaTime, int uProj, int uView, int uModel) {
+    private void renderSky(Vector3f color) {
+        glDepthFunc(GL_LEQUAL);
+        glDepthMask(false);
+        glDisable(GL_CULL_FACE);
+
+        skyShader.bind();
+        skyShader.uniformVec3f("uSkyColor", color);
+        glUniformMatrix4fv(skyShader.uniformLocation("uProjection"), false, player.camera().projection().get(matrixBuffer));
+        glUniformMatrix4fv(skyShader.uniformLocation("uView"), false, player.camera().view().get(matrixBuffer));
+        WorldCage.render();
+
+        glEnable(GL_CULL_FACE);
+        glDepthMask(true);
+        glDepthFunc(GL_LESS);
+    }
+
+    private void updateWorld(Map<?, Object> graphicsSection, float deltaTime, int uProj, int uView, int uModel) {
         world.tick(deltaTime);
 
         // Movement updates
         player.processKeyboard(window, deltaTime);
         player.camera().updateView();
-        textures.bind();
 
         // Rendering
+        renderSky((Vector3f) graphicsSection.get(GraphicsSection.Keys.SKY_COLOR));
+        textures.bind();
         shader.bind();
-
         glUniformMatrix4fv(uProj, false, player.camera().projection().get(matrixBuffer));
         glUniformMatrix4fv(uView, false, player.camera().view().get(matrixBuffer));
         world.render(uModel, matrixBuffer);
@@ -283,7 +327,38 @@ public class Floorcraft {
         glEnable(GL_DEPTH_TEST);
     }
 
-    private void loop() {
+    private void renderBarrier(Vector2i worldDimensions) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        glDisable(GL_CULL_FACE);
+        glDepthMask(false);
+        barrierShader.bind();
+
+        Vector3f min = new Vector3f(-.1f, -.1f, -.1f);
+        Vector3f max = new Vector3f(Chunk.WIDTH * worldDimensions.x + .1f, Chunk.HEIGHT + .1f, Chunk.DEPTH * worldDimensions.y + .1f);
+
+        Vector3f center = new Vector3f(min);
+        center.add(max);
+        center.div(2f);
+
+        Vector3f size = new Vector3f(max);
+        size.sub(min);
+
+        Matrix4f model = new Matrix4f().translation(center).scale(size);
+        glUniformMatrix4fv(barrierShader.uniformLocation("uProjection"), false, player.camera().projection().get(matrixBuffer));
+        glUniformMatrix4fv(barrierShader.uniformLocation("uView"), false, player.camera().view().get(matrixBuffer));
+        glUniformMatrix4fv(barrierShader.uniformLocation("uModel"), false, model.get(matrixBuffer));
+
+        barrierShader.uniformVec3f("uMinBound", min);
+        barrierShader.uniformVec3f("uMaxBound", max);
+        barrierShader.uniformVec3f("uPlayerPosition", player.position());
+        barrierShader.uniformFloat("uTime", (float) glfwGetTime());
+        WorldCage.render();
+        glDepthMask(true);
+        glEnable(GL_CULL_FACE);
+    }
+
+    private void loop(Map<?, Object> graphicsSection, Map<?, Object> worldCreationSection) {
         boolean outlineEnabled = false;
         try {
             BlockOutline.init(new ShaderProgram("outline.vert", "outline.frag", "outline.geom"));
@@ -294,11 +369,6 @@ public class Floorcraft {
             ErrorHandler.error(message);
         }
 
-        Map<?, Object> graphicsSection = settings.sectionByClass(GraphicsSection.class).values();
-
-        if (graphicsSection == null) ErrorHandler.crash("Missing graphics settings");
-
-        Vector4f skyColor = (Vector4f) graphicsSection.get(GraphicsSection.Keys.SKY_COLOR);
         AtomicReference<Float> lastFrame = new AtomicReference<>(0f);
         int uProj = shader.uniformLocation("uProjection");
         int uView = shader.uniformLocation("uView");
@@ -306,7 +376,7 @@ public class Floorcraft {
         int uiUProj = uiShader.uniformLocation("uProjection");
         int uiUModel = uiShader.uniformLocation("uModel");
         while (!glfwWindowShouldClose(window)) {
-            glClearColor(skyColor.x, skyColor.y, skyColor.z, skyColor.w);
+            glClearColor(0f, 0f, 0f, 1f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             float currentTime = (float) glfwGetTime();
@@ -314,8 +384,9 @@ public class Floorcraft {
             lastFrame.set(currentTime);
 
             player.tick(deltaTime);
-            updateWorld(deltaTime, uProj, uView, uModel);
+            updateWorld(graphicsSection, deltaTime, uProj, uView, uModel);
             renderUI(uiUProj, uiUModel);
+            renderBarrier((Vector2i) worldCreationSection.get(WorldCreationSection.Keys.WORLD_DIMENSIONS));
 
             if (outlineEnabled) {
                 Vector3i selectedBlock = world.raycast(player.position(), player.forward, 5f, false);

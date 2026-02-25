@@ -25,6 +25,11 @@ public class World {
     private final Map<Vector2i, Chunk> chunks;
     private final List<Chunk> chunkCache;
     private final WorldFile file;
+    private boolean justCreated;
+
+    public boolean justCreated() {
+        return justCreated;
+    }
 
     public World(Player playerRef) {
         this.playerRef = playerRef;
@@ -32,6 +37,7 @@ public class World {
         this.chunks = new HashMap<>();
         this.chunkCache = new ArrayList<>();
         this.file = new WorldFile(this);
+        this.justCreated = false;
     }
 
     public void init(Map<Vector2i, Block[]> defaultChunks) {
@@ -41,6 +47,7 @@ public class World {
 
             save();
             refreshMeshes();
+            justCreated = true;
             return;
         }
 
@@ -80,7 +87,7 @@ public class World {
     public void addChunk(Vector2i position, Block[] blocks) {
         int[] ids = new int[blocks.length];
         for (int i = 0; i < blocks.length; i++)
-            ids[i] = WorldBlockIDs.idFromBlock(blocks[i].getClass());
+            ids[i] = blocks[i] == null ? -1 : WorldBlockIDs.idFromBlock(blocks[i].getClass());
 
         Chunk chunk = new Chunk(this, position, ids);
         chunks.put(position, chunk);

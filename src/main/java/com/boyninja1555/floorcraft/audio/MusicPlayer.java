@@ -16,7 +16,7 @@ public class MusicPlayer {
     private static final Map<String, Integer> buffers = new HashMap<>();
     private static final List<Integer> activeSources = new ArrayList<>();
     private static final int MAX_SOURCES = 32;
-    private static final float INTERVAL_MS = 30 * 1000; // 30 seconds
+    private static final long INTERVAL_MS = 30 * 1000; // 30 seconds
     private static final Random RANDOM = new Random();
     private static ScheduledExecutorService scheduler;
     private static boolean running = false;
@@ -71,7 +71,7 @@ public class MusicPlayer {
             return t;
         });
 
-        planNextTrack(0);
+        planNextTrack(INTERVAL_MS);
     }
 
     private static void planNextTrack(long delayMs) {
@@ -80,7 +80,7 @@ public class MusicPlayer {
         scheduler.schedule(() -> {
             try {
                 sequence();
-                planNextTrack((long) INTERVAL_MS + 41 * 1000); // Currently a fixed length
+                planNextTrack(INTERVAL_MS + 3 * 60 * 1000); // Assuming every track is at most 3 minutes
             } catch (Exception ignored) {
             }
         }, delayMs, TimeUnit.MILLISECONDS);
