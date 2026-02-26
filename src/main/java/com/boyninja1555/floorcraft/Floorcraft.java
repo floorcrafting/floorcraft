@@ -354,8 +354,10 @@ public class Floorcraft {
         barrierShader.uniformVec3f("uPlayerPosition", player.position());
         barrierShader.uniformFloat("uTime", (float) glfwGetTime());
         WorldCage.render();
+
         glDepthMask(true);
         glEnable(GL_CULL_FACE);
+        glDisable(GL_BLEND);
     }
 
     private void loop(Map<?, Object> graphicsSection, Map<?, Object> worldCreationSection) {

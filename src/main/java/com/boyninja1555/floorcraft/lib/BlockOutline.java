@@ -10,11 +10,7 @@ import java.nio.FloatBuffer;
 import static org.lwjgl.opengl.GL33.*;
 
 public final class BlockOutline {
-    private static final float[] CUBE_LINES = {
-            0,0,0, 1,0,0, 1,0,0, 1,1,0, 1,1,0, 0,1,0, 0,1,0, 0,0,0,
-            0,0,1, 1,0,1, 1,0,1, 1,1,1, 1,1,1, 0,1,1, 0,1,1, 0,0,1,
-            0,0,0, 0,0,1, 1,0,0, 1,0,1, 1,1,0, 1,1,1, 0,1,0, 0,1,1
-    };
+    private static final float[] CUBE_LINES = {0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1};
 
     private static int vao;
     private static int vbo;
@@ -26,11 +22,8 @@ public final class BlockOutline {
     private static int uColor;
     private static int uThickness;
 
-    private BlockOutline() {}
-
     public static void init(ShaderProgram outlineShader) {
         shader = outlineShader;
-
         vao = glGenVertexArrays();
         vbo = glGenBuffers();
 
