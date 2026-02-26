@@ -2,8 +2,6 @@ package com.boyninja1555.floorcraft.visual;
 
 import org.joml.Vector3f;
 
-import java.nio.file.Path;
-
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL32.GL_GEOMETRY_SHADER;
 
@@ -11,11 +9,10 @@ public class ShaderProgram {
     private final int programId;
 
     public ShaderProgram(String vertexPath, String fragmentPath, String geometryPath) throws Exception {
-        int vertex = loadShader(Path.of("shaders", vertexPath).toString(), GL_VERTEX_SHADER);
-        int fragment = loadShader(Path.of("shaders", fragmentPath).toString(), GL_FRAGMENT_SHADER);
+        int vertex = loadShader("shaders/" + vertexPath, GL_VERTEX_SHADER);
+        int fragment = loadShader("shaders/" + fragmentPath, GL_FRAGMENT_SHADER);
         int geometry = 0;
-        if (geometryPath != null)
-            geometry = loadShader(Path.of("shaders", geometryPath).toString(), GL_GEOMETRY_SHADER);
+        if (geometryPath != null) geometry = loadShader("shaders/" + geometryPath, GL_GEOMETRY_SHADER);
 
         programId = glCreateProgram();
         glAttachShader(programId, vertex);
