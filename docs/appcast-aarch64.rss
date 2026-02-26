@@ -5,35 +5,40 @@
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
-            <title>Version 2.3</title>
+            <title>Version 2.4</title>
             <link>https://boyninja1555.github.io/floorcraft/</link>
-            <sparkle:version>2.3.0</sparkle:version>
-            <sparkle:shortVersionString>2.3</sparkle:shortVersionString>
+            <sparkle:version>2.4.0</sparkle:version>
+            <sparkle:shortVersionString>2.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description>
-                <![CDATA[ New release: version 2.3 ]]>
+                <![CDATA[ New release: version 2.4 ]]>
             </description>
-            <pubDate>Tue, 24 Feb 2026 09:26:51 GMT</pubDate>
-            <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.3-mac-aarch64.zip" 
-                       length="37309692" 
+            <pubDate>Thu, 26 Feb 2026 20:40:50 GMT</pubDate>
+            <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.4-mac-aarch64.zip" 
+                       length="42441401" 
                        type="application/octet-stream" 
-                       sparkle:edSignature="SxZ8DOoKzeLsLdrSfObVvN98Nn1nJNo/0FMniJzgd/pvFwK2uTjTTUPR5IC74UAvLlWl8lQgF//C3fCHUrHvAQ=="/>
+                       sparkle:edSignature="Vp0/9ZaytxfnG2yOOXQ8bH9ns5wpUVzt/akeb84UzJbMZdOulm+wn20V4nGPXGYNpHQN/gXxH5rXzYceL1V1Dg=="/>
             <sparkle:deltas>
-                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2-2.3-mac-aarch64.delta"
+                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2-2.4-mac-aarch64.delta"
                            sparkle:deltaFrom="2.0"
-                           length="298306"
+                           length="5383934"
                            type="application/octet-stream"
-                           sparkle:edSignature="nZhMTkGapKCr0OdK/Ws+tALg85V7BJeVClLKqJnAMrdoxJl6EqUL+RO1pgNrbB8qDQhpbA6v4uj27dyEoumiDw=="/>
-                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.1-2.3-mac-aarch64.delta"
+                           sparkle:edSignature="kWL+RZDlzUSsNj2E/AYlUbcHZ0E4RLIqPW9VqC9FfFCn1hzJfzM7xm6Y/mnCJjZ5vOksE+nU6DBwvDfZcvgsDQ=="/>
+                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.1-2.4-mac-aarch64.delta"
                            sparkle:deltaFrom="2.1.0"
-                           length="296382"
+                           length="5383698"
                            type="application/octet-stream"
-                           sparkle:edSignature="TpigtkpCPGX/kGGsE2HTzhOPVUhAaYHLPU8GWq+LzWxwbZkB6lS+v9jALpyHKAisVlfqJGbW9hLw658zidijBg=="/>
-                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.2-2.3-mac-aarch64.delta"
+                           sparkle:edSignature="Ac1qASP4MEtnXvT4ec27H5lkwR/ZINiHBOrAEzm7+o9tkF/JkOPwlFZUzz+H2PF0ni1mkKRAI9fa3Z7UCerWAQ=="/>
+                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.2-2.4-mac-aarch64.delta"
                            sparkle:deltaFrom="2.2.0"
-                           length="294434"
+                           length="5379542"
                            type="application/octet-stream"
-                           sparkle:edSignature="SpxKsB/aOPH5GFWb71/pAVcRFw9sjXzBTkldB4JPBq3S5gmA3Reiyc3RbrQ0S+NZ+4acQNY+tbF8IPtSgoLWBA=="/>
+                           sparkle:edSignature="61Y5vYIJo3Qwwni9e2SLCSdvYzioworjh/NQx30pbZMxECBhsi5dKpilH6VHpgdvEYpS3aDASIc/XZmmFC1DBQ=="/>
+                <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.3-2.4-mac-aarch64.delta"
+                           sparkle:deltaFrom="2.3.0"
+                           length="5426594"
+                           type="application/octet-stream"
+                           sparkle:edSignature="rHd6Inzs//PgVz1EsHGHOlSx07kzvwOz9rU6enJJ9BYx/6+s8pRoyYuBpB2Z4qmPeztx8C5f3/qqFSOF7rRhBg=="/>
             </sparkle:deltas>
         </item>
     </channel>
