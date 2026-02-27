@@ -1,6 +1,6 @@
 <div align="center">
     <h1>Floorcraft</h1>
-    <p><a href="https://boyninja1555.github.io/floorcraft/download.html">Download</a> | <a href="https://dsc.gg/floorcraft">Discord</a></p>
+    <p><a href="https://floorcrafting.github.io/floorcraft/download.html">Download</a> | <a href="https://dsc.gg/floorcraft">Discord</a></p>
 </div>
 
 ---
