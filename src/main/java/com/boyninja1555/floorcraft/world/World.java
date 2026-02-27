@@ -62,13 +62,12 @@ public class World {
         playerRef.teleport(state.playerPosition());
         playerRef.direction(state.playerDirection());
         if (state.activeBlock() != null) playerRef.activeBlock(state.activeBlock());
-
         for (Chunk chunk : state.chunks())
             chunks.put(chunk.position(), chunk);
     }
 
     public void save() {
-        file.save(state());
+        new Thread(() -> file.save(state())).start();
     }
 
     public void spawnEntity(Class<? extends Entity> type, Vector3f position, Vector2f direction, float gravity) {
