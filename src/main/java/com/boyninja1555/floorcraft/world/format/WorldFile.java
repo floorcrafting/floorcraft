@@ -1,6 +1,5 @@
 package com.boyninja1555.floorcraft.world.format;
 
-import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.lib.AssetManager;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
@@ -33,7 +32,7 @@ public class WorldFile {
             // Player data
             Vector3f playerPosition = readPositionF(in);
             Vector2f playerDirection = readDirection(in);
-            Block playerActiveBlock = Floorcraft.blockRegistry().getById(in.readInt());
+            Block playerActiveBlock = WorldBlockIDs.blockFromId(in.readInt());
 
             // Chunks
             List<Chunk> chunks = new ArrayList<>();
@@ -53,7 +52,7 @@ public class WorldFile {
             // Player data
             writePositionF(out, state.playerPosition());
             writeDirection(out, state.playerDirection());
-            out.writeInt(WorldBlockIDs.all().get(state.activeBlock().getClass()));
+            out.writeInt(WorldBlockIDs.idFromBlock(state.activeBlock()));
 
             // Chunks
             out.writeInt(state.chunks().length);

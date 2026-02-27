@@ -125,7 +125,7 @@ public class Floorcraft {
     }
 
     private void defaultBlocks() {
-        blockRegistry.register(CustomBlock.class);
+        blockRegistry.register(NoBlock.class);
         blockRegistry.register(StoneBlock.class);
         blockRegistry.register(DirtBlock.class);
         blockRegistry.register(GlassBlock.class);
@@ -151,7 +151,6 @@ public class Floorcraft {
         AudioManager.init();
         SoundPlayer.settings(settings);
         MusicPlayer.init(settings);
-        defaultSounds();
 
         // GLFW
         GLFWErrorCallback.createPrint(System.err).set();
@@ -207,6 +206,8 @@ public class Floorcraft {
         textures = new TextureAtlas("blocks.png", 8);
         textures.bind();
         shader.uniformInt("uTexture", 0);
+        blockRegistry.loadCustomBlocks();
+        defaultSounds();
         System.out.println("Block atlas loaded");
 
         // Player & world

@@ -49,7 +49,7 @@ public class Controls {
 
                 if (blockPosition == null) return;
 
-                world.setBlock(blockPosition, player.activeBlock().getClass());
+                world.setBlock(blockPosition, player.activeBlock());
             } else if (button == GLFW_MOUSE_BUTTON_MIDDLE && action == GLFW_PRESS && cursorLocked.get()) {
                 Vector3i blockPosition = world.raycast(player.position(), player.forward, 5f, false);
 

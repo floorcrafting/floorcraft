@@ -19,7 +19,7 @@ public abstract class HUDBlock extends HUDElement {
 
     @Override
     public @NotNull List<AtlasRegion> regions() {
-        return List.of(BlockItemTexture.get(Floorcraft.blockRegistry().get(block())));
+        return List.of(BlockItemTexture.get(block()));
     }
 
     /**
@@ -27,5 +27,5 @@ public abstract class HUDBlock extends HUDElement {
      *
      * @return Position in block texture atlas.
      */
-    public abstract @NotNull Class<? extends Block> block();
+    public abstract @NotNull Block block();
 }

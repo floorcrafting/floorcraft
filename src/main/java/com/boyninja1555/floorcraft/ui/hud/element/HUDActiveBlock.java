@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 public class HUDActiveBlock extends HUDBlock {
 
     @Override
-    public @NotNull Class<? extends Block> block() {
-        return Floorcraft.player().activeBlock().getClass();
+    public @NotNull Block block() {
+        return Floorcraft.player().activeBlock();
     }
 
     @Override

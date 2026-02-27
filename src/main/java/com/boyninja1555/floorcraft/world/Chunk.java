@@ -61,10 +61,10 @@ public class Chunk {
         return WorldBlockIDs.blockFromId(blocks[lx + (ly * WIDTH) + (lz * WIDTH * HEIGHT)]);
     }
 
-    public void setBlock(int lx, int ly, int lz, Class<? extends Block> block) {
+    public void setBlock(int lx, int ly, int lz, Block block) {
         if (lx < 0 || ly < 0 || lz < 0 || lx >= WIDTH || ly >= HEIGHT || lz >= DEPTH) return;
 
-        blocks[lx + (ly * WIDTH) + (lz * WIDTH * HEIGHT)] = block == null ? -1 : WorldBlockIDs.idFromBlock(block);
+        blocks[lx + (ly * WIDTH) + (lz * WIDTH * HEIGHT)] = WorldBlockIDs.idFromBlock(block);
         generateMesh();
     }
 

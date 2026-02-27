@@ -143,7 +143,10 @@ public class Player extends Entity {
             teleport(position().add(0f, -velocity, 0f));
 
         // Block selection
-        BlockKeybinds.detectKeys(window, b -> activeBlock(Floorcraft.blockRegistry().get(b)));
+        BlockKeybinds.detectKeys(window, identifier -> {
+            Block block = Floorcraft.blockRegistry().get(identifier);
+            if (block != null) activeBlock(block);
+        });
     }
 
     private void updateDirectionalVectors() {

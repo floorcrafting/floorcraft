@@ -14,6 +14,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public abstract class Block {
+    private static final StaticBlockDefinition EMERGENCY_FALLBACK = new StaticBlockDefinition(
+            "block.none",
+            new Integer[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
+            true
+    );
+
     public final @NotNull TextureAtlas atlas;
     public final @NotNull String modelData;
     private StaticBlockDefinition definitionCache;
@@ -33,21 +39,29 @@ public abstract class Block {
 
         Path path = AssetManager.blocksPath().resolve(identifier() + ".json");
 
-        if (!path.toFile().isFile()) return Floorcraft.blockRegistry().get(NoBlock.class).definition();
+        if (!path.toFile().isFile()) return fallbackDefinition();
         try (FileReader reader = new FileReader(path.toFile())) {
             definitionCache = Floorcraft.gson.fromJson(reader, StaticBlockDefinition.class);
+            if (definitionCache == null) throw new IOException("Definition is empty");
 
-            if (definitionCache.name() == null)
-                definitionCache = new StaticBlockDefinition("block." + identifier(), definitionCache.texture(), definition().transparent());
+            String name = definitionCache.name() == null ? "block." + identifier() : definitionCache.name();
+            definitionCache = new StaticBlockDefinition(name, definitionCache.texture(), definitionCache.transparent());
 
             if (definitionCache.texture() == null) throw new IOException("Missing \"texture\" field");
             if (definitionCache.transparent() == null) throw new IOException("Missing \"transparent\" field");
         } catch (IOException ex) {
             ErrorHandler.error("Could not load the block definition of " + identifier() + "!\n" + ex);
-            definitionCache = Floorcraft.blockRegistry().get(NoBlock.class).definition();
+            definitionCache = fallbackDefinition();
         }
 
         return definitionCache;
+    }
+
+    private StaticBlockDefinition fallbackDefinition() {
+        if (Floorcraft.blockRegistry() == null) return EMERGENCY_FALLBACK;
+        Block noBlock = Floorcraft.blockRegistry().get(NoBlock.class);
+        if (noBlock == null || noBlock == this) return EMERGENCY_FALLBACK;
+        return noBlock.definition();
     }
 
     public abstract @NotNull String identifier();

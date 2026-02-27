@@ -1,6 +1,5 @@
 package com.boyninja1555.floorcraft.lib;
 
-import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.world.format.WorldBlockIDs;
 
 import java.io.File;
@@ -17,18 +16,21 @@ public class BlockKeybinds {
 
     @FunctionalInterface
     public interface PressedCallback {
-        void run(Class<? extends Block> block);
+        void run(String blockIdentifier);
     }
 
-    private static final Map<Integer, Class<? extends Block>> keys = new HashMap<>();
+    private static final Map<Integer, String> keys = new HashMap<>();
     private static final Map<Integer, Boolean> keyState = new HashMap<>();
     private static final File file = AssetManager.storagePath().resolve("block-keybinds.properties").toFile();
 
-    public static Map<Integer, Class<? extends Block>> all() {
+    public static Map<Integer, String> all() {
         return new HashMap<>(keys);
     }
 
     public static void init() {
+        keys.clear();
+        keyState.clear();
+
         if (!file.exists()) {
             setDefaultKeys();
             save();
@@ -42,19 +44,25 @@ public class BlockKeybinds {
 
             for (String keyStr : prop.stringPropertyNames()) {
                 int key = Integer.parseInt(keyStr);
-                int blockId = Integer.parseInt(prop.getProperty(keyStr));
-                keys.put(key, WorldBlockIDs.blockClassFromId(blockId));
+                String value = prop.getProperty(keyStr);
+                if (value == null || value.isBlank()) continue;
+
+                String blockIdentifier = parseLegacyValue(value);
+                if (blockIdentifier == null) continue;
+                keys.put(key, blockIdentifier);
             }
         } catch (IOException | NumberFormatException ex) {
             setDefaultKeys();
         }
+
+        if (keys.isEmpty()) setDefaultKeys();
     }
 
     public static void save() {
         Properties config = new Properties();
 
         for (var entry : keys.entrySet())
-            config.setProperty(String.valueOf(entry.getKey()), String.valueOf(WorldBlockIDs.idFromBlock(entry.getValue())));
+            config.setProperty(String.valueOf(entry.getKey()), entry.getValue());
 
         try (FileOutputStream out = new FileOutputStream(file)) {
             config.store(out, "Floorcraft Block Selection Keybinds");
@@ -66,16 +74,17 @@ public class BlockKeybinds {
     }
 
     private static void setDefaultKeys() {
-        keys.put(GLFW_KEY_1, StoneBlock.class);
-        keys.put(GLFW_KEY_2, DirtBlock.class);
-        keys.put(GLFW_KEY_3, GlassBlock.class);
-        keys.put(GLFW_KEY_4, LemonBlock.class);
-        keys.put(GLFW_KEY_5, HeartBlock.class);
-        keys.put(GLFW_KEY_6, SeeSeeBlock.class);
-        keys.put(GLFW_KEY_7, SkinnedBlock.class);
-        keys.put(GLFW_KEY_8, AgonyBlock.class);
-        keys.put(GLFW_KEY_9, PreservedDeityHeadBlock.class);
-        keys.put(GLFW_KEY_0, DisturbedHeadBlock.class);
+        keys.clear();
+        keys.put(GLFW_KEY_1, "stone");
+        keys.put(GLFW_KEY_2, "dirt");
+        keys.put(GLFW_KEY_3, "glass");
+        keys.put(GLFW_KEY_4, "lemon");
+        keys.put(GLFW_KEY_5, "heart");
+        keys.put(GLFW_KEY_6, "see_see");
+        keys.put(GLFW_KEY_7, "skinned");
+        keys.put(GLFW_KEY_8, "agony");
+        keys.put(GLFW_KEY_9, "preserved_deity_head");
+        keys.put(GLFW_KEY_0, "disturbed_head");
     }
 
     public static void detectKeys(long window, PressedCallback callback) {
@@ -85,6 +94,16 @@ public class BlockKeybinds {
             if (isDown && !wasDown) callback.run(keys.get(key));
 
             keyState.put(key, isDown);
+        }
+    }
+
+    private static String parseLegacyValue(String rawValue) {
+        String value = rawValue.trim();
+        try {
+            int blockId = Integer.parseInt(value);
+            return WorldBlockIDs.identifierFromId(blockId);
+        } catch (NumberFormatException ignored) {
+            return value;
         }
     }
 }

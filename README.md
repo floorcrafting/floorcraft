@@ -45,8 +45,13 @@ Press **`X` in-game** and it opens instantly.
 From there you can:
 
 - Redefine blocks
+- Add brand-new blocks by creating `blocks/<identifier>.json` (no Java code needed)
 - Change textures
 - Break things
+
+Custom block JSON files in `assets/blocks/` are auto-discovered at startup.  
+To bind one to a number key, edit `block-keybinds.properties` in the storage folder and set the value to the block
+identifier (for example: `49=my_custom_block` for the `1` key).
 
 And since Floorcraft is fully open-source, modding doesn’t stop at assets. If you want to dive into the engine itself,
 nothing’s stopping you.

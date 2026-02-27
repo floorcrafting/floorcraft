@@ -39,7 +39,7 @@ public class SeeSeeBlock extends Block {
         Vector3i below = new Vector3i(position.x, position.y - 1, position.z);
 
         if (position.y > 0 && world.blockAt(below) == null) {
-            world.setBlock(position, null);
+            world.removeBlock(position);
             world.setBlock(below, getClass());
             WorldTicker.schedule(below, FALL_DELAY);
         }

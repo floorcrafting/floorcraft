@@ -4,18 +4,15 @@ import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
 import org.jetbrains.annotations.NotNull;
 
 public class CustomBlock extends Block {
+    private final String identifier;
 
-    public CustomBlock(TextureAtlas atlas, String identifier, String modelData) {
-        super(atlas, identifier + ";" + modelData);
+    public CustomBlock(TextureAtlas atlas, String identifier) {
+        super(atlas);
+        this.identifier = identifier;
     }
 
     @Override
     public @NotNull String identifier() {
-        return modelData.split(";")[0];
-    }
-
-    @Override
-    public boolean cacheEnabled() {
-        return false;
+        return identifier;
     }
 }

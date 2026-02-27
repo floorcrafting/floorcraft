@@ -1,5 +1,6 @@
 package com.boyninja1555.floorcraft.world;
 
+import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.entities.Entity;
 import com.boyninja1555.floorcraft.entities.Player;
@@ -57,8 +58,10 @@ public class World {
 
     public void load() {
         WorldState state = file.load();
+        if (state == null) return;
         playerRef.teleport(state.playerPosition());
         playerRef.direction(state.playerDirection());
+        if (state.activeBlock() != null) playerRef.activeBlock(state.activeBlock());
 
         for (Chunk chunk : state.chunks())
             chunks.put(chunk.position(), chunk);
@@ -87,7 +90,7 @@ public class World {
     public void addChunk(Vector2i position, Block[] blocks) {
         int[] ids = new int[blocks.length];
         for (int i = 0; i < blocks.length; i++)
-            ids[i] = blocks[i] == null ? -1 : WorldBlockIDs.idFromBlock(blocks[i].getClass());
+            ids[i] = WorldBlockIDs.idFromBlock(blocks[i]);
 
         Chunk chunk = new Chunk(this, position, ids);
         chunks.put(position, chunk);
@@ -109,7 +112,7 @@ public class World {
         return chunk.blockAt(lx, position.y, lz);
     }
 
-    public void setBlock(Vector3i position, Class<? extends Block> blockClass, boolean useRemoveHook) {
+    public void setBlock(Vector3i position, Block block, boolean useRemoveHook) {
         Chunk chunk = chunkByBlockPosition(new Vector2i(position.x, position.z));
 
         if (chunk == null) return;
@@ -121,10 +124,19 @@ public class World {
         int lz = Math.floorMod(position.z, Chunk.DEPTH);
         if (position.y < 0 || position.y >= Chunk.HEIGHT) return;
 
-        chunk.setBlock(lx, position.y, lz, blockClass);
-        Block block = blockAt(position);
+        chunk.setBlock(lx, position.y, lz, block);
+        Block currentBlock = blockAt(position);
 
-        if (block != null) block.onPlace(this, position);
+        if (currentBlock != null) currentBlock.onPlace(this, position);
+    }
+
+    public void setBlock(Vector3i position, Block block) {
+        setBlock(position, block, block == null);
+    }
+
+    public void setBlock(Vector3i position, Class<? extends Block> blockClass, boolean useRemoveHook) {
+        Block block = blockClass == null ? null : Floorcraft.blockRegistry().get(blockClass);
+        setBlock(position, block, useRemoveHook);
     }
 
     public void setBlock(Vector3i position, Class<? extends Block> blockClass) {
@@ -132,7 +144,7 @@ public class World {
     }
 
     public void removeBlock(Vector3i position) {
-        setBlock(position, null);
+        setBlock(position, (Block) null);
     }
 
     public void moveBlock(Vector3i oldPosition, Vector3i newPosition, boolean switchBlocks) {
@@ -140,11 +152,11 @@ public class World {
         Block newBlock = blockAt(newPosition);
 
         if (switchBlocks) {
-            setBlock(oldPosition, newBlock.getClass());
-            setBlock(newPosition, oldBlock.getClass());
+            setBlock(oldPosition, newBlock);
+            setBlock(newPosition, oldBlock);
         } else {
-            setBlock(oldPosition, null, false);
-            setBlock(newPosition, oldBlock.getClass());
+            setBlock(oldPosition, (Block) null, false);
+            setBlock(newPosition, oldBlock);
         }
     }
 
