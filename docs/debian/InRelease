@@ -3,26 +3,26 @@ Hash: SHA256
 
 Architectures: amd64 arm64
 Components: main
-Date: Fri, 27 Feb 2026 22:22:15 GMT
+Date: Fri, 27 Feb 2026 23:08:45 GMT
 Description: Public archive for Floorcraft
 Origin: Floorcraft
 Suite: debian
 MD5Sum:
- 2fac7556df38a29eff56528e87af9d12               943 Packages
- dbc683c30a6ef01832bf3b38e71fa927               468 Packages.xz
+ 71e30c7c34344f2f926092b445cee1d0               947 Packages
+ afd06d9a55af237bf12535948469fa23               472 Packages.xz
 SHA1:
- 41e85016a078a7f0ac515878f8d28c6a4a2e1540               943 Packages
- 703020511db56537ed4c0687b9de12a43e6f5714               468 Packages.xz
+ 20fb7b88745d60c6820da5d1372968baeb5e0513               947 Packages
+ 1d8abb5889f92dc65889732e5158e2bea3b58a21               472 Packages.xz
 SHA256:
- aed9838c127eadc88658a753945e51027618c7498c400b264bb2840c0b158a7d               943 Packages
- 73e27b4fd1d847132ba86fb410a884e1558e7e0cb41b17f03fb488ecf9f6b98b               468 Packages.xz
+ f059de3f13f94f6227e7c7a9fc508d998b70085d12d553b31206649c0bcd3cd4               947 Packages
+ 8adfff185d51ab49f258c04fae516c58d795620bccad2950617749e3eda5f3b0               472 Packages.xz
 SHA512:
- 22324ccb88be20255fada773e8dbbcf36836e4ddf60fb7e12c1a11eb6fe953d66ede8d68020df495c10e74b4f2b5d7d80e99b41c6988540fd5276265fbb543c9               943 Packages
- 3be2e035791062c513764af75523d2b21888290e724d35e7a1f2f1cc8bac620b8db494718b684f98367c514434382d3b375830db903bd0685cbcc506467c77ce               468 Packages.xz
+ 195890f99728e815efb65ca92abb490e53e3a22738cabe22f960eb8bc3ed25bd8a323f93a70e22cbc2f96dbb46695ff1ea8b9da5704ea2fe06afd4e096a3cf56               947 Packages
+ 20d4db0103d565dfaeb7dc1e3e87fb99aaa1a9f39027fd76b30324847d5fcd5779a576c2569eee273d510f614281043953fd47bd1406336534cc93532d559ff4               472 Packages.xz
 -----BEGIN PGP SIGNATURE-----
 Version: BCPG v1.77.00
 
-iF4EARMIAAYFAmmiGRcACgkQnDJwUWU9nfdc0wEAyVi9ZtbzAqTPyrq0LwFZXQB9
-+Z0gnthOCr2RsRKygpQBAPhZGxQd9fetji8dAXrWtFCT3Sopt0VsxtyETDuKg7sw
-=jIxQ
+iF4EARMIAAYFAmmiI/0ACgkQnDJwUWU9nff8vwEAuMlL1e2P6TebY4Qs+BdJ+1p7
+6weytYQLVE0t3tmGJmkA/inHozAsk1KuNGWwC0hrY38AGvhjsf39Jk8WSkgFw9os
+=XhaU
 -----END PGP SIGNATURE-----

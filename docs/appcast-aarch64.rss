@@ -5,19 +5,26 @@
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
-            <title>Version 2.5</title>
+            <title>Version 2.51</title>
             <link>https://floorcrafting.github.io/floorcraft/</link>
-            <sparkle:version>2.5.0</sparkle:version>
-            <sparkle:shortVersionString>2.5</sparkle:shortVersionString>
+            <sparkle:version>2.51.0</sparkle:version>
+            <sparkle:shortVersionString>2.51</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description>
-                <![CDATA[ New release: version 2.5 ]]>
+                <![CDATA[ New release: version 2.51 ]]>
             </description>
-            <pubDate>Fri, 27 Feb 2026 22:20:04 GMT</pubDate>
-            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-mac-aarch64.zip" 
-                       length="42445431" 
+            <pubDate>Fri, 27 Feb 2026 23:08:07 GMT</pubDate>
+            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.51-mac-aarch64.zip" 
+                       length="42445580" 
                        type="application/octet-stream" 
-                       sparkle:edSignature="Z/Y3QRI5iB8vrdQTx4N5zCzk9i971RmVSKrQeqXsi/UZQRBOqiRVRI26gIKGiq9Ugspty3AU3IdIMAKGdFZFBA=="/>
+                       sparkle:edSignature="BhFdw+qH8JlL7XA5qaWxATpi5gAbiSzEnmRIrqKTulxgzX2hgU8zXsg+sc4VB9dP5dZITcIlF/IC72YWPXSCAg=="/>
+            <sparkle:deltas>
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-2.51-mac-aarch64.delta"
+                           sparkle:deltaFrom="2.5.0"
+                           length="301130"
+                           type="application/octet-stream"
+                           sparkle:edSignature="QWzwEAAdGtKTesIz7iGZIiX8c++V7ZQzHk7s5IQoWTbLheW2bU2TVvh1CZ4idsryM9vtRboJ3USklEcwuIlaAA=="/>
+            </sparkle:deltas>
         </item>
     </channel>
 </rss>

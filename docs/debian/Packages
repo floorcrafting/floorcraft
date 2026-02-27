@@ -8,10 +8,10 @@ Package: floorcraft
 Priority: optional
 Provides: floorcraft
 Section: misc
-Version: 2.5
-Filename: debian/floorcraft_2.5_amd64.deb
-Size: 35420448
-SHA256: 22dfa950fe43661d768b0a58d6b73470d8374fa17529d773c8ac814416d115e1
+Version: 2.51
+Filename: debian/floorcraft_2.51_amd64.deb
+Size: 35419400
+SHA256: a77ebddf50d5b8b8181c575c7584c0cd802a0d10d0f1a8a5473c6fb2015c3d9b
 
 Architecture: arm64
 Built-With: Hydraulic Conveyor
@@ -23,7 +23,7 @@ Package: floorcraft
 Priority: optional
 Provides: floorcraft
 Section: misc
-Version: 2.5
-Filename: debian/floorcraft_2.5_arm64.deb
-Size: 34406068
-SHA256: 487b72f41a384ccefb460c8b2ed939e9e888a5b35433071af2e605a1fe5f4578
+Version: 2.51
+Filename: debian/floorcraft_2.51_arm64.deb
+Size: 34406900
+SHA256: 86e4f25ca4b99e8658be4b4195e641c6ca12bd27c5d446594d53c6448888919f

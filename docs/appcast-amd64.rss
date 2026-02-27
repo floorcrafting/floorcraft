@@ -5,19 +5,26 @@
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
-            <title>Version 2.5</title>
+            <title>Version 2.51</title>
             <link>https://floorcrafting.github.io/floorcraft/</link>
-            <sparkle:version>2.5.0</sparkle:version>
-            <sparkle:shortVersionString>2.5</sparkle:shortVersionString>
+            <sparkle:version>2.51.0</sparkle:version>
+            <sparkle:shortVersionString>2.51</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description>
-                <![CDATA[ New release: version 2.5 ]]>
+                <![CDATA[ New release: version 2.51 ]]>
             </description>
-            <pubDate>Fri, 27 Feb 2026 22:20:04 GMT</pubDate>
-            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-mac-amd64.zip" 
-                       length="43631645" 
+            <pubDate>Fri, 27 Feb 2026 23:08:07 GMT</pubDate>
+            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.51-mac-amd64.zip" 
+                       length="43631821" 
                        type="application/octet-stream" 
-                       sparkle:edSignature="xnqVwLxsrVxZvTLqHgXTS6f+J1aaGGKIlQZB+cI6+OBbZ6wCoHdTMp8TQrfb38Z+VtrXucyQF+7Hx+pLez9nCg=="/>
+                       sparkle:edSignature="74nkGYrDm2XTwC3b52JXYCoiH929Ixx1CFQNzGoH7UGdZ91cODbJy6DWAuH7DmLa7CQuaKQfJK4n/16m7wOYCw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-2.51-mac-amd64.delta"
+                           sparkle:deltaFrom="2.5.0"
+                           length="321226"
+                           type="application/octet-stream"
+                           sparkle:edSignature="8Zu3/VWTArrHX1h7Q9M8LdXY8Tn5cBOCx7I0oOzfxYpVUJKvpf2nlSF0F3qvVQO3ZZPiJqwpCAMOWrwyoGLnCw=="/>
+            </sparkle:deltas>
         </item>
     </channel>
 </rss>
