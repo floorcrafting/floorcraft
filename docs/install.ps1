@@ -4,7 +4,7 @@
 $CertName = "CN=Floorcraft"
 $FSName = "floorcraft"
 $PackageName = "Floorcraft"
-$Site = "https://boyninja1555.github.io/floorcraft"
+$Site = "https://floorcrafting.github.io/floorcraft"
 
 
 $CertURL = "${Site}/${FSName}.crt"

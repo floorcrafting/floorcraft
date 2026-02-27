@@ -1,23 +1,23 @@
 <rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
     <channel>
         <title>Floorcraft Changelog</title>
-        <link>https://boyninja1555.github.io/floorcraft/appcast-amd64.rss</link>
+        <link>https://floorcrafting.github.io/floorcraft/appcast-amd64.rss</link>
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
             <title>Version 2.5</title>
-            <link>https://boyninja1555.github.io/floorcraft/</link>
+            <link>https://floorcrafting.github.io/floorcraft/</link>
             <sparkle:version>2.5.0</sparkle:version>
             <sparkle:shortVersionString>2.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description>
                 <![CDATA[ New release: version 2.5 ]]>
             </description>
-            <pubDate>Fri, 27 Feb 2026 22:06:33 GMT</pubDate>
-            <enclosure url="https://boyninja1555.github.io/floorcraft/floorcraft-2.5-mac-amd64.zip" 
-                       length="43631596" 
+            <pubDate>Fri, 27 Feb 2026 22:20:04 GMT</pubDate>
+            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-mac-amd64.zip" 
+                       length="43631645" 
                        type="application/octet-stream" 
-                       sparkle:edSignature="z6K1JR7ZmwjSiO4P0pmnxz8lFPvDYG3DrRqQuPixXFgqByAXlBpqSkRQ4rGmkD+pWXUDtULcBNO08ZYTZm6VBQ=="/>
+                       sparkle:edSignature="xnqVwLxsrVxZvTLqHgXTS6f+J1aaGGKIlQZB+cI6+OBbZ6wCoHdTMp8TQrfb38Z+VtrXucyQF+7Hx+pLez9nCg=="/>
         </item>
     </channel>
 </rss>
