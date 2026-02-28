@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.boyninja1555"
-version = "3"
+version = "3.1"
 
 java {
     toolchain {

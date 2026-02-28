@@ -86,6 +86,13 @@ public class BlockRegistry {
             String scriptPath = block.definition().script();
             BlockScripts.register(block, scriptPath);
         }
+
+        for (Block block : customBlocks.values()) {
+            if (block.definition().script() == null) continue;
+
+            String scriptPath = block.definition().script();
+            BlockScripts.register(block, scriptPath);
+        }
     }
 
     public void loadCustomBlocks() {
