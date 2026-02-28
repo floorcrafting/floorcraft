@@ -30,4 +30,9 @@ public class WorldTicker {
         if (pending.stream().noneMatch(t -> t.position().equals(position)))
             pending.add(new ScheduledTick(new Vector3i(position), delay));
     }
+
+    // schedule - Lua edition
+    public static void schedule(Vector3i position, double delay) {
+        schedule(position, (float) delay);
+    }
 }

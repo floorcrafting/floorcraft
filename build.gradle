@@ -32,6 +32,7 @@ def platforms = ["natives-windows",
 dependencies {
     implementation "org.jetbrains:annotations:26.0.2-1"
     implementation "com.github.JnCrMx:discord-game-sdk4j:master-SNAPSHOT"
+    implementation "org.luaj:luaj-jse:3.0.1"
     implementation "com.google.code.gson:gson:2.13.2"
     implementation "org.joml:joml:1.10.5"
 

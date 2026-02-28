@@ -126,10 +126,6 @@ public class Floorcraft {
         glfwSetErrorCallback(null).free();
     }
 
-    private void defaultBlockScripts() {
-        BlockScripts.register(blockRegistry.get(LemonBlock.class), "lemon.lua");
-    }
-
     private void defaultBlocks() {
         blockRegistry.register(NoBlock.class);
         blockRegistry.register(StoneBlock.class);
@@ -152,7 +148,6 @@ public class Floorcraft {
         // Block registration
         blockRegistry = new BlockRegistry();
         defaultBlocks();
-        defaultBlockScripts();
 
         // Audio registration
         AudioManager.init();
@@ -215,6 +210,7 @@ public class Floorcraft {
         shader.uniformInt("uTexture", 0);
         blockRegistry.loadCustomBlocks();
         defaultSounds();
+        blockRegistry.loadScripts();
         System.out.println("Block atlas loaded");
 
         // Player & world

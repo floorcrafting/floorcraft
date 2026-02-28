@@ -8,10 +8,7 @@ import com.boyninja1555.floorcraft.settings.sections.AudioSection;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.lwjgl.openal.AL10.*;
 
@@ -33,11 +30,18 @@ public class SoundPlayer {
         BlockSoundType(String string) {
             this.string = string;
         }
+
+        public static BlockSoundType fromString(String string) {
+            List<BlockSoundType> results = Arrays.stream(values()).filter(r -> r.string.equals(string)).toList();
+            if (results.isEmpty()) return null;
+            return results.getFirst();
+        }
     }
 
     public static void register(String name, String filename) {
         int bufferId = OggLoader.load(AssetManager.soundsPath().resolve(filename + ".ogg").toString());
         if (bufferId != -1) buffers.put(name, bufferId);
+        System.out.println("Sound buffers updated! " + buffers);
     }
 
     public static void register(String filename) {
@@ -47,16 +51,13 @@ public class SoundPlayer {
     public static void registerForBlock(Class<? extends Block> blockClass) {
         Block block = Floorcraft.blockRegistry().get(blockClass);
         String root = "blocks/" + block.identifier();
+        System.out.println("Registered root sound " + root);
 
-        for (BlockSoundType type : BlockSoundType.values())
-            register(root + "/" + type.string);
-    }
-
-    public static void registerForBlock(Class<? extends Block> blockClass, String... extra) {
-        Block block = Floorcraft.blockRegistry().get(blockClass);
-        registerForBlock(blockClass);
-
-        for (String x : extra) register("blocks/" + block.identifier() + "/" + x);
+        for (BlockSoundType type : BlockSoundType.values()) {
+            String typePath = root + "/" + type.string;
+            register(typePath);
+            System.out.println("Registered sound " + typePath);
+        }
     }
 
     public static void play(String name, Vector3f position, float volume, float pitch) {
@@ -77,17 +78,30 @@ public class SoundPlayer {
         alSourcePlay(sourceId);
     }
 
-    public static void playForBlock(Class<? extends Block> blockClass, BlockSoundType type, Vector3i position, float volume, float pitch) {
+    public static void playForBlock(String blockId, BlockSoundType type, Vector3i position, float volume, float pitch) {
         Map<?, Object> audioSection = settings.sectionByClass(AudioSection.class).values();
 
         if (audioSection == null) {
-            Block block = Floorcraft.blockRegistry().get(blockClass);
-            play("blocks." + block.identifier() + "." + type.string, new Vector3f(position), volume, pitch);
+            play("blocks." + blockId + "." + type.string, new Vector3f(position), volume, pitch);
             return;
         }
 
-        Block block = Floorcraft.blockRegistry().get(blockClass);
-        play("blocks." + block.identifier() + "." + type.string, new Vector3f(position), volume * (float) audioSection.get(AudioSection.Keys.OTHER_VOLUME), pitch);
+        play("blocks." + blockId + "." + type.string, new Vector3f(position), volume * (float) audioSection.get(AudioSection.Keys.OTHER_VOLUME), pitch);
+    }
+
+    // playForBlock - Lua edition
+    public static void play_for_block(String blockId, String type, Vector3i position, double volume, double pitch) {
+        System.out.println("[Lua Audio Debug] Attempting to play sound named " + blockId + " of type " + type);
+        String soundName = "blocks." + blockId + "." + type;
+        Integer bufferId = buffers.get(soundName);
+
+        if (bufferId == null) {
+            System.err.println("[Lua Audio Debug] FAILED! No buffer registered for name: " + soundName);
+            System.err.println("[Lua Audio Debug] Registered buffers are: " + buffers.keySet());
+            return;
+        }
+
+        playForBlock(blockId, BlockSoundType.fromString(type), position, (float) volume, (float) pitch);
     }
 
     private static int getAvailableSource() {

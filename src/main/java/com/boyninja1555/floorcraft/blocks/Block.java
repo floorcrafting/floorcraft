@@ -81,6 +81,6 @@ public abstract class Block {
     public void onTick(World world, Vector3i position, float deltaTime) {
         Block block = world.blockAt(position);
         if (!BlockScripts.hasScript(block)) return;
-        BlockScripts.onTick(block, world, position);
+        BlockScripts.onTick(block, world, position, deltaTime);
     }
 }

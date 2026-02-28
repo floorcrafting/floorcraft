@@ -5,5 +5,5 @@ import org.joml.Vector3i;
 
 @FunctionalInterface
 public interface BlockUpdateCallback {
-    void run(World world, Vector3i position);
+    void run(World world, Vector3i position, float deltaTime);
 }

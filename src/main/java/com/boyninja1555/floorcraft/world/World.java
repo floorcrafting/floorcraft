@@ -111,6 +111,12 @@ public class World {
         return chunk.blockAt(lx, position.y, lz);
     }
 
+    public String block_at(Vector3i position) {
+        Block block = blockAt(position);
+        if (block == null) return "air";
+        return block.identifier();
+    }
+
     public void setBlock(Vector3i position, Block block, boolean useRemoveHook) {
         Chunk chunk = chunkByBlockPosition(new Vector2i(position.x, position.z));
 
@@ -142,8 +148,20 @@ public class World {
         setBlock(position, blockClass, blockClass == null);
     }
 
+    public void set_block(Vector3i position, String blockId, boolean useRemoveHook) {
+        setBlock(position, Floorcraft.blockRegistry().get(blockId), useRemoveHook);
+    }
+
+    public void set_block(Vector3i position, String blockId) {
+        set_block(position, blockId, blockId == null);
+    }
+
     public void removeBlock(Vector3i position) {
         setBlock(position, (Block) null);
+    }
+
+    public void remove_block(Vector3i position) {
+        removeBlock(position);
     }
 
     public void moveBlock(Vector3i oldPosition, Vector3i newPosition, boolean switchBlocks) {
@@ -161,6 +179,14 @@ public class World {
 
     public void moveBlock(Vector3i oldPosition, Vector3i newPosition) {
         moveBlock(oldPosition, newPosition, false);
+    }
+
+    public void move_block(Vector3i oldPosition, Vector3i newPosition, boolean switchBlocks) {
+        moveBlock(oldPosition, newPosition, switchBlocks);
+    }
+
+    public void move_block(Vector3i oldPosition, Vector3i newPosition) {
+        moveBlock(oldPosition, newPosition);
     }
 
     // World updates

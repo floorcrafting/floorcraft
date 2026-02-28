@@ -21,10 +21,13 @@ public class BlockScripts {
             if (!Files.exists(path) || Files.isDirectory(path)) throw new IOException(path + " does not exist");
 
             BlockScript script = new BlockScript(scriptPath);
-            if (!script.init(Files.readString(path))) throw new Exception();
+            script.init(block.definition().name(), Files.readString(path));
             scripts.put(block, script);
+            System.out.println("Loaded script for block " + block.definition().name() + " (" + scriptPath + ")");
         } catch (Exception ex) {
-            ErrorHandler.crash("Could not load " + block.definition().name() + " block's script!\n" + ex);
+            String message = "Could not load " + block.definition().name() + " block's script!\n" + ex;
+            System.err.println(message);
+            ErrorHandler.error(message);
         }
     }
 
@@ -34,16 +37,16 @@ public class BlockScripts {
 
     public static void onPlace(Block block, World world, Vector3i position) {
         if (!hasScript(block)) return;
-        scripts.get(block).onPlace().run(world, position);
+        scripts.get(block).onPlace().run(world, position, 0f);
     }
 
     public static void onBreak(Block block, World world, Vector3i position) {
         if (!hasScript(block)) return;
-        scripts.get(block).onBreak().run(world, position);
+        scripts.get(block).onBreak().run(world, position, 0f);
     }
 
-    public static void onTick(Block block, World world, Vector3i position) {
+    public static void onTick(Block block, World world, Vector3i position, float deltaTime) {
         if (!hasScript(block)) return;
-        scripts.get(block).onTick().run(world, position);
+        scripts.get(block).onTick().run(world, position, deltaTime);
     }
 }

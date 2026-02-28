@@ -4,23 +4,18 @@ import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.Block;
 import com.boyninja1555.floorcraft.blocks.CustomBlock;
 import com.boyninja1555.floorcraft.blocks.NoBlock;
+import com.boyninja1555.floorcraft.blocks.scripting.BlockScripts;
 import com.boyninja1555.floorcraft.lib.AssetManager;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
-import com.boyninja1555.floorcraft.world.format.WorldBlockIDs;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
+import com.boyninja1555.floorcraft.world.format.WorldBlockIDs;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.*;
 
 public class BlockRegistry {
     private final List<Class<? extends Block>> classBlocks;
@@ -57,7 +52,6 @@ public class BlockRegistry {
     public Block get(String identifier) {
         Block cached = identifierCache.get(identifier);
         if (cached != null) return cached;
-
         for (Class<? extends Block> blockClass : classBlocks) {
             Block block = get(blockClass);
             if (block == null || !block.identifier().equals(identifier)) continue;
@@ -81,11 +75,17 @@ public class BlockRegistry {
             if (block != null) blocks.add(block);
         }
 
-        customBlocks.entrySet().stream()
-                .sorted(Comparator.comparing(Map.Entry::getKey))
-                .map(Map.Entry::getValue)
-                .forEach(blocks::add);
+        customBlocks.entrySet().stream().sorted(Map.Entry.comparingByKey()).map(Map.Entry::getValue).forEach(blocks::add);
         return blocks;
+    }
+
+    public void loadScripts() {
+        for (Block block : classCache.values()) {
+            if (block.definition().script() == null) continue;
+
+            String scriptPath = block.definition().script();
+            BlockScripts.register(block, scriptPath);
+        }
     }
 
     public void loadCustomBlocks() {
@@ -102,10 +102,7 @@ public class BlockRegistry {
 
         List<Path> definitions;
         try (var stream = Files.list(blocksPath)) {
-            definitions = stream
-                    .filter(path -> path.getFileName().toString().endsWith(".json"))
-                    .sorted(Comparator.comparing(path -> path.getFileName().toString()))
-                    .toList();
+            definitions = stream.filter(path -> path.getFileName().toString().endsWith(".json")).sorted(Comparator.comparing(path -> path.getFileName().toString())).toList();
         } catch (IOException ex) {
             ErrorHandler.error("Could not read custom block definitions!\n" + ex);
             return;
@@ -117,7 +114,6 @@ public class BlockRegistry {
             if (builtInIdentifiers.contains(identifier)) continue;
             if (customBlocks.containsKey(identifier)) continue;
             if (!definitionExistsAndValid(definition, identifier)) continue;
-
             int id = WorldBlockIDs.registerCustomIdentifier(identifier);
             if (id < 0) continue;
 
@@ -134,8 +130,7 @@ public class BlockRegistry {
             if (definition == null) throw new IOException("Definition is empty");
             if (definition.texture() == null) throw new IOException("Missing \"texture\" field");
             if (definition.transparent() == null) throw new IOException("Missing \"transparent\" field");
-            if (definition.texture().length != 6)
-                throw new IOException("\"texture\" must contain 6 faces");
+            if (definition.texture().length != 6) throw new IOException("\"texture\" must contain 6 faces");
 
             for (Integer[] face : definition.texture()) {
                 if (face == null || face.length != 2 || face[0] == null || face[1] == null)
