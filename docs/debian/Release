@@ -1,18 +1,18 @@
 Architectures: amd64 arm64
 Components: main
-Date: Fri, 27 Feb 2026 23:08:45 GMT
+Date: Sat, 28 Feb 2026 06:41:07 GMT
 Description: Public archive for Floorcraft
 Origin: Floorcraft
 Suite: debian
 MD5Sum:
- 71e30c7c34344f2f926092b445cee1d0               947 Packages
- afd06d9a55af237bf12535948469fa23               472 Packages.xz
+ dbf4ebe9b6967c7819064e8624389d3d               935 Packages
+ 1456004f961204be51bb615c22226d04               468 Packages.xz
 SHA1:
- 20fb7b88745d60c6820da5d1372968baeb5e0513               947 Packages
- 1d8abb5889f92dc65889732e5158e2bea3b58a21               472 Packages.xz
+ c0d923873e781b368d15eea24493c56c28d2a714               935 Packages
+ ecdcc6bc2cd2bf8acb666e1fb1d73071d5148925               468 Packages.xz
 SHA256:
- f059de3f13f94f6227e7c7a9fc508d998b70085d12d553b31206649c0bcd3cd4               947 Packages
- 8adfff185d51ab49f258c04fae516c58d795620bccad2950617749e3eda5f3b0               472 Packages.xz
+ 2b35c33ffdf8e1efb7b107c6f442f83347d1354e660a2b7f4c0bb10599e8f9e0               935 Packages
+ ec70aac0f8a9a7a986aba30f25cd5e1382cd6e5ec56d2002638b82bb340b17f8               468 Packages.xz
 SHA512:
- 195890f99728e815efb65ca92abb490e53e3a22738cabe22f960eb8bc3ed25bd8a323f93a70e22cbc2f96dbb46695ff1ea8b9da5704ea2fe06afd4e096a3cf56               947 Packages
- 20d4db0103d565dfaeb7dc1e3e87fb99aaa1a9f39027fd76b30324847d5fcd5779a576c2569eee273d510f614281043953fd47bd1406336534cc93532d559ff4               472 Packages.xz
+ 1dded36527943d58cfffcd79dbdc5d1d7af0c0a9d6d282c41707e8c74d7f61d95dc6f1175430bca27397f4f30f16f5d72d61c0810986ac63b4d44239acb6f6ef               935 Packages
+ 79a3bddbc663990a235b83653b9ec76f261bc4a0a83ebf705972f5ec166237432db8497bca8c6c8db1ae98af10ee176fbb036bfd3c40835843316f0409882d24               468 Packages.xz

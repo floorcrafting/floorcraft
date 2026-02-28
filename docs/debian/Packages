@@ -2,28 +2,28 @@ Architecture: amd64
 Built-With: Hydraulic Conveyor
 Depends: libasound2t64 | liboss4-salsa-asound2, libc6, libgcc-s1, libstdc++6, libx11-6, libxext6, libxi6, libxrender1, libxtst6
 Description: Floorcraft
-Installed-Size: 92265
+Installed-Size: 92700
 Maintainer: <nobody@nowhere>
 Package: floorcraft
 Priority: optional
 Provides: floorcraft
 Section: misc
-Version: 2.51
-Filename: debian/floorcraft_2.51_amd64.deb
-Size: 35419400
-SHA256: a77ebddf50d5b8b8181c575c7584c0cd802a0d10d0f1a8a5473c6fb2015c3d9b
+Version: 3
+Filename: debian/floorcraft_3_amd64.deb
+Size: 35754124
+SHA256: 80f7c494041e6a37d82155e11339e784457fe159b5cc494b188dd4eec6b9c8c5
 
 Architecture: arm64
 Built-With: Hydraulic Conveyor
 Depends: libasound2t64 | liboss4-salsa-asound2, libc6, libgcc-s1, libstdc++6, libx11-6, libxext6, libxi6, libxrender1, libxtst6
 Description: Floorcraft
-Installed-Size: 91743
+Installed-Size: 92179
 Maintainer: <nobody@nowhere>
 Package: floorcraft
 Priority: optional
 Provides: floorcraft
 Section: misc
-Version: 2.51
-Filename: debian/floorcraft_2.51_arm64.deb
-Size: 34406900
-SHA256: 86e4f25ca4b99e8658be4b4195e641c6ca12bd27c5d446594d53c6448888919f
+Version: 3
+Filename: debian/floorcraft_3_arm64.deb
+Size: 34739180
+SHA256: a290aa19e1de3461fd9ad254aff806a494cdeccec1b6162fbd20d1ed7b08d34e
