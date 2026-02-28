@@ -78,6 +78,10 @@ public class AssetManager {
         return assetsPath().resolve("blocks");
     }
 
+    public static Path blockScriptsPath() {
+        return blocksPath().resolve("scripts");
+    }
+
     public static Path texturesPath() {
         return assetsPath().resolve("textures");
     }

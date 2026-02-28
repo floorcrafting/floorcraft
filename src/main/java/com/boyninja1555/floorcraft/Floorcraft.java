@@ -5,6 +5,8 @@ import com.boyninja1555.floorcraft.audio.MusicPlayer;
 import com.boyninja1555.floorcraft.audio.SoundPlayer;
 import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
+import com.boyninja1555.floorcraft.blocks.scripting.BlockScript;
+import com.boyninja1555.floorcraft.blocks.scripting.BlockScripts;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.lib.*;
 import com.boyninja1555.floorcraft.mesh.WorldCage;
@@ -124,6 +126,10 @@ public class Floorcraft {
         glfwSetErrorCallback(null).free();
     }
 
+    private void defaultBlockScripts() {
+        BlockScripts.register(blockRegistry.get(LemonBlock.class), "lemon.lua");
+    }
+
     private void defaultBlocks() {
         blockRegistry.register(NoBlock.class);
         blockRegistry.register(StoneBlock.class);
@@ -146,6 +152,7 @@ public class Floorcraft {
         // Block registration
         blockRegistry = new BlockRegistry();
         defaultBlocks();
+        defaultBlockScripts();
 
         // Audio registration
         AudioManager.init();

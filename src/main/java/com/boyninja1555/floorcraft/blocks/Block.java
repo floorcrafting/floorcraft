@@ -2,6 +2,7 @@ package com.boyninja1555.floorcraft.blocks;
 
 import com.boyninja1555.floorcraft.Floorcraft;
 import com.boyninja1555.floorcraft.blocks.lib.StaticBlockDefinition;
+import com.boyninja1555.floorcraft.blocks.scripting.BlockScripts;
 import com.boyninja1555.floorcraft.lib.AssetManager;
 import com.boyninja1555.floorcraft.lib.ErrorHandler;
 import com.boyninja1555.floorcraft.texture.atlas.TextureAtlas;
@@ -14,12 +15,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public abstract class Block {
-    private static final StaticBlockDefinition EMERGENCY_FALLBACK = new StaticBlockDefinition(
-            "block.none",
-            new Integer[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}},
-            true
-    );
-
+    private static final StaticBlockDefinition EMERGENCY_FALLBACK = new StaticBlockDefinition("block.none", new Integer[][]{{0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}}, true, null);
     public final @NotNull TextureAtlas atlas;
     public final @NotNull String modelData;
     private StaticBlockDefinition definitionCache;
@@ -45,7 +41,7 @@ public abstract class Block {
             if (definitionCache == null) throw new IOException("Definition is empty");
 
             String name = definitionCache.name() == null ? "block." + identifier() : definitionCache.name();
-            definitionCache = new StaticBlockDefinition(name, definitionCache.texture(), definitionCache.transparent());
+            definitionCache = new StaticBlockDefinition(name, definitionCache.texture(), definitionCache.transparent(), definitionCache.script());
 
             if (definitionCache.texture() == null) throw new IOException("Missing \"texture\" field");
             if (definitionCache.transparent() == null) throw new IOException("Missing \"transparent\" field");
@@ -71,11 +67,20 @@ public abstract class Block {
     }
 
     public void onPlace(World world, Vector3i position) {
+        Block block = world.blockAt(position);
+        if (!BlockScripts.hasScript(block)) return;
+        BlockScripts.onPlace(block, world, position);
     }
 
     public void onBreak(World world, Vector3i position) {
+        Block block = world.blockAt(position);
+        if (!BlockScripts.hasScript(block)) return;
+        BlockScripts.onBreak(block, world, position);
     }
 
     public void onTick(World world, Vector3i position, float deltaTime) {
+        Block block = world.blockAt(position);
+        if (!BlockScripts.hasScript(block)) return;
+        BlockScripts.onTick(block, world, position);
     }
 }

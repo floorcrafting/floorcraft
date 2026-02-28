@@ -21,17 +21,20 @@ public class SeeSeeBlock extends Block {
 
     @Override
     public void onPlace(World world, Vector3i position) {
+        super.onPlace(world, position);
         SoundPlayer.playForBlock(getClass(), SoundPlayer.BlockSoundType.PLACE, position, 1f, 1f);
         WorldTicker.schedule(position, FALL_DELAY);
     }
 
     @Override
     public void onBreak(World world, Vector3i position) {
+        super.onBreak(world, position);
         SoundPlayer.playForBlock(getClass(), SoundPlayer.BlockSoundType.BREAK, position, .7f, .8f);
     }
 
     @Override
     public void onTick(World world, Vector3i position, float deltaTime) {
+        super.onTick(world, position, deltaTime);
         checkFall(world, position);
     }
 
