@@ -5,30 +5,35 @@
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3</title>
+            <title>Version 3.1</title>
             <link>https://floorcrafting.github.io/floorcraft/</link>
-            <sparkle:version>3.0</sparkle:version>
-            <sparkle:shortVersionString>3</sparkle:shortVersionString>
+            <sparkle:version>3.1.0</sparkle:version>
+            <sparkle:shortVersionString>3.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description>
-                <![CDATA[ New release: version 3 ]]>
+                <![CDATA[ New release: version 3.1 ]]>
             </description>
-            <pubDate>Sat, 28 Feb 2026 06:40:29 GMT</pubDate>
-            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3-mac-aarch64.zip" 
-                       length="42794345" 
+            <pubDate>Sat, 28 Feb 2026 08:23:00 GMT</pubDate>
+            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3.1-mac-aarch64.zip" 
+                       length="42794432" 
                        type="application/octet-stream" 
-                       sparkle:edSignature="hE/+ecbHq3REyjNjXn+BBmZiDUXQHqXgiO0Ixz6lfG/XsB0Qxcs36MEOA0++4gwyoJhRFCw1fObD4sathi6ICQ=="/>
+                       sparkle:edSignature="NX+kCoaeAwy9lgOdXZKdrl8sERRD69j4VYRXSGxp96HDqs3O6DlG9SHv6XPn2DKx67z1cB0gpVW4gu62hVIXBQ=="/>
             <sparkle:deltas>
-                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-3-mac-aarch64.delta"
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-3.1-mac-aarch64.delta"
                            sparkle:deltaFrom="2.5.0"
-                           length="2273678"
+                           length="2272770"
                            type="application/octet-stream"
-                           sparkle:edSignature="3DLJ0DdhjL7dGNTU6Jdwtw3XyNvVy6YrDVr5Y764rlKEHaujvdCv4lvTDvITgO6whKbxGoI8kvyLbBR4pJVVDQ=="/>
-                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.51-3-mac-aarch64.delta"
+                           sparkle:edSignature="Iz6kxD45FI8w7OZUm2YJDgLK4fFJ7T0jqmLrcxtaWYUBYGQ9TYfwE6b4cqIdrrkCDhQW8s551mVTwVCBD6qTAQ=="/>
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.51-3.1-mac-aarch64.delta"
                            sparkle:deltaFrom="2.51.0"
-                           length="2275390"
+                           length="2275738"
                            type="application/octet-stream"
-                           sparkle:edSignature="6H7xCMwGtDduB0d92QeO+Cbz1rrZQDSdDhjdULbSoyLjhy9tQDniqbK7o9Uf37UCGQVjFGPEVzQQtFXi+H7IDA=="/>
+                           sparkle:edSignature="CA0Yh2quCdg/fjS/SAorgpUAu2tN8Nm3SbytnY/BpegIATsqTfSlYY+U6Rp+6il64Pa8dFRXGErUDFEzTrlWDQ=="/>
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3-3.1-mac-aarch64.delta"
+                           sparkle:deltaFrom="3.0"
+                           length="303498"
+                           type="application/octet-stream"
+                           sparkle:edSignature="7IOQGO6ADaS8vCbH7SYHe1kgwdtRmTVnghkNheAtHMR86tTdDUQ+AtR+XgNMSjdVPtWQNyEQIi2Pr2oeuw+CAg=="/>
             </sparkle:deltas>
         </item>
     </channel>
