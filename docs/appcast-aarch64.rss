@@ -5,35 +5,40 @@
         <description>Most recent changes with links to updates.</description>
         <language>en</language>
         <item>
-            <title>Version 3.1</title>
+            <title>Version 3.2</title>
             <link>https://floorcrafting.github.io/floorcraft/</link>
-            <sparkle:version>3.1.0</sparkle:version>
-            <sparkle:shortVersionString>3.1</sparkle:shortVersionString>
+            <sparkle:version>3.2.0</sparkle:version>
+            <sparkle:shortVersionString>3.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
             <description>
-                <![CDATA[ New release: version 3.1 ]]>
+                <![CDATA[ New release: version 3.2 ]]>
             </description>
-            <pubDate>Sat, 28 Feb 2026 08:23:00 GMT</pubDate>
-            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3.1-mac-aarch64.zip" 
-                       length="42794432" 
+            <pubDate>Sun, 1 Mar 2026 21:33:05 GMT</pubDate>
+            <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3.2-mac-aarch64.zip" 
+                       length="42802833" 
                        type="application/octet-stream" 
-                       sparkle:edSignature="NX+kCoaeAwy9lgOdXZKdrl8sERRD69j4VYRXSGxp96HDqs3O6DlG9SHv6XPn2DKx67z1cB0gpVW4gu62hVIXBQ=="/>
+                       sparkle:edSignature="7asDlhQojP01AHGOlJB8RFdfcqNNcgllHmGZCq0u/5EEQO/E8A9Xachzo0hnv5eSxiXxwW7PtRrpDpOEs6gNCQ=="/>
             <sparkle:deltas>
-                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-3.1-mac-aarch64.delta"
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.5-3.2-mac-aarch64.delta"
                            sparkle:deltaFrom="2.5.0"
-                           length="2272770"
+                           length="2245474"
                            type="application/octet-stream"
-                           sparkle:edSignature="Iz6kxD45FI8w7OZUm2YJDgLK4fFJ7T0jqmLrcxtaWYUBYGQ9TYfwE6b4cqIdrrkCDhQW8s551mVTwVCBD6qTAQ=="/>
-                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.51-3.1-mac-aarch64.delta"
+                           sparkle:edSignature="+SJty3ZNPO2hr/v6CNL2HX5JQ/8odslgKTul4LEPB7prd5sls7G9NpWaPbzHV2sr/pHuG27v73yCNQZdQIMECA=="/>
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-2.51-3.2-mac-aarch64.delta"
                            sparkle:deltaFrom="2.51.0"
-                           length="2275738"
+                           length="2242982"
                            type="application/octet-stream"
-                           sparkle:edSignature="CA0Yh2quCdg/fjS/SAorgpUAu2tN8Nm3SbytnY/BpegIATsqTfSlYY+U6Rp+6il64Pa8dFRXGErUDFEzTrlWDQ=="/>
-                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3-3.1-mac-aarch64.delta"
+                           sparkle:edSignature="7dZNkGg9OehmuxnqoSwfCu20qc5ZYLdg3zTXO5rC/t0USkD4qT3yGIoKOC1xRqrf/G/yItGC2Aq6kfu8UOz7DQ=="/>
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3-3.2-mac-aarch64.delta"
                            sparkle:deltaFrom="3.0"
-                           length="303498"
+                           length="355822"
                            type="application/octet-stream"
-                           sparkle:edSignature="7IOQGO6ADaS8vCbH7SYHe1kgwdtRmTVnghkNheAtHMR86tTdDUQ+AtR+XgNMSjdVPtWQNyEQIi2Pr2oeuw+CAg=="/>
+                           sparkle:edSignature="zQ/N7Kuf6Y40bRmIVqB4klMqA2L0UvffjGA/9/miAV/+kr3DnAVoiGgHbt4/TfI53k0lLQvSsrr+VPM7vExlBQ=="/>
+                <enclosure url="https://floorcrafting.github.io/floorcraft/floorcraft-3.1-3.2-mac-aarch64.delta"
+                           sparkle:deltaFrom="3.1.0"
+                           length="354026"
+                           type="application/octet-stream"
+                           sparkle:edSignature="XnXY5tnXRfXmaiUZgy08gTgwRckZLuOIZkehkCkDZeElDI5UPY4RADVGBjqR81yDrbo04OW2qe82dNqaacOCAg=="/>
             </sparkle:deltas>
         </item>
     </channel>
