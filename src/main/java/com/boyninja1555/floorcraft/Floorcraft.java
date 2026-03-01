@@ -5,8 +5,6 @@ import com.boyninja1555.floorcraft.audio.MusicPlayer;
 import com.boyninja1555.floorcraft.audio.SoundPlayer;
 import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
-import com.boyninja1555.floorcraft.blocks.scripting.BlockScript;
-import com.boyninja1555.floorcraft.blocks.scripting.BlockScripts;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.lib.*;
 import com.boyninja1555.floorcraft.mesh.WorldCage;
