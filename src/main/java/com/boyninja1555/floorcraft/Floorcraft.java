@@ -5,6 +5,7 @@ import com.boyninja1555.floorcraft.audio.MusicPlayer;
 import com.boyninja1555.floorcraft.audio.SoundPlayer;
 import com.boyninja1555.floorcraft.blocks.*;
 import com.boyninja1555.floorcraft.blocks.lib.BlockRegistry;
+import com.boyninja1555.floorcraft.cli.FloorcraftCLI;
 import com.boyninja1555.floorcraft.entities.Player;
 import com.boyninja1555.floorcraft.lib.*;
 import com.boyninja1555.floorcraft.mesh.WorldCage;
@@ -19,6 +20,7 @@ import com.boyninja1555.floorcraft.visual.ShaderProgram;
 import com.boyninja1555.floorcraft.world.Chunk;
 import com.boyninja1555.floorcraft.world.World;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
 import org.joml.Vector3f;
@@ -38,7 +40,7 @@ import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Floorcraft {
-    public static final Gson gson = new Gson();
+    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private Settings settings;
     private long window;
@@ -411,6 +413,11 @@ public class Floorcraft {
     }
 
     public static void main(String[] args) {
+        if (args.length != 0) {
+            FloorcraftCLI.main(args);
+            return;
+        }
+
         AppProperties.load();
         AssetManager.init().join();
         BlockKeybinds.init();
