@@ -1,0 +1,9 @@
+<Extensions>
+    <uap:Extension Category="windows.fileTypeAssociation">
+        <uap3:FileTypeAssociation Name="fcraftmod">
+            <uap:SupportedFileTypes>
+                <uap:FileType>.fcraftmod</uap:FileType>
+            </uap:SupportedFileTypes>
+        </uap3:FileTypeAssociation>
+    </uap:Extension>
+</Extensions>
