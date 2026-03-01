@@ -199,12 +199,13 @@ public class FloorcraftCLI {
                     if (e.isDirectory()) Files.createDirectories(target);
                     else {
                         Files.createDirectories(target.getParent());
-                        Files.copy(zis, target, StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(extractStream, target, StandardCopyOption.REPLACE_EXISTING);
                     }
                 }
             }
 
             CLIVisualFeedback.info("Mod installation complete!", "It will be active the next time you launch your game. Please run the file again if you switch mods at some point, and want to use this one again.");
+            System.exit(0);
         } catch (Exception ex) {
             CLIVisualFeedback.crash("Mod installation failed!", ex);
         }
